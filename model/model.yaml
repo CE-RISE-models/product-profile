@@ -119,21 +119,14 @@ slots:
             owl.filler: prod_prof:sqlIdentifier
 
 classes:
-    # Root class
+    # Root class - Step 1: Base product identification
     ProductIdentification:
         class_uri: prod_prof:productIdentification
         description: "Root class for product identification information"
         annotations:
             sql_identifier: "product_identification"
 
-    # Main category classes
-    ManufacturersInformation:
-        is_a: ProductIdentification
-        class_uri: prod_prof:manufacturersInformation
-        description: "Information about the product manufacturer"
-        annotations:
-            sql_identifier: "manufacturer_s_information"
-
+    # Step 2: General product information (basic identifiers)
     GeneralProductInformation:
         is_a: ProductIdentification
         class_uri: prod_prof:generalProductInformation
@@ -141,6 +134,15 @@ classes:
         annotations:
             sql_identifier: "general_product_information"
 
+    # Step 3: Manufacturing information
+    ManufacturersInformation:
+        is_a: ProductIdentification
+        class_uri: prod_prof:manufacturersInformation
+        description: "Information about the product manufacturer"
+        annotations:
+            sql_identifier: "manufacturer_s_information"
+
+    # Step 4: Import/export information
     InformationRelatedToTheImporter:
         is_a: ProductIdentification
         class_uri: prod_prof:informationRelatedToTheImporter
@@ -148,13 +150,7 @@ classes:
         annotations:
             sql_identifier: "information_related_to_the_importer"
 
-    ProductSpecification:
-        is_a: ProductIdentification
-        class_uri: prod_prof:productSpecification
-        description: "Product specification details"
-        annotations:
-            sql_identifier: "product_specification"
-
+    # Step 5: Traceability through supply chain
     ProductTraceability:
         is_a: ProductIdentification
         class_uri: prod_prof:productTraceability
@@ -162,6 +158,15 @@ classes:
         annotations:
             sql_identifier: "product_traceability"
 
+    # Step 6: Technical specifications
+    ProductSpecification:
+        is_a: ProductIdentification
+        class_uri: prod_prof:productSpecification
+        description: "Product specification details"
+        annotations:
+            sql_identifier: "product_specification"
+
+    # Step 7: Additional specific information
     SpecificProductInformation:
         is_a: ProductIdentification
         class_uri: prod_prof:specificProductInformation
@@ -169,7 +174,24 @@ classes:
         annotations:
             sql_identifier: "specific_product_information"
 
-    # Manufacturer information subclasses
+    # Step 2 subclasses - General product information
+    UniqueProductIdentifier:
+        is_a: GeneralProductInformation
+        class_uri: prod_prof:uniqueProductIdentifier
+        description: "Unique product identifier enabling web link to product passport"
+        comments:
+            - "Article Reference: Art 9 1."
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Parameter Representation: Global Trade Identification Number; Relevant commodity codes; Serial and product number; ISO/IEC 15459-6"
+            - "Relevant Document: ESPR; CIRPASS; King et al."
+        attributes:
+            unique_product_identifier_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "unique_product_identifier"
+
+    # Step 3 subclasses - Manufacturer information
     CompanyId:
         is_a: ManufacturersInformation
         class_uri: prod_prof:companyId
@@ -289,24 +311,7 @@ classes:
         annotations:
             sql_identifier: "website"
 
-    # General product information subclasses
-    UniqueProductIdentifier:
-        is_a: GeneralProductInformation
-        class_uri: prod_prof:uniqueProductIdentifier
-        description: "Unique product identifier enabling web link to product passport"
-        comments:
-            - "Article Reference: Art 9 1."
-            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
-            - "Parameter Representation: Global Trade Identification Number; Relevant commodity codes; Serial and product number; ISO/IEC 15459-6"
-            - "Relevant Document: ESPR; CIRPASS; King et al."
-        attributes:
-            unique_product_identifier_value:
-                range: string
-                required: true
-        annotations:
-            sql_identifier: "unique_product_identifier"
-
-    # Importer information subclasses
+    # Step 4 subclasses - Importer information
     EoriNumber:
         is_a: InformationRelatedToTheImporter
         class_uri: prod_prof:eoriNumber
@@ -322,35 +327,7 @@ classes:
         annotations:
             sql_identifier: "eori_number"
 
-    # Product specification subclasses
-    ProductCostAndPricing:
-        is_a: ProductSpecification
-        class_uri: prod_prof:productCostAndPricing
-        description: "Product cost and pricing information"
-        comments:
-            - "Relevant Document: Deliverable 1.1"
-        attributes:
-            product_cost_and_pricing_value:
-                range: string
-                required: true
-        annotations:
-            sql_identifier: "product_cost_and_pricing"
-
-    WeightAndVolumeOfTheProductAndItsPackaging:
-        is_a: ProductSpecification
-        class_uri: prod_prof:weightAndVolumeOfTheProductAndItsPackaging
-        description: "Weight and volume of the product and its packaging"
-        comments:
-            - "Article Reference: Annex I"
-            - "Relevant Document: ESPR; Deliverable 1.1"
-        attributes:
-            weight_and_volume_of_the_product_and_its_packaging_value:
-                range: string
-                required: true
-        annotations:
-            sql_identifier: "weight_and_volume_of_the_produ"
-
-    # Product traceability subclasses
+    # Step 5 subclasses - Product traceability
     Date:
         is_a: ProductTraceability
         class_uri: prod_prof:date
@@ -393,3 +370,31 @@ classes:
                 required: true
         annotations:
             sql_identifier: "operators_unique_operator_ide"
+
+    # Step 6 subclasses - Product specifications
+    ProductCostAndPricing:
+        is_a: ProductSpecification
+        class_uri: prod_prof:productCostAndPricing
+        description: "Product cost and pricing information"
+        comments:
+            - "Relevant Document: Deliverable 1.1"
+        attributes:
+            product_cost_and_pricing_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "product_cost_and_pricing"
+
+    WeightAndVolumeOfTheProductAndItsPackaging:
+        is_a: ProductSpecification
+        class_uri: prod_prof:weightAndVolumeOfTheProductAndItsPackaging
+        description: "Weight and volume of the product and its packaging"
+        comments:
+            - "Article Reference: Annex I"
+            - "Relevant Document: ESPR; Deliverable 1.1"
+        attributes:
+            weight_and_volume_of_the_product_and_its_packaging_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "weight_and_volume_of_the_produ"

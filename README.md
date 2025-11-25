@@ -22,20 +22,70 @@ This repository provides the core data model defining the mandatory Product Prof
 
 ---
 
-## Generate schemas
+## Data Model Structure
 
-The schemas are generated and published by the CI/CD automation. To produce the validation artifacts locally:
+The Product Profile data model is structured as a hierarchical taxonomy defining mandatory information for Digital Product Passports. The model is built using [LinkML](https://linkml.io/) and generates multiple schema formats (JSON Schema, SHACL, OWL).
 
-```bash
-make all
+### Core Hierarchy
+
+```
+ProductIdentification (root)
+├── 1. GeneralProductInformation
+│   └── UniqueProductIdentifier
+├── 2. ManufacturersInformation
+│   ├── CompanyId
+│   ├── Name
+│   ├── ManufacturingDate
+│   ├── PostalAddress
+│   ├── RegisteredTradeNameOrTradeMark
+│   ├── UniqueFacilityIdentifiers
+│   ├── UniqueOperatorIdentifier
+│   └── Website
+├── 3. InformationRelatedToTheImporter
+│   └── EoriNumber
+├── 4. ProductTraceability
+│   ├── Date
+│   ├── LocationUniqueFacilityIdentifiers
+│   └── OperatorsUniqueOperatorIdentifier
+├── 5. ProductSpecification
+│   ├── ProductCostAndPricing
+│   └── WeightAndVolumeOfTheProductAndItsPackaging
+└── 6. SpecificProductInformation
 ```
 
-This generates:
-- `generated/schema.json` — JSON Schema for API validation  
-- `generated/shacl.ttl` — SHACL for RDF validation  
-- `generated/model.owl` — OWL ontology export  
+### Workflow Sequence
 
-You must commit generated files before pushing.
+#### **Step 1: GeneralProductInformation** 
+Basic product identification - Contains the UniqueProductIdentifier class
+
+#### **Step 2: ManufacturersInformation**
+Manufacturer details - Contains manufacturer-related classes:
+- CompanyId, Name, ManufacturingDate, PostalAddress
+- RegisteredTradeNameOrTradeMark, UniqueFacilityIdentifiers
+- UniqueOperatorIdentifier, Website
+
+#### **Step 3: InformationRelatedToTheImporter**
+Import/export details - Contains the EoriNumber class
+
+#### **Step 4: ProductTraceability**
+Supply chain tracking - Contains Date, LocationUniqueFacilityIdentifiers, and OperatorsUniqueOperatorIdentifier classes
+
+#### **Step 5: ProductSpecification**
+Technical specifications - Contains ProductCostAndPricing and WeightAndVolumeOfTheProductAndItsPackaging classes
+
+#### **Step 6: SpecificProductInformation**
+Additional product-specific information
+
+### Data Properties
+
+Each class has a corresponding value property (e.g., `name_value`, `company_id_value`) that holds the actual data. All value properties are string type except where specified otherwise.
+
+
+---
+
+## Development Roadmap
+
+...
 
 
 ---
@@ -84,7 +134,4 @@ Attribution: CE-RISE project (Grant Agreement No. 101092281) and the individual 
   <img src="https://nilu.no/wp-content/uploads/2023/12/nilu-logo-seagreen-rgb-300px.png" alt="NILU logo" width="40"/>
 </a>
 
-Developed by NILU (Riccardo Boero, Mahsa Motevallian) within the CE-RISE project.  
-
-
-
+Developed by NILU (Riccardo Boero, Mahsa Motevallian) within the CE-RISE project.
