@@ -52,7 +52,7 @@ https://ce-rise-models.codeberg.page/product-profile/
 If you want to view the files published for version `v1.2.0`, open:
 
 ```
-https://codeberg.org/CE-RISE-models/<repo-name>/src/tag/pages-v1.2.0/generated/
+https://codeberg.org/CE-RISE-models/product-profile/src/tag/pages-v1.2.0/generated/
 ```
 
 Files available in that directory typically include:
