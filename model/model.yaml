@@ -5,13 +5,15 @@ description: >
     Core data model defining the mandatory Product Profile for Digital Product Passports,
     including product attributes, manufacturer details, and traceability information.
 license: CC BY-NC 4.0
-version: 0.0.1
+version: 1.0.0
 
 prefixes:
     linkml: https://w3id.org/linkml/
     prod_prof: https://ce-rise-models.codeberg.page/product-profile/
     xsd: http://www.w3.org/2001/XMLSchema#
     rdfs: http://www.w3.org/2000/01/rdf-schema#
+    schema: https://schema.org/
+    gs1: https://ref.gs1.org/voc/
 
 default_prefix: prod_prof
 default_range: string
@@ -20,7 +22,25 @@ imports:
     - linkml:types
 
 slots:
-    # Core identification slots
+    # Core identification slots with domain relationships
+    lot_batch_number_value:
+        description: "Lot / batch number value"
+        range: string
+        annotations:
+            owl.filler: prod_prof:lot_batch_number_value
+
+    serial_number_value:
+        description: "Serial number value"
+        range: string
+        annotations:
+            owl.filler: prod_prof:serial_number_value
+
+    gtin_value:
+        description: "Global Trade Item Number value"
+        range: string
+        annotations:
+            owl.filler: gs1:gtin
+
     company_id_value:
         description: "Company ID value - Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV"
         range: string
@@ -175,15 +195,52 @@ classes:
             sql_identifier: "specific_product_information"
 
     # Step 2 subclasses - General product information
+    LotBatchNumber:
+        is_a: GeneralProductInformation
+        class_uri: prod_prof:lot_batch_number
+        description: "Lot / batch number"
+        attributes:
+            lot_batch_number_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "lot_batch_number"
+
+    GTIN14:
+        is_a: GeneralProductInformation
+        class_uri: prod_prof:GTIN-14
+        description: "Global Trade Item Number, 14-digit format"
+        comments:
+            - "There are 3 other GTIN formats (GTIN-8, -12, and -13). Leading zeros have to be added to be transformed into GTIN-14."
+        attributes:
+            gtin_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "gtin_14"
+
+    SerialNumber:
+        is_a: GeneralProductInformation
+        class_uri: prod_prof:Serial_number
+        description: "Serial number"
+        attributes:
+            serial_number_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "serial_number"
+
     UniqueProductIdentifier:
         is_a: GeneralProductInformation
         class_uri: prod_prof:uniqueProductIdentifier
         description: "Unique product identifier enabling web link to product passport"
         comments:
             - "Article Reference: Art 9 1."
+            - "Individual trade items can be uniquely identified using a GTIN-14 plus serial number."
             - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
             - "Parameter Representation: Global Trade Identification Number; Relevant commodity codes; Serial and product number; ISO/IEC 15459-6"
             - "Relevant Document: ESPR; CIRPASS; King et al."
+            - "Unambiguous identification of an individual product (Battery Pass). Unique string of characters for the identification of products that also enables a web link to the product passport (ESPR)."
         attributes:
             unique_product_identifier_value:
                 range: string
@@ -197,6 +254,7 @@ classes:
         class_uri: prod_prof:companyId
         description: "Company ID - Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV"
         comments:
+            - "Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV. (CIRPASS)"
             - "Mandatory: information used in initiatives"
             - "Relevant Document: CIRPASS"
         attributes:
@@ -213,6 +271,7 @@ classes:
         comments:
             - "Article Reference: Art 21 6."
             - "Mandatory: current mandatory information"
+            - "Name of the Manufacturer provided as a string."
             - "Relevant Document: ESPR; CIRPASS"
         attributes:
             name_value:
@@ -227,6 +286,7 @@ classes:
         description: "Manufacturing date (month and year), suggested in form of manufacturing date codes"
         comments:
             - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Manufacturing date (month and year), suggested in form of manufacturing date codes. (Battery Pass)"
             - "Relevant Document: Jensen et al.; CIRPASS; Battery Pass; Deliverable 1.1"
         attributes:
             manufacturing_date_value:
@@ -240,6 +300,7 @@ classes:
         class_uri: prod_prof:postalAddress
         description: "Address of the Manufacturer"
         comments:
+            - "Address of the Manufacturer provided as a string."
             - "Article Reference: Art 21 6."
             - "Mandatory: current mandatory information"
             - "Relevant Document: ESPR; CIRPASS"
@@ -255,8 +316,7 @@ classes:
         class_uri: prod_prof:registeredTradeNameOrTradeMark
         description: "Registered trade name or trademark"
         comments:
-            - "A name under which a business operates, officially registered with authorities"
-            - "A recognizable sign or symbol that legally differentiates products"
+            - "A name under which a business operates and conducts its commercial activities, officially registered with relevant government authorities.; A recognizable sign, phrase, or symbol that denotes a product or service and legally differentiates it from all others of its kind."
             - "Article Reference: Art 21 6."
             - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
             - "Relevant Document: ESPR; CIRPASS"
@@ -275,6 +335,7 @@ classes:
             - "Article Reference: Art 11"
             - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
             - "Relevant Document: ESPR; CIRPASS; King et al."
+            - "Unique string of characters for the identification of locations or buildings involved in the value chain of a product or used by actors involved in the value chain of a product (ESPR)."
         attributes:
             unique_facility_identifiers_value:
                 range: string
@@ -304,6 +365,7 @@ classes:
         comments:
             - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
             - "Relevant Document: CIRPASS"
+            - "Website of the manufacturer."
         attributes:
             website_value:
                 range: string
@@ -320,6 +382,7 @@ classes:
             - "Article Reference: Annex III g)"
             - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
             - "Relevant Document: ESPR; CIRPASS"
+            - "The European Union registration and identification number for businesses which undertake the import or export of goods into or out of the EU. (Wiki)"
         attributes:
             eori_number_value:
                 range: string
@@ -334,7 +397,7 @@ classes:
         description: "Date information for traceability events"
         comments:
             - "Mandatory: information used in initiatives"
-            - "Product traceability information includes event data related to history, time and location"
+            - "Product traceability information is defined as event data related to the history, time and location of activities on the product. E.g.: transport that operator conducting the transport, date, location. (inspired in CIRPASS)"
             - "Relevant Document: CIRPASS"
         attributes:
             date_value:

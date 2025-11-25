@@ -31,6 +31,9 @@ The Product Profile data model is structured as a hierarchical taxonomy defining
 ```
 ProductIdentification (root)
 ├── 1. GeneralProductInformation
+│   ├── LotBatchNumber
+│   ├── GTIN14
+│   ├── SerialNumber
 │   └── UniqueProductIdentifier
 ├── 2. ManufacturersInformation
 │   ├── CompanyId
@@ -56,13 +59,22 @@ ProductIdentification (root)
 ### Workflow Sequence
 
 #### **Step 1: GeneralProductInformation** 
-Basic product identification - Contains the UniqueProductIdentifier class
+Basic product identification with multiple identifier types:
+- **LotBatchNumber**: Lot/batch tracking information
+- **GTIN14**: Global Trade Item Number (14-digit format with GS1 integration)
+- **SerialNumber**: Individual product serial numbers
+- **UniqueProductIdentifier**: Enables web link to product passport
 
 #### **Step 2: ManufacturersInformation**
 Manufacturer details - Contains manufacturer-related classes:
-- CompanyId, Name, ManufacturingDate, PostalAddress
-- RegisteredTradeNameOrTradeMark, UniqueFacilityIdentifiers
-- UniqueOperatorIdentifier, Website
+- **CompanyId**: Various ID formats (GS1 GLN, IEC 61406, SKU ID, etc.)
+- **Name**: Manufacturer's legal name (Art 21 6. ESPR)
+- **ManufacturingDate**: Month/year in manufacturing date codes
+- **PostalAddress**: Physical address (Art 21 6. ESPR)
+- **RegisteredTradeNameOrTradeMark**: Registered business names and trademarks
+- **UniqueFacilityIdentifiers**: Value chain location identifiers
+- **UniqueOperatorIdentifier**: Value chain actor identifiers
+- **Website**: Manufacturer's website
 
 #### **Step 3: InformationRelatedToTheImporter**
 Import/export details - Contains the EoriNumber class
