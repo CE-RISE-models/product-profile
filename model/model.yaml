@@ -41,6 +41,112 @@ slots:
         annotations:
             owl.filler: gs1:gtin
 
+    images_value:
+        description: "Product images for branding/visual identification - could be array of URLs or single URL"
+        range: string
+        annotations:
+            owl.filler: prod_prof:imagesValue
+
+    type_value:
+        description: "Product type/classification - alphanumeric identifier, potentially derived from GTIN-14 product type prefix"
+        range: string
+        annotations:
+            owl.filler: prod_prof:typeValue
+
+    # Actor tracking for enhanced traceability
+    actor_identifier_unique_operator_identifier_value:
+        description: "Actor identifier (Unique operator identifier) for enhanced supply chain tracking"
+        range: string
+        annotations:
+            owl.filler: prod_prof:actorIdentifierUniqueOperatorIdentifierValue
+
+    actor_name_value:
+        description: "Actor name in supply chain"
+        range: string
+        annotations:
+            owl.filler: prod_prof:actorNameValue
+
+    actor_type_and_function_value:
+        description: "Actor type and function in supply chain"
+        range: string
+        annotations:
+            owl.filler: prod_prof:actorTypeAndFunctionValue
+
+    location_of_value_adding_activity_unique_facility_identifiers_value:
+        description: "Location of value-adding activity (Unique facility identifiers)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:locationOfValueaddingActivityUniqueFacilityIdentifiersValue
+
+    product_history_value:
+        description: "Comprehensive product history tracking"
+        range: string
+        annotations:
+            owl.filler: prod_prof:productHistoryValue
+
+    # Material composition
+    material_type_includes_crms_value:
+        description: "Material type (includes CRMs) - needs standardized material dictionary specification"
+        range: string
+        annotations:
+            owl.filler: prod_prof:materialTypeIncludesCrmsValue
+
+    materials_name_value:
+        description: "Materials name - requires reference to material nomenclature standard"
+        range: string
+        annotations:
+            owl.filler: prod_prof:materialsNameValue
+
+    detailed_composition_value:
+        description: "Detailed composition value - needs composition format specification"
+        range: float
+        annotations:
+            owl.filler: prod_prof:detailedCompositionValue
+
+    # Performance and quality
+    performance_data_on_functionality_and_efficiency_value:
+        description: "Performance data on the functionality and efficiency of the product"
+        range: string
+        annotations:
+            owl.filler: prod_prof:performanceDataOnTheFunctionalityAndEfficiencyOfTheProductValue
+
+    performance_data_on_use_value:
+        description: "Performance data on the use of the product"
+        range: string
+        annotations:
+            owl.filler: prod_prof:performanceDataOnTheUseOfTheProductValue
+
+    quality_characteristics_value:
+        description: "Quality characteristics - needs quality standard specification"
+        range: string
+        annotations:
+            owl.filler: prod_prof:qualityCharacteristicsValue
+
+    durability_and_reliability_value:
+        description: "Durability and reliability metrics"
+        range: string
+        annotations:
+            owl.filler: prod_prof:durabilityAndReliabilityValue
+
+    lifespan_of_product_value:
+        description: "Lifespan of the product"
+        range: string
+        annotations:
+            owl.filler: prod_prof:lifespanOfTheProductValue
+
+    # Documentation
+    product_manual_value:
+        description: "Product manual reference or content"
+        range: string
+        annotations:
+            owl.filler: prod_prof:productManualValue
+
+    technical_documentation_value:
+        description: "Technical documentation reference or content"
+        range: string
+        annotations:
+            owl.filler: prod_prof:technicalDocumentationValue
+
     company_id_value:
         description: "Company ID value - Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV"
         range: string
@@ -186,13 +292,81 @@ classes:
         annotations:
             sql_identifier: "product_specification"
 
-    # Step 7: Additional specific information
+    # Step 7: Additional specific information and DPP metadata
     SpecificProductInformation:
         is_a: ProductIdentification
         class_uri: prod_prof:specificProductInformation
         description: "Specific product information"
         annotations:
             sql_identifier: "specific_product_information"
+
+    DataAccessAndSecurity:
+        is_a: SpecificProductInformation
+        class_uri: prod_prof:dataAccessAndSecurity
+        description: "Digital Product Passport access and security metadata"
+        comments:
+            - "Framework for DPP data access, security, and interoperability"
+            - "Essential for DPP implementation and compliance"
+        annotations:
+            sql_identifier: "data_access_and_security"
+
+    DataCarrier:
+        is_a: DataAccessAndSecurity
+        class_uri: prod_prof:dataCarrier
+        description: "Data carrier information for DPP access"
+        comments:
+            - "QR codes, DataMatrix, RFID tags (NFC, RAIN RFID), BLE for DPP access"
+            - "Used on product label and online for accessing DPP information portal"
+            - "Reference: CircThread project Guidelines"
+        annotations:
+            sql_identifier: "data_carrier"
+
+    AccessLevel:
+        is_a: DataAccessAndSecurity
+        class_uri: prod_prof:accessLevel
+        description: "Access level permissions for DPP data"
+        comments:
+            - "Defines who can access what level of product information"
+            - "Critical for regulatory compliance and data privacy"
+        annotations:
+            sql_identifier: "access_level"
+
+    DataAccessLongevity:
+        is_a: DataAccessAndSecurity
+        class_uri: prod_prof:dataAccessLongevity
+        description: "Data access longevity and retention policies"
+        comments:
+            - "How long DPP data remains accessible and available"
+            - "Important for lifecycle management and compliance"
+        annotations:
+            sql_identifier: "data_access_longevity"
+
+    InteroperabilityMetadata:
+        is_a: DataAccessAndSecurity
+        class_uri: prod_prof:interoperabilityMetadata
+        description: "Interoperability metadata for DPP systems"
+        comments:
+            - "APIs, formats, and standards for DPP data exchange"
+            - "Ensures system interoperability and data portability"
+        annotations:
+            sql_identifier: "interoperability_metadata"
+
+    ProductDocumentation:
+        is_a: SpecificProductInformation
+        class_uri: prod_prof:productDocumentation
+        description: "Product manuals and technical documentation"
+        comments:
+            - "References to or content of product manuals and technical docs"
+            - "Essential for product use, maintenance, and end-of-life management"
+        attributes:
+            product_manual_value:
+                range: string
+                required: false
+            technical_documentation_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "product_documentation"
 
     # Step 2 subclasses - General product information
     LotBatchNumber:
@@ -229,6 +403,35 @@ classes:
                 required: true
         annotations:
             sql_identifier: "serial_number"
+
+    ProductImages:
+        is_a: GeneralProductInformation
+        class_uri: prod_prof:productImages
+        description: "Product images for branding and visual identification"
+        comments:
+            - "Images could be stored as array of URLs or single URL reference"
+            - "Addresses missing product branding and visual identification capability"
+        attributes:
+            images_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "product_images"
+
+    ProductType:
+        is_a: GeneralProductInformation
+        class_uri: prod_prof:productType
+        description: "Product type and classification"
+        comments:
+            - "Alphanumeric identifier for product classification"
+            - "Could be derived from GTIN-14 product type prefix"
+            - "Addresses missing product classification system"
+        attributes:
+            type_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "product_type"
 
     UniqueProductIdentifier:
         is_a: GeneralProductInformation
@@ -434,6 +637,64 @@ classes:
         annotations:
             sql_identifier: "operators_unique_operator_ide"
 
+    ActorTracking:
+        is_a: ProductTraceability
+        class_uri: prod_prof:actorTracking
+        description: "Enhanced actor tracking in supply chain"
+        comments:
+            - "Comprehensive actor identification and role tracking"
+            - "Enhances supply chain visibility beyond basic operator identification"
+        attributes:
+            actor_identifier_unique_operator_identifier_value:
+                range: string
+                required: false
+            actor_name_value:
+                range: string
+                required: false
+            actor_type_and_function_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "actor_tracking"
+
+    ValueAddingActivityLocation:
+        is_a: ProductTraceability
+        class_uri: prod_prof:valueAddingActivityLocation
+        description: "Location of value-adding activities in supply chain"
+        comments:
+            - "Tracks specific locations where value is added to the product"
+            - "Enhances location precision beyond basic facility identification"
+        attributes:
+            location_of_value_adding_activity_unique_facility_identifiers_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "value_adding_activity_location"
+
+    ProductHistory:
+        is_a: ProductTraceability
+        class_uri: prod_prof:productHistory
+        description: "Comprehensive product history tracking"
+        comments:
+            - "Complete lifecycle history of the product"
+            - "Aggregated view of all product events and modifications"
+        attributes:
+            product_history_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "product_history"
+
+    OwnershipEvent:
+        is_a: ProductTraceability
+        class_uri: prod_prof:ownershipEvent
+        description: "Ownership change events throughout product lifecycle"
+        comments:
+            - "Tracks ownership transfers and periods"
+            - "Important for circular economy and product responsibility"
+        annotations:
+            sql_identifier: "ownership_event"
+
     # Step 6 subclasses - Product specifications
     ProductCostAndPricing:
         is_a: ProductSpecification
@@ -461,3 +722,61 @@ classes:
                 required: true
         annotations:
             sql_identifier: "weight_and_volume_of_the_produ"
+
+    Material:
+        is_a: ProductSpecification
+        class_uri: prod_prof:material
+        description: "Material composition and characteristics"
+        comments:
+            - "Material identification and composition details"
+            - "Requires standardized material dictionary or nomenclature reference"
+            - "Should integrate with material classification standards"
+        attributes:
+            material_type_includes_crms_value:
+                range: string
+                required: false
+            materials_name_value:
+                range: string
+                required: false
+            detailed_composition_value:
+                range: float
+                required: false
+        annotations:
+            sql_identifier: "material"
+
+    PerformanceData:
+        is_a: ProductSpecification
+        class_uri: prod_prof:performanceData
+        description: "Product performance and functionality data"
+        comments:
+            - "Comprehensive performance metrics and efficiency data"
+            - "Addresses missing performance data integration in specifications"
+        attributes:
+            performance_data_on_functionality_and_efficiency_value:
+                range: string
+                required: false
+            performance_data_on_use_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "performance_data"
+
+    QualityAndDurability:
+        is_a: ProductSpecification
+        class_uri: prod_prof:qualityAndDurability
+        description: "Quality characteristics and durability metrics"
+        comments:
+            - "Quality standards and durability/reliability measurements"
+            - "Requires reference to quality assessment standards"
+        attributes:
+            quality_characteristics_value:
+                range: string
+                required: false
+            durability_and_reliability_value:
+                range: string
+                required: false
+            lifespan_of_product_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "quality_and_durability"
