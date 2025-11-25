@@ -99,25 +99,33 @@ Each class has a corresponding value property (e.g., `name_value`, `company_id_v
 
 | Step | Component | Criticalities Identified | Solutions Implemented | Status | Missing/TODO |
 |------|-----------|-------------------------|----------------------|--------|--------------|
-| **1** | **GeneralProductInformation** | • Unique product identifier lacks precision and standards<br>• No reference integration with discoverability/registries<br>• Missing serial number and lot number storage<br>• No connection to standard product nomenclature<br>• No product description and branding<br>• No classification for grouping products | • Added GS1 prefix and ontology integration<br>• Implemented GTIN-14 + serial number approach<br>• Added Schema.org prefix<br>• Created GTIN-14, Serial number, Lot/batch number subclasses<br>• Referenced UNTP framework for discoverability | **COMPLETED** | • Product description and branding fields<br>• Product classification system<br>• UNTP Identity Resolver integration |
+| **1** | **GeneralProductInformation** | • Unique product identifier lacks precision and standards<br>• No reference integration with discoverability/registries<br>• Missing serial number and lot number storage<br>• No connection to standard product nomenclature<br>• No product description and branding<br>• No classification for grouping products | • Added GS1 prefix and ontology integration<br>• Implemented GTIN-14 + serial number approach<br>• Added Schema.org prefix<br>• Created GTIN-14, Serial number, Lot/batch number subclasses<br>• **NEW:** Added ProductImages for branding/visual identification<br>• **NEW:** Added ProductType for classification<br>• Referenced UNTP framework for discoverability | **NEEDS SPECIFICATION** | • Images format specification (array vs single URL)<br>• ProductType standardization (link to GTIN-14 prefix or other standard)<br>• UNTP Identity Resolver integration |
 | **2** | **ManufacturersInformation** | • Incomplete description and separation of manufacturer facility and organization<br>• Lack of codification of facility and organization | • Renamed 'Company ID' to 'Organization identifier'<br>• Renamed 'Unique facility identifiers' to 'Facility identifier'<br>• Renamed 'Unique operator identifier' to 'Operator identifier'<br>• Updated website format | **PARTIAL** | • Complete facility vs organization separation<br>• Enhanced codification system<br>• Integration with Open Supply Hub<br>• GS1 country of origin implementation |
 | **3** | **InformationRelatedToTheImporter** | • Limited to EORI number only<br>• Missing comprehensive import/export tracking<br>• No customs documentation integration | • EORI number implementation with EU compliance | **BASIC** | • Customs documentation fields<br>• Import/export activity tracking<br>• Multi-jurisdiction support |
-| **4** | **ProductTraceability** | • Basic event tracking only<br>• No comprehensive supply chain visibility<br>• Missing chain of custody integration<br>• Limited location precision | • Date, location, and operator identifier classes<br>• Basic traceability structure | **BASIC** | • UNTP chain of custody integration<br>• Enhanced location tracking (GPS coordinates)<br>• Event type classification<br>• Supply chain milestone tracking |
-| **5** | **ProductSpecification** | • Limited to cost/pricing and physical dimensions<br>• Missing technical specifications<br>• No performance data integration<br>• Missing regulatory compliance data | • Basic cost/pricing and weight/volume classes | **BASIC** | • Technical specification framework<br>• Performance metrics<br>• Regulatory compliance tracking<br>• Material composition details |
-| **6** | **SpecificProductInformation** | • Placeholder category with no structure<br>• No industry-specific extensions<br>• Missing sector-specific requirements | • Basic class structure only | **NOT STARTED** | • Industry-specific data models<br>• Sector extensions (electronics, textiles, etc.)<br>• Use case specific fields |
+| **4** | **ProductTraceability** | • Basic event tracking only<br>• No comprehensive supply chain visibility<br>• Missing chain of custody integration<br>• Limited location precision | • Date, location, and operator identifier classes<br>• Basic traceability structure<br>• **NEW:** Added ActorTracking for enhanced supply chain visibility<br>• **NEW:** Added ValueAddingActivityLocation for precise location tracking<br>• **NEW:** Added ProductHistory for comprehensive lifecycle tracking<br>• **NEW:** Added OwnershipEvent for ownership change tracking | **NEEDS SPECIFICATION** | • Actor role standardization (define actor types/functions)<br>• Location precision standards (GPS coordinates, facility codes)<br>• UNTP chain of custody integration<br>• Event type classification standards |
+| **5** | **ProductSpecification** | • Limited to cost/pricing and physical dimensions<br>• Missing technical specifications<br>• No performance data integration<br>• Missing regulatory compliance data | • Basic cost/pricing and weight/volume classes<br>• **NEW:** Added Material class for composition tracking<br>• **NEW:** Added PerformanceData for functionality/efficiency metrics<br>• **NEW:** Added QualityAndDurability for quality standards | **NEEDS SPECIFICATION** | • Material dictionary/nomenclature standard (ISO, UNSPSC, etc.)<br>• Composition format specification<br>• Performance metrics standardization<br>• Quality assessment standards reference<br>• Regulatory compliance tracking framework |
+| **6** | **SpecificProductInformation** | • Placeholder category with no structure<br>• No industry-specific extensions<br>• Missing sector-specific requirements<br>• No DPP metadata framework | • Basic class structure only<br>• **NEW:** Added DataAccessAndSecurity framework<br>• **NEW:** Added DataCarrier, AccessLevel, DataAccessLongevity<br>• **NEW:** Added InteroperabilityMetadata (APIs, formats, standards)<br>• **NEW:** Added ProductDocumentation for manuals/technical docs | **NEEDS SPECIFICATION** | • Data carrier format standards (QR, RFID specifications)<br>• Access level permission schemas<br>• Data retention policy standards<br>• API/format interoperability specifications<br>• Industry-specific extensions<br>• Sector-specific data models |
 
 ### Development Priorities
 
-**Next Phase Focus:** Complete Step 2 (ManufacturersInformation) by addressing:
+**Next Phase Focus:** Complete Step 2 (ManufacturersInformation) - the only PARTIAL step remaining:
 - Enhanced facility vs organization data separation
 - Integration with Open Supply Hub for production facilities
 - GS1 country of origin implementation
 - Comprehensive codification system
 
+**Specification Work Needed:** All steps with NEEDS SPECIFICATION status require:
+- **Step 1:** Images format specification (array vs single URL), ProductType standardization
+- **Step 4:** Actor role taxonomy, location precision standards
+- **Step 5:** Material dictionary selection (ISO 4000, UNSPSC, etc.), performance metrics standards
+- **Step 6:** Data carrier technical specifications, access level schemas, API formats
+
 **Key Dependencies:**
 - UNTP framework maturation for discoverability features
 - GS1 Web Vocabulary integration for enhanced product identification
-- Industry stakeholder input for sector-specific extensions
+- Material classification standard selection and implementation
+- DPP access technology standards (for data carriers)
+- Quality assessment standard integration (ISO 9001, sector-specific)
 
 
 ---
