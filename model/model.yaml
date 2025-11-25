@@ -1,20 +1,395 @@
-id: https://ce-rise-models.codeberg.page/template-data-model/
-name: template_data_model
+id: https://ce-rise-models.codeberg.page/product-profile/
+name: product-profile
+title: CE-RISE Product Profile Data Model
+description: >
+    Core data model defining the mandatory Product Profile for Digital Product Passports,
+    including product attributes, manufacturer details, and traceability information.
+license: CC BY-NC 4.0
+version: 0.0.1
+
 prefixes:
-  linkml: https://w3id.org/linkml/
-imports:
-  - linkml:types
+    linkml: https://w3id.org/linkml/
+    prod_prof: https://ce-rise-models.codeberg.page/product-profile/
+    xsd: http://www.w3.org/2001/XMLSchema#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+
+default_prefix: prod_prof
 default_range: string
-classes:
-  ExampleClass:
-    attributes:
-      example_attribute:
-        range: string
-        description: Example field
+
+imports:
+    - linkml:types
+
 slots:
-  label:
-    range: string
-    description: Human-readable label
-  sqlIdentifier:
-    range: string
-    description: Machine-friendly field name for databases
+    # Core identification slots
+    company_id_value:
+        description: "Company ID value - Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV"
+        range: string
+        annotations:
+            owl.filler: prod_prof:companyIdValue
+
+    date_value:
+        description: "Date value for traceability events"
+        range: string
+        annotations:
+            owl.filler: prod_prof:dateValue
+
+    eori_number_value:
+        description: "EORI number value - European Union registration and identification number for import/export businesses"
+        range: string
+        annotations:
+            owl.filler: prod_prof:eoriNumberValue
+
+    location_unique_facility_identifiers_value:
+        description: "Unique facility identifiers for locations involved in the value chain"
+        range: string
+        annotations:
+            owl.filler: prod_prof:locationUniqueFacilityIdentifiersValue
+
+    manufacturing_date_value:
+        description: "Manufacturing date (month and year), suggested in form of manufacturing date codes"
+        range: string
+        annotations:
+            owl.filler: prod_prof:manufacturingDateValue
+
+    name_value:
+        description: "Name of the Manufacturer provided as a string"
+        range: string
+        annotations:
+            owl.filler: prod_prof:nameValue
+
+    operators_unique_operator_identifier_value:
+        description: "Operators unique operator identifier for traceability"
+        range: string
+        annotations:
+            owl.filler: prod_prof:operatorsUniqueOperatorIdentifierValue
+
+    postal_address_value:
+        description: "Address of the Manufacturer provided as a string"
+        range: string
+        annotations:
+            owl.filler: prod_prof:postalAddressValue
+
+    product_cost_and_pricing_value:
+        description: "Product cost and pricing information"
+        range: string
+        annotations:
+            owl.filler: prod_prof:productCostAndPricingValue
+
+    registered_trade_name_or_trade_mark_value:
+        description: "Registered trade name or trademark - officially registered business name or trademark symbol"
+        range: string
+        annotations:
+            owl.filler: prod_prof:registeredTradeNameOrTradeMarkValue
+
+    unique_facility_identifiers_value:
+        description: "Unique facility identifiers for locations or buildings in the value chain"
+        range: string
+        annotations:
+            owl.filler: prod_prof:uniqueFacilityIdentifiersValue
+
+    unique_operator_identifier_value:
+        description: "Unique operator identifier for value chain actors"
+        range: string
+        annotations:
+            owl.filler: prod_prof:uniqueOperatorIdentifierValue
+
+    unique_product_identifier_value:
+        description: "Unique product identifier - unambiguous identification enabling web link to product passport"
+        range: string
+        annotations:
+            owl.filler: prod_prof:uniqueProductIdentifierValue
+
+    website_value:
+        description: "Website of the manufacturer"
+        range: string
+        annotations:
+            owl.filler: prod_prof:websiteValue
+
+    weight_and_volume_of_the_product_and_its_packaging_value:
+        description: "Weight and volume of the product and its packaging"
+        range: string
+        annotations:
+            owl.filler: prod_prof:weightAndVolumeOfTheProductAndItsPackagingValue
+
+    # Metadata slots
+    sql_identifier:
+        description: "Machine-friendly field name for databases"
+        range: string
+        annotations:
+            owl.filler: prod_prof:sqlIdentifier
+
+classes:
+    # Root class
+    ProductIdentification:
+        class_uri: prod_prof:productIdentification
+        description: "Root class for product identification information"
+        annotations:
+            sql_identifier: "product_identification"
+
+    # Main category classes
+    ManufacturersInformation:
+        is_a: ProductIdentification
+        class_uri: prod_prof:manufacturersInformation
+        description: "Information about the product manufacturer"
+        annotations:
+            sql_identifier: "manufacturer_s_information"
+
+    GeneralProductInformation:
+        is_a: ProductIdentification
+        class_uri: prod_prof:generalProductInformation
+        description: "General product information"
+        annotations:
+            sql_identifier: "general_product_information"
+
+    InformationRelatedToTheImporter:
+        is_a: ProductIdentification
+        class_uri: prod_prof:informationRelatedToTheImporter
+        description: "Information related to the product importer"
+        annotations:
+            sql_identifier: "information_related_to_the_importer"
+
+    ProductSpecification:
+        is_a: ProductIdentification
+        class_uri: prod_prof:productSpecification
+        description: "Product specification details"
+        annotations:
+            sql_identifier: "product_specification"
+
+    ProductTraceability:
+        is_a: ProductIdentification
+        class_uri: prod_prof:productTraceability
+        description: "Product traceability information including event data related to history, time and location of activities"
+        annotations:
+            sql_identifier: "product_traceability"
+
+    SpecificProductInformation:
+        is_a: ProductIdentification
+        class_uri: prod_prof:specificProductInformation
+        description: "Specific product information"
+        annotations:
+            sql_identifier: "specific_product_information"
+
+    # Manufacturer information subclasses
+    CompanyId:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:companyId
+        description: "Company ID - Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV"
+        comments:
+            - "Mandatory: information used in initiatives"
+            - "Relevant Document: CIRPASS"
+        attributes:
+            company_id_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "company_id"
+
+    Name:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:name
+        description: "Name of the Manufacturer"
+        comments:
+            - "Article Reference: Art 21 6."
+            - "Mandatory: current mandatory information"
+            - "Relevant Document: ESPR; CIRPASS"
+        attributes:
+            name_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "name"
+
+    ManufacturingDate:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:manufacturingDate
+        description: "Manufacturing date (month and year), suggested in form of manufacturing date codes"
+        comments:
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Relevant Document: Jensen et al.; CIRPASS; Battery Pass; Deliverable 1.1"
+        attributes:
+            manufacturing_date_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "manufacturing_date"
+
+    PostalAddress:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:postalAddress
+        description: "Address of the Manufacturer"
+        comments:
+            - "Article Reference: Art 21 6."
+            - "Mandatory: current mandatory information"
+            - "Relevant Document: ESPR; CIRPASS"
+        attributes:
+            postal_address_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "postal_address"
+
+    RegisteredTradeNameOrTradeMark:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:registeredTradeNameOrTradeMark
+        description: "Registered trade name or trademark"
+        comments:
+            - "A name under which a business operates, officially registered with authorities"
+            - "A recognizable sign or symbol that legally differentiates products"
+            - "Article Reference: Art 21 6."
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Relevant Document: ESPR; CIRPASS"
+        attributes:
+            registered_trade_name_or_trade_mark_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "registered_trade_name_or_trade"
+
+    UniqueFacilityIdentifiers:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:uniqueFacilityIdentifiers
+        description: "Unique facility identifiers for locations or buildings in the value chain"
+        comments:
+            - "Article Reference: Art 11"
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Relevant Document: ESPR; CIRPASS; King et al."
+        attributes:
+            unique_facility_identifiers_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "unique_facility_identifiers"
+
+    UniqueOperatorIdentifier:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:uniqueOperatorIdentifier
+        description: "Unique operator identifier"
+        comments:
+            - "Article Reference: Art 11"
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Relevant Document: ESPR"
+        attributes:
+            unique_operator_identifier_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "unique_operator_identifier"
+
+    Website:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:website
+        description: "Website of the manufacturer"
+        comments:
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Relevant Document: CIRPASS"
+        attributes:
+            website_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "website"
+
+    # General product information subclasses
+    UniqueProductIdentifier:
+        is_a: GeneralProductInformation
+        class_uri: prod_prof:uniqueProductIdentifier
+        description: "Unique product identifier enabling web link to product passport"
+        comments:
+            - "Article Reference: Art 9 1."
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Parameter Representation: Global Trade Identification Number; Relevant commodity codes; Serial and product number; ISO/IEC 15459-6"
+            - "Relevant Document: ESPR; CIRPASS; King et al."
+        attributes:
+            unique_product_identifier_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "unique_product_identifier"
+
+    # Importer information subclasses
+    EoriNumber:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:eoriNumber
+        description: "EORI number - European Union registration and identification number for import/export businesses"
+        comments:
+            - "Article Reference: Annex III g)"
+            - "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation"
+            - "Relevant Document: ESPR; CIRPASS"
+        attributes:
+            eori_number_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "eori_number"
+
+    # Product specification subclasses
+    ProductCostAndPricing:
+        is_a: ProductSpecification
+        class_uri: prod_prof:productCostAndPricing
+        description: "Product cost and pricing information"
+        comments:
+            - "Relevant Document: Deliverable 1.1"
+        attributes:
+            product_cost_and_pricing_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "product_cost_and_pricing"
+
+    WeightAndVolumeOfTheProductAndItsPackaging:
+        is_a: ProductSpecification
+        class_uri: prod_prof:weightAndVolumeOfTheProductAndItsPackaging
+        description: "Weight and volume of the product and its packaging"
+        comments:
+            - "Article Reference: Annex I"
+            - "Relevant Document: ESPR; Deliverable 1.1"
+        attributes:
+            weight_and_volume_of_the_product_and_its_packaging_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "weight_and_volume_of_the_produ"
+
+    # Product traceability subclasses
+    Date:
+        is_a: ProductTraceability
+        class_uri: prod_prof:date
+        description: "Date information for traceability events"
+        comments:
+            - "Mandatory: information used in initiatives"
+            - "Product traceability information includes event data related to history, time and location"
+            - "Relevant Document: CIRPASS"
+        attributes:
+            date_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "date"
+
+    LocationUniqueFacilityIdentifiers:
+        is_a: ProductTraceability
+        class_uri: prod_prof:locationUniqueFacilityIdentifiers
+        description: "Location unique facility identifiers for traceability"
+        comments:
+            - "Mandatory: information used in initiatives"
+            - "Relevant Document: CIRPASS"
+        attributes:
+            location_unique_facility_identifiers_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "location_unique_facility_iden"
+
+    OperatorsUniqueOperatorIdentifier:
+        is_a: ProductTraceability
+        class_uri: prod_prof:operatorsUniqueOperatorIdentifier
+        description: "Operators unique operator identifier for traceability"
+        comments:
+            - "Mandatory: information used in initiatives"
+            - "Relevant Document: CIRPASS"
+        attributes:
+            operators_unique_operator_identifier_value:
+                range: string
+                required: true
+        annotations:
+            sql_identifier: "operators_unique_operator_ide"
