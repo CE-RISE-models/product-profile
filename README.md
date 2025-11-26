@@ -11,13 +11,12 @@ This repository provides the core data model defining the mandatory Product Prof
 
 ```
 /
-├─ model/          # LinkML source files (.yaml)
-├─ profiles/       # composition YAMLs combining modules
-├─ mappings/       # SSSOM and JSON-LD mappings
-├─ generated/      # auto-generated JSON Schema, SHACL, OWL
-├─ samples/        # example data instances
-├─ tests/          # validation tests
-└─ README.md
+├─ model/          # LinkML source files (.yaml): required
+├─ mappings/       # SSSOM and JSON-LD mappings: optional
+├─ generated/      # locally generated JSON Schema, SHACL, OWL: optional - CI/CD deploys on pages
+├─ samples/        # example data instances: optional
+├─ tests/          # validation tests: optional
+└─ README.md       # required
 ```
 
 ---
