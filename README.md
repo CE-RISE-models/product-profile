@@ -33,6 +33,8 @@ ProductIdentification (root)
 │   ├── LotBatchNumber
 │   ├── GTIN14
 │   ├── SerialNumber
+│   ├── ProductImages
+│   ├── ProductType
 │   └── UniqueProductIdentifier
 ├── 2. ManufacturersInformation
 │   ├── OrganizationEntity (GS1 GLN, LEI, VAT, legal name)
@@ -49,11 +51,24 @@ ProductIdentification (root)
 ├── 4. ProductTraceability
 │   ├── Date
 │   ├── LocationUniqueFacilityIdentifiers
-│   └── OperatorsUniqueOperatorIdentifier
+│   ├── OperatorsUniqueOperatorIdentifier
+│   ├── ActorTracking
+│   ├── ValueAddingActivityLocation
+│   ├── ProductHistory
+│   └── OwnershipEvent
 ├── 5. ProductSpecification
 │   ├── ProductCostAndPricing
-│   └── WeightAndVolumeOfTheProductAndItsPackaging
+│   ├── WeightAndVolumeOfTheProductAndItsPackaging
+│   ├── Material
+│   ├── PerformanceData
+│   └── QualityAndDurability
 └── 6. SpecificProductInformation
+    ├── DataAccessAndSecurity
+    │   ├── DataCarrier
+    │   ├── AccessLevel
+    │   ├── DataAccessLongevity
+    │   └── InteroperabilityMetadata
+    └── ProductDocumentation
 ```
 
 ### Workflow Sequence
@@ -63,6 +78,8 @@ Basic product identification with multiple identifier types:
 - **LotBatchNumber**: Lot/batch tracking information
 - **GTIN14**: Global Trade Item Number (14-digit format with GS1 integration)
 - **SerialNumber**: Individual product serial numbers
+- **ProductImages**: Product images for branding/visual identification (comma-separated URLs)
+- **ProductType**: Product classification (3-digit GTIN prefix or alphanumeric code)
 - **UniqueProductIdentifier**: Enables web link to product passport
 
 #### **Step 2: ManufacturersInformation**
@@ -82,13 +99,31 @@ Manufacturer details with GS1-centric hierarchical structure:
 Import/export details - Contains the EoriNumber class
 
 #### **Step 4: ProductTraceability**
-Supply chain tracking - Contains Date, LocationUniqueFacilityIdentifiers, and OperatorsUniqueOperatorIdentifier classes
+Supply chain tracking with enhanced visibility:
+- **Date**: Event timestamps for traceability
+- **LocationUniqueFacilityIdentifiers**: Basic location tracking
+- **OperatorsUniqueOperatorIdentifier**: Basic operator identification
+- **ActorTracking**: Enhanced supply chain actor identification and roles
+- **ValueAddingActivityLocation**: Precise value-adding activity tracking
+- **ProductHistory**: Comprehensive lifecycle history
+- **OwnershipEvent**: Ownership change tracking throughout product lifecycle
 
 #### **Step 5: ProductSpecification**
-Technical specifications - Contains ProductCostAndPricing and WeightAndVolumeOfTheProductAndItsPackaging classes
+Technical specifications with enhanced material and performance data:
+- **ProductCostAndPricing**: Economic information
+- **WeightAndVolumeOfTheProductAndItsPackaging**: Physical dimensions
+- **Material**: Material composition and characteristics (includes CRMs)
+- **PerformanceData**: Functionality and efficiency metrics
+- **QualityAndDurability**: Quality standards and durability measurements
 
 #### **Step 6: SpecificProductInformation**
-Additional product-specific information
+DPP metadata and product documentation:
+- **DataAccessAndSecurity**: Framework for DPP access and security
+  - **DataCarrier**: QR codes, RFID, NFC for DPP access
+  - **AccessLevel**: Access permissions and data privacy
+  - **DataAccessLongevity**: Data retention and availability policies
+  - **InteroperabilityMetadata**: APIs, formats, and standards for data exchange
+- **ProductDocumentation**: Product manuals and technical documentation
 
 ### Data Properties
 
