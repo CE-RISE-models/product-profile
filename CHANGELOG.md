@@ -12,6 +12,9 @@ All notable changes to the CE-RISE Product Profile Data Model will be documented
 - Updated formatting requirements for the EORI number in stage 3
 - Field requirements set to a minimum
 
+### Removed
+- Removed unnecessary fields from stage 4 and 5
+- Removed unnecessary stage 6
 
 ## [0.0.1] - 26 Nov 2025
 
