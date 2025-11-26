@@ -66,8 +66,8 @@ ProductIdentification (root)
 │   ├── AEOStatus (Authorized Economic Operator certification)
 │   └── ImportAuthorization (licenses and permits for restricted goods)
 └── 4. ProductSpecification
-    ├── PhysicalAttributes (weight, volume, dimensions)
-    ├── MaterialIdentification (primary materials, composition, origin)
+    ├── PhysicalAttributes (weight in grams, dimensions in mm, volume in mm³/ml)
+    ├── MaterialIdentification (JSON array: material, percentage, country code)
     └── RegulatoryClassification (product category, safety classification)
 ```
 
@@ -108,9 +108,9 @@ Comprehensive import/export tracking and compliance with EU customs regulations:
 
 #### **Step 4: ProductSpecification**
 Universal basic characteristics that define any product at system entry (applicable to airplanes, t-shirts, sandwiches, etc.):
-- **PhysicalAttributes**: Core physical characteristics - weight with units (kg, g, lb), volume with units (L, ml, m³), fixed dimensions with units (cm, m, in)
-- **MaterialIdentification**: Basic material composition using standard nomenclature - primary material (Cotton, Steel, Wood), composition percentages, geographic origin of materials
-- **RegulatoryClassification**: Essential regulatory categories at entry - product category (Food, Electronics, Textiles), basic safety classification (Non-hazardous, Food-grade, Medical device)
+- **PhysicalAttributes**: Standardized physical measurements - weight in grams (150, 2.5e6), dimensions in millimeters LxWxH (300x200x100), volume for solids in mm³ (1e6) or liquids in ml (500). Scientific notation supported.
+- **MaterialIdentification**: Structured material composition as JSON array - each material object contains name, percentage, and ISO 3166-1 alpha-2 country code. Example: `[{"material":"Cotton","percentage":80,"country":"TR"},{"material":"Polyester","percentage":20,"country":"CN"}]`
+- **RegulatoryClassification**: Essential regulatory categories at entry - product category (Food, Electronics, Textiles, Machinery, Chemical), basic safety classification (Non-hazardous, Food-grade, Medical device, Hazardous) with optional GPC codes, GHS hazard classification, and CE marking categories
 
 ### Data Properties
 
@@ -126,18 +126,18 @@ Each class has a corresponding value property (e.g., `name_value`, `company_id_v
 | **1** | **GeneralProductInformation** | • Unique product identifier lacks precision and standards<br>• No reference integration with discoverability/registries<br>• Missing serial number and lot number storage<br>• No connection to standard product nomenclature<br>• No product description and branding<br>• No classification for grouping products | • Added GS1 prefix and ontology integration<br>• Implemented GTIN-14 + serial number approach<br>• Added Schema.org prefix<br>• Created GTIN-14, Serial number, Lot/batch number subclasses<br>• Added ProductImages (comma-separated image URLs with format validation)<br>• Added ProductType (3-digit GTIN prefix or alphanumeric classification)<br>• Referenced UNTP framework for discoverability | **COMPLETED** | • UNTP Identity Resolver integration |
 | **2** | **ManufacturersInformation** | • Incomplete description and separation of manufacturer facility and organization<br>• Lack of codification of facility and organization | • Implemented GS1-centric hierarchical model<br>• Added OrganizationEntity with GLN, LEI, VAT identification<br>• Added ManufacturingFacility with facility GLN and OSID<br>• Added GPS coordinates for precise facility location<br>• Renamed 'Company ID' to 'Organization identifier'<br>• Renamed 'Unique facility identifiers' to 'Facility identifier'<br>• Renamed 'Unique operator identifier' to 'Operator identifier' | **COMPLETED** | • GS1 GLN Registry integration<br>• Open Supply Hub API integration<br>• LEI code verification integration |
 | **3** | **InformationRelatedToTheImporter** | • Limited to EORI number only<br>• Missing comprehensive import/export tracking<br>• No customs documentation integration<br>• No tariff classification system<br>• Missing border crossing information | • EORI number with validated EU format (2-letter country + alphanumeric)<br>• CustomsDocumentation with MRN, declaration IDs, and document URLs<br>• ImportExportOperation with trade activity tracking and Incoterms<br>• ImporterJurisdiction with EU 3-character country codes<br>• TariffClassification with HS/CN/TARIC codes and duty rates<br>• BorderCrossing with UN/LOCODE port codes and customs offices<br>• AEOStatus for trusted trader certification<br>• ImportAuthorization for restricted goods licensing | **COMPLETED** | • Real-time customs status API integration<br>• Tariff database integration (WTO, EU TARIC)<br>• Multi-modal transport tracking<br>• Trade compliance validation engines |
-| **4** | **ProductSpecification** | • Limited to physical dimensions only<br>• Missing basic material information<br>• Lack of universal applicability across product types<br>• No regulatory classification framework | • PhysicalAttributes with standardized units (weight, volume, dimensions)<br>• MaterialIdentification with nomenclature standards and origin tracking<br>• RegulatoryClassification for product categories and safety classifications<br>• Universal design applicable to any product type (airplanes to sandwiches) | **NEEDS SPECIFICATION** | • Standard material nomenclature selection (ISO, UNSPSC, etc.)<br>• Physical attribute measurement unit standards<br>• Regulatory category taxonomies<br>• Safety classification frameworks |
+| **4** | **ProductSpecification** | • Limited to physical dimensions only<br>• Missing basic material information<br>• Lack of universal applicability across product types<br>• No regulatory classification framework | • PhysicalAttributes with standardized units (weight in grams, dimensions in mm, volume in mm³/ml)<br>• MaterialIdentification with structured JSON format (material, percentage, country code)<br>• Optional material classification standards: UNSPSC codes, CAS registry numbers, ISO standard references<br>• RegulatoryClassification with GPC codes, GHS hazard classification, and CE marking categories<br>• Universal design with scientific notation support for any product type | **COMPLETED** | • Extended regulatory taxonomy integrations |
 
 ### Development Priorities
 
-**Current Status:** Steps 1-3 are **COMPLETED**, Step 4 needs specification work:
+**Current Status:** Steps 1-4 are **COMPLETED**:
 - **Steps 1-3**: Complete product identification, manufacturer details, and import/export compliance
-- **Step 4**: Basic structure in place but requires specification standards
+- **Step 4**: Complete product specifications with material classification standards
 - **Integration Focus**: GS1 Registry, Open Supply Hub, customs authorities, TARIC database integration
 - **Enhancement Opportunities**: Enhanced precision, material standards, and system integrations
 
-**Next Phase Focus:** Complete specification work for Step 4:
-- **Step 4**: Establish standard material nomenclature, physical attribute units, and regulatory classification frameworks for universal product applicability
+**Next Phase Focus:** Extended system integrations:
+- **Enhanced Step 4**: Integration with GPC registry, GHS database, and CE marking notification systems
 
 **Focused Product Profile Scope:** The model provides essential information to answer:
 - **"What is this product?"** (identification, classification, physical attributes)

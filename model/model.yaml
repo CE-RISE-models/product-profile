@@ -57,40 +57,62 @@ slots:
 
     # Basic product characteristics for any product type
 
-    # Physical dimensions and weight
+    # Physical dimensions and weight - standardized units
     weight_value:
-        description: "Product weight with unit (e.g., 2.5 kg, 150 g, 2.3 tons)"
+        description: "Product weight in grams (supports scientific notation, e.g., 150, 2500, 4.5e7)"
         range: string
-        pattern: "^\\d+(\\.\\d+)?\\s+(kg|g|mg|t|lb|oz)$"
+        pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
         annotations:
             owl.filler: prod_prof:weightValue
 
-    volume_value:
-        description: "Product volume with unit (e.g., 500 ml, 2.5 L, 0.8 m³)"
+    volume_solid_value:
+        description: "Volume for solid products in cubic millimeters (supports scientific notation, e.g., 1000, 2.5e6)"
         range: string
-        pattern: "^\\d+(\\.\\d+)?\\s+(ml|L|m³|cm³|ft³|in³)$"
+        pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
         annotations:
-            owl.filler: prod_prof:volumeValue
+            owl.filler: prod_prof:volumeSolidValue
+
+    volume_liquid_value:
+        description: "Volume for liquid products in milliliters (supports scientific notation, e.g., 500, 1.2e3)"
+        range: string
+        pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
+        annotations:
+            owl.filler: prod_prof:volumeLiquidValue
 
     dimensions_value:
-        description: "Product dimensions with units (e.g., 30x20x10 cm, 2.5x1.2x0.8 m)"
+        description: "Product dimensions in millimeters as LxWxH (supports scientific notation, e.g., 300x200x100, 2.5e3x1.8e3x5e2)"
         range: string
-        pattern: "^\\d+(\\.\\d+)?x\\d+(\\.\\d+)?x\\d+(\\.\\d+)?\\s+(mm|cm|m|in|ft)$"
+        pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?x\\d+(\\.\\d+)?(e[+-]?\\d+)?x\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
         annotations:
             owl.filler: prod_prof:dimensionsValue
 
-    # Material identification using standard nomenclature
-    primary_material_value:
-        description: "Primary material using standard nomenclature (e.g., Cotton, Steel, Polyethylene, Wood)"
+    # Material identification using structured JSON format
+    materials_composition_value:
+        description: "JSON array of materials with composition percentages and country codes (ISO 3166-1 alpha-2)"
         range: string
+        pattern: "^\\[\\s*\\{\\s*[\"']material[\"']\\s*:\\s*[\"'][^\"']+[\"']\\s*,\\s*[\"']percentage[\"']\\s*:\\s*\\d+(\\.\\d+)?\\s*,\\s*[\"']country[\"']\\s*:\\s*[\"'][A-Z]{2}[\"']\\s*\\}(\\s*,\\s*\\{\\s*[\"']material[\"']\\s*:\\s*[\"'][^\"']+[\"']\\s*,\\s*[\"']percentage[\"']\\s*:\\s*\\d+(\\.\\d+)?\\s*,\\s*[\"']country[\"']\\s*:\\s*[\"'][A-Z]{2}[\"']\\s*\\})*\\s*\\]$"
         annotations:
-            owl.filler: prod_prof:primaryMaterialValue
+            owl.filler: prod_prof:materialsCompositionValue
 
-    material_composition_value:
-        description: "Basic material composition with percentages (e.g., 80% Cotton, 20% Polyester)"
+    unspsc_code_value:
+        description: "Optional UNSPSC (United Nations Standard Products and Services Code) 8-digit classification code"
+        range: string
+        pattern: "^\\d{8}$"
+        annotations:
+            owl.filler: prod_prof:unspscCodeValue
+
+    cas_registry_number_value:
+        description: "Optional CAS Registry Number for chemical substances (format: XXXXX-XX-X)"
+        range: string
+        pattern: "^\\d{2,7}-\\d{2}-\\d$"
+        annotations:
+            owl.filler: prod_prof:casRegistryNumberValue
+
+    iso_standard_reference_value:
+        description: "Optional ISO standard reference for technical materials (e.g., ISO 21305 for plastics)"
         range: string
         annotations:
-            owl.filler: prod_prof:materialCompositionValue
+            owl.filler: prod_prof:isoStandardReferenceValue
 
     # Regulatory categories at product entry
     product_category_value:
@@ -99,18 +121,30 @@ slots:
         annotations:
             owl.filler: prod_prof:productCategoryValue
 
+    gpc_code_value:
+        description: "Optional GPC (Global Product Classification) brick code for retail/commercial products"
+        range: string
+        pattern: "^\\d{8}$"
+        annotations:
+            owl.filler: prod_prof:gpcCodeValue
+
     safety_classification_value:
-        description: "Basic safety classification at entry (e.g., Non-hazardous, Hazardous, Food-grade, Medical device)"
+        description: "Basic safety classification (e.g., Non-hazardous, Food-grade, Medical device, Hazardous)"
         range: string
         annotations:
             owl.filler: prod_prof:safetyClassificationValue
 
-    # Material sourcing information
-    origin_materials_value:
-        description: "Geographic origin of primary materials (e.g., Turkish Cotton, German Steel, Brazilian Wood)"
+    ghs_classification_value:
+        description: "Optional GHS (Globally Harmonized System) hazard classification for chemical products"
         range: string
         annotations:
-            owl.filler: prod_prof:originMaterialsValue
+            owl.filler: prod_prof:ghsClassificationValue
+
+    ce_marking_category_value:
+        description: "Optional CE marking category for EU regulated products (e.g., Machinery, Medical Devices, Toys)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:ceMarkingCategoryValue
 
     # Organization identification
     organization_gln_value:
@@ -391,13 +425,13 @@ slots:
             owl.filler: prod_prof:manufacturingDateValue
 
     name_value:
-        description: "Name of the Manufacturer provided as a string"
+        description: "Name of the manufacturer provided as a string"
         range: string
         annotations:
             owl.filler: prod_prof:nameValue
 
     postal_address_value:
-        description: "Address of the Manufacturer provided as a string"
+        description: "Address of the manufacturer provided as a string"
         range: string
         annotations:
             owl.filler: prod_prof:postalAddressValue
@@ -638,11 +672,11 @@ classes:
     Name:
         is_a: ManufacturersInformation
         class_uri: prod_prof:name
-        description: "Name of the Manufacturer"
+        description: "Name of the manufacturer"
         comments:
             - "Article Reference: Art 21 6."
             - "Mandatory: current mandatory information"
-            - "Name of the Manufacturer provided as a string."
+            - "Name of the manufacturer provided as a string."
             - "Relevant Document: ESPR; CIRPASS"
         attributes:
             name_value:
@@ -669,9 +703,9 @@ classes:
     PostalAddress:
         is_a: ManufacturersInformation
         class_uri: prod_prof:postalAddress
-        description: "Address of the Manufacturer"
+        description: "Address of the manufacturer"
         comments:
-            - "Address of the Manufacturer provided as a string."
+            - "Address of the manufacturer provided as a string."
             - "Article Reference: Art 21 6."
             - "Mandatory: current mandatory information"
             - "Relevant Document: ESPR; CIRPASS"
@@ -941,13 +975,17 @@ classes:
         description: "Core physical characteristics of the product at system entry"
         comments:
             - "Universal physical attributes applicable to any product type"
-            - "Fixed dimensions, weight, and volume that define the product"
-            - "Applicable from airplanes to t-shirts to sandwiches"
+            - "Standardized units: weight in grams, dimensions in millimeters"
+            - "Separate volume measures for solids (mm³) and liquids (ml)"
+            - "Scientific notation supported for very large/small values"
         attributes:
             weight_value:
                 range: string
                 required: false
-            volume_value:
+            volume_solid_value:
+                range: string
+                required: false
+            volume_liquid_value:
                 range: string
                 required: false
             dimensions_value:
@@ -959,19 +997,25 @@ classes:
     MaterialIdentification:
         is_a: ProductSpecification
         class_uri: prod_prof:materialIdentification
-        description: "Basic material identification using standard nomenclature"
+        description: "Structured material composition with standardized nomenclature and origin tracking"
         comments:
-            - "Essential material composition that defines the product at entry"
+            - "JSON array structure for precise material composition tracking"
+            - "Each material object contains: name, percentage, and ISO 3166-1 alpha-2 country code"
             - "Uses standardized material nomenclature for universal applicability"
-            - "Captures material sourcing information relevant at product definition"
+            - "Enables detailed material sourcing and composition analysis"
+            - "Example: [{'material':'Cotton','percentage':80,'country':'TR'},{'material':'Polyester','percentage':20,'country':'CN'}]"
+            - "Optional classification standards: UNSPSC codes, CAS registry numbers, ISO standard references"
         attributes:
-            primary_material_value:
+            materials_composition_value:
                 range: string
                 required: false
-            material_composition_value:
+            unspsc_code_value:
                 range: string
                 required: false
-            origin_materials_value:
+            cas_registry_number_value:
+                range: string
+                required: false
+            iso_standard_reference_value:
                 range: string
                 required: false
         annotations:
@@ -985,11 +1029,22 @@ classes:
             - "Basic regulatory framework applicable when product enters system"
             - "Safety and category classifications that define product handling"
             - "Excludes detailed certification artifacts and extensive compliance documentation"
+            - "Avoids duplication with Step 1 ProductType (general product classification)"
+            - "Optional classification standards: GPC codes, GHS hazard classification, CE marking categories"
         attributes:
             product_category_value:
                 range: string
                 required: false
+            gpc_code_value:
+                range: string
+                required: false
             safety_classification_value:
+                range: string
+                required: false
+            ghs_classification_value:
+                range: string
+                required: false
+            ce_marking_category_value:
                 range: string
                 required: false
         annotations:
