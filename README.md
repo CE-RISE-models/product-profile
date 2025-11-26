@@ -116,6 +116,27 @@ Universal basic characteristics that define any product at system entry (applica
 
 Each class has a corresponding value property (e.g., `name_value`, `company_id_value`) that holds the actual data. All value properties are string type except where specified otherwise.
 
+#### SQL Identifiers
+
+Every data point in the model includes a `sql_identifier` annotation that serves as a unique, machine-friendly database identifier. These identifiers follow a structured namespace pattern to ensure uniqueness across the entire data model:
+
+**Pattern**: `pro_[category]_[specific_name]`
+
+**Features:**
+- **Product Profile Prefix**: All identifiers start with `pro_` to clearly identify them as belonging to the Product Profile data model
+- **Hierarchical Namespacing**: Uses category prefixes (`gen_info_`, `mfr_info_`, `imp_info_`, `spec_info_`) to provide context and prevent naming conflicts
+- **Database-Friendly**: Uses underscores and avoids special characters for SQL compatibility
+- **Unique Across Model**: No duplicate identifiers, even when similar concepts appear in different parts of the hierarchy
+- **Reasonable Length**: Abbreviated but meaningful names that balance clarity with practical database usage
+
+**Examples:**
+- `pro_gen_info_gtin14` - GTIN-14 identifier in General Product Information
+- `pro_mfr_info_facility` - Manufacturing facility in Manufacturer Information  
+- `pro_imp_info_eori` - EORI number in Import/Export Information
+- `pro_spec_info_materials` - Material composition in Product Specifications
+
+This identifier system enables seamless integration with databases and ensures clear data model composition when combining with other CE-RISE data models.
+
 
 ---
 
@@ -128,38 +149,11 @@ Each class has a corresponding value property (e.g., `name_value`, `company_id_v
 | **3** | **InformationRelatedToTheImporter** | • Limited to EORI number only<br>• Missing comprehensive import/export tracking<br>• No customs documentation integration<br>• No tariff classification system<br>• Missing border crossing information | • EORI number with validated EU format (2-letter country + alphanumeric)<br>• CustomsDocumentation with MRN, declaration IDs, and document URLs<br>• ImportExportOperation with trade activity tracking and Incoterms<br>• ImporterJurisdiction with EU 3-character country codes<br>• TariffClassification with HS/CN/TARIC codes and duty rates<br>• BorderCrossing with UN/LOCODE port codes and customs offices<br>• AEOStatus for trusted trader certification<br>• ImportAuthorization for restricted goods licensing | **COMPLETED** | • Real-time customs status API integration<br>• Tariff database integration (WTO, EU TARIC)<br>• Multi-modal transport tracking<br>• Trade compliance validation engines |
 | **4** | **ProductSpecification** | • Limited to physical dimensions only<br>• Missing basic material information<br>• Lack of universal applicability across product types<br>• No regulatory classification framework | • PhysicalAttributes with standardized units (weight in grams, dimensions in mm, volume in mm³/ml)<br>• MaterialIdentification with structured JSON format (material, percentage, country code)<br>• Optional material classification standards: UNSPSC codes, CAS registry numbers, ISO standard references<br>• RegulatoryClassification with GPC codes, GHS hazard classification, and CE marking categories<br>• Universal design with scientific notation support for any product type | **COMPLETED** | • Extended regulatory taxonomy integrations |
 
-### Development Priorities
+### Integration Opportunities
 
-**Current Status:** Steps 1-4 are **COMPLETED**:
-- **Steps 1-3**: Complete product identification, manufacturer details, and import/export compliance
-- **Step 4**: Complete product specifications with material classification standards
-- **Integration Focus**: GS1 Registry, Open Supply Hub, customs authorities, TARIC database integration
-- **Enhancement Opportunities**: Enhanced precision, material standards, and system integrations
-
-**Next Phase Focus:** Extended system integrations:
-- **Enhanced Step 4**: Integration with GPC registry, GHS database, and CE marking notification systems
-
-**Focused Product Profile Scope:** The model provides essential information to answer:
-- **"What is this product?"** (identification, classification, physical attributes)
-- **"Who made it and where?"** (manufacturer, facility, certification details)  
-- **"How did it get here?"** (import/export, customs, compliance)
-
-- **"What is it made of?"** (basic materials, composition, and physical properties)
-- **"How is it classified?"** (regulatory categories and safety classifications)
-
-**Implementation Dependencies:**
-- **GS1 Registry Integration**: GLN verification and lookup services
-- **Open Supply Hub API**: Facility verification and OSID integration  
-- **LEI Registry**: Legal Entity Identifier verification
-- **Customs Integration**: Real-time EORI validation and customs status
-- **TARIC Database**: Tariff classification validation and duty calculation
-- **UNTP Framework**: Product discoverability and identity resolution
-
-**Complementary Data Models** (Outside Product Profile Scope):
-- **Dynamic Traceability Model**: Real-time supply chain events, lifecycle tracking, ownership changes
-- **Product Specifications Model**: Detailed material composition, performance metrics, quality data
-- **DPP System Infrastructure Model**: Data carriers, access control, APIs, interoperability
-- **Commercial Information Model**: Pricing, costs, commercial terms, market data
+- **Standards Integration**: GS1 GLN Registry, Open Supply Hub, LEI Registry, UNTP Framework
+- **Regulatory Integration**: TARIC database, GPC registry, GHS database, CE marking systems
+- **Customs Integration**: Real-time EORI validation, customs status APIs, trade compliance engines
 
 
 ---
