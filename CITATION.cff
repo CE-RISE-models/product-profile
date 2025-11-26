@@ -3,7 +3,7 @@ title: CE-RISE Product Profile
 message: >-
   v0.0.1 - Initial revision and integration of data model.
 type: software
-doi: xxx_to_be_obtained_xxx
+doi: 10.5281/zenodo.17723238
 authors:
   - given-names: Riccardo
     family-names: Boero
@@ -16,7 +16,7 @@ authors:
     affiliation: NILU
 identifiers:
   - type: doi
-    value: xxx_to_be_obtained_xxx
+    value: 10.5281/zenodo.17723238
     description: This DOI represents all software versions.
 repository-code: 'https://codeberg.org/CE-RISE_models/product-profile'
 url: 'https://ce-rise-models.codeberg.page/product-profile/'
