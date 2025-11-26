@@ -21,7 +21,7 @@ identifiers:
 repository-code: 'https://codeberg.org/CE-RISE_models/product-profile'
 url: 'https://ce-rise-models.codeberg.page/product-profile/'
 abstract: >-
-  Core data model defining the mandatory Product Profile for any Digital Product Passport, including product attributes, manufacturer details, and traceability information.
+  Core data model defining the mandatory Product Profile for any Digital Product Passport, including product attributes, and origin.
 keywords:
   - CE-RISE
   - Data Model
