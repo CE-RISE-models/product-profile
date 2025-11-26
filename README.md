@@ -47,28 +47,21 @@ ProductIdentification (root)
 │   ├── UniqueOperatorIdentifier
 │   └── Website
 ├── 3. InformationRelatedToTheImporter
-│   └── EoriNumber
+│   ├── EoriNumber (validated format: 2-letter country + up to 15 alphanumeric)
+│   ├── CustomsDocumentation (MRN, declaration IDs, authorities, document URLs)
+│   ├── ImportExportOperation (trade operations with Incoterms, values, dates)
+│   ├── ImporterJurisdiction (EU 3-character country codes)
+│   ├── TariffClassification (HS, CN, TARIC codes with duty rates)
+│   ├── BorderCrossing (UN/LOCODE port codes, customs offices, crossing dates)
+│   ├── AEOStatus (Authorized Economic Operator certification)
+│   └── ImportAuthorization (licenses and permits for restricted goods)
 ├── 4. ProductTraceability
 │   ├── Date
 │   ├── LocationUniqueFacilityIdentifiers
-│   ├── OperatorsUniqueOperatorIdentifier
-│   ├── ActorTracking
-│   ├── ValueAddingActivityLocation
-│   ├── ProductHistory
-│   └── OwnershipEvent
-├── 5. ProductSpecification
-│   ├── ProductCostAndPricing
-│   ├── WeightAndVolumeOfTheProductAndItsPackaging
-│   ├── Material
-│   ├── PerformanceData
-│   └── QualityAndDurability
-└── 6. SpecificProductInformation
-    ├── DataAccessAndSecurity
-    │   ├── DataCarrier
-    │   ├── AccessLevel
-    │   ├── DataAccessLongevity
-    │   └── InteroperabilityMetadata
-    └── ProductDocumentation
+│   └── OperatorsUniqueOperatorIdentifier
+└── 5. ProductSpecification
+    ├── WeightAndVolumeOfTheProductAndItsPackaging
+    └── BasicMaterials (simple material names)
 ```
 
 ### Workflow Sequence
@@ -96,34 +89,26 @@ Manufacturer details with GS1-centric hierarchical structure:
 - **Website**: Manufacturer's website
 
 #### **Step 3: InformationRelatedToTheImporter**
-Import/export details - Contains the EoriNumber class
+Comprehensive import/export tracking and compliance with EU customs regulations:
+- **EoriNumber**: EU registration number with validated format (2-letter country code + up to 15 alphanumeric chars, e.g., GB123456789000)
+- **CustomsDocumentation**: Customs documents (MRN, declaration IDs) with issuing authorities and digital document URLs (PDF/DOC/images)
+- **ImportExportOperation**: Trade operations with type validation (IMPORT/EXPORT/TRANSIT/RE_EXPORT), dates, shipment IDs, quantities, Incoterms (FOB/CIF/EXW/DDP), and monetary values with currency codes
+- **ImporterJurisdiction**: Legal establishment country using EU Publications Office 3-character country codes for EORI validation
+- **TariffClassification**: International trade classification with 6-digit HS codes, 8-digit EU CN codes, 10-digit TARIC codes, descriptions, and duty rates
+- **BorderCrossing**: Border crossing tracking with UN/LOCODE port codes (e.g., DEHAM, NLRTM), customs office codes, and precise crossing timestamps
+- **AEOStatus**: Authorized Economic Operator certification (AEOC/AEOS/AEOF) for trusted trader benefits and trade facilitation
+- **ImportAuthorization**: Import licenses and permits for restricted goods with validity periods and issuing authorities
 
 #### **Step 4: ProductTraceability**
-Supply chain tracking with enhanced visibility:
+Basic supply chain tracking for essential traceability:
 - **Date**: Event timestamps for traceability
 - **LocationUniqueFacilityIdentifiers**: Basic location tracking
 - **OperatorsUniqueOperatorIdentifier**: Basic operator identification
-- **ActorTracking**: Enhanced supply chain actor identification and roles
-- **ValueAddingActivityLocation**: Precise value-adding activity tracking
-- **ProductHistory**: Comprehensive lifecycle history
-- **OwnershipEvent**: Ownership change tracking throughout product lifecycle
 
 #### **Step 5: ProductSpecification**
-Technical specifications with enhanced material and performance data:
-- **ProductCostAndPricing**: Economic information
-- **WeightAndVolumeOfTheProductAndItsPackaging**: Physical dimensions
-- **Material**: Material composition and characteristics (includes CRMs)
-- **PerformanceData**: Functionality and efficiency metrics
-- **QualityAndDurability**: Quality standards and durability measurements
-
-#### **Step 6: SpecificProductInformation**
-DPP metadata and product documentation:
-- **DataAccessAndSecurity**: Framework for DPP access and security
-  - **DataCarrier**: QR codes, RFID, NFC for DPP access
-  - **AccessLevel**: Access permissions and data privacy
-  - **DataAccessLongevity**: Data retention and availability policies
-  - **InteroperabilityMetadata**: APIs, formats, and standards for data exchange
-- **ProductDocumentation**: Product manuals and technical documentation
+Essential physical and material information:
+- **WeightAndVolumeOfTheProductAndItsPackaging**: Physical dimensions and packaging details
+- **BasicMaterials**: Simple material names for basic composition identification
 
 ### Data Properties
 
@@ -138,30 +123,37 @@ Each class has a corresponding value property (e.g., `name_value`, `company_id_v
 |------|-----------|-------------------------|----------------------|--------|--------------|
 | **1** | **GeneralProductInformation** | • Unique product identifier lacks precision and standards<br>• No reference integration with discoverability/registries<br>• Missing serial number and lot number storage<br>• No connection to standard product nomenclature<br>• No product description and branding<br>• No classification for grouping products | • Added GS1 prefix and ontology integration<br>• Implemented GTIN-14 + serial number approach<br>• Added Schema.org prefix<br>• Created GTIN-14, Serial number, Lot/batch number subclasses<br>• Added ProductImages (comma-separated image URLs with format validation)<br>• Added ProductType (3-digit GTIN prefix or alphanumeric classification)<br>• Referenced UNTP framework for discoverability | **COMPLETED** | • UNTP Identity Resolver integration |
 | **2** | **ManufacturersInformation** | • Incomplete description and separation of manufacturer facility and organization<br>• Lack of codification of facility and organization | • Implemented GS1-centric hierarchical model<br>• Added OrganizationEntity with GLN, LEI, VAT identification<br>• Added ManufacturingFacility with facility GLN and OSID<br>• Added GPS coordinates for precise facility location<br>• Renamed 'Company ID' to 'Organization identifier'<br>• Renamed 'Unique facility identifiers' to 'Facility identifier'<br>• Renamed 'Unique operator identifier' to 'Operator identifier' | **COMPLETED** | • GS1 GLN Registry integration<br>• Open Supply Hub API integration<br>• LEI code verification integration |
-| **3** | **InformationRelatedToTheImporter** | • Limited to EORI number only<br>• Missing comprehensive import/export tracking<br>• No customs documentation integration | • EORI number implementation with EU compliance | **BASIC** | • Customs documentation fields<br>• Import/export activity tracking<br>• Multi-jurisdiction support |
-| **4** | **ProductTraceability** | • Basic event tracking only<br>• No comprehensive supply chain visibility<br>• Missing chain of custody integration<br>• Limited location precision | • Date, location, and operator identifier classes<br>• Basic traceability structure<br>• **NEW:** Added ActorTracking for enhanced supply chain visibility<br>• **NEW:** Added ValueAddingActivityLocation for precise location tracking<br>• **NEW:** Added ProductHistory for comprehensive lifecycle tracking<br>• **NEW:** Added OwnershipEvent for ownership change tracking | **NEEDS SPECIFICATION** | • Actor role standardization (define actor types/functions)<br>• Location precision standards (GPS coordinates, facility codes)<br>• UNTP chain of custody integration<br>• Event type classification standards |
-| **5** | **ProductSpecification** | • Limited to cost/pricing and physical dimensions<br>• Missing technical specifications<br>• No performance data integration<br>• Missing regulatory compliance data | • Basic cost/pricing and weight/volume classes<br>• **NEW:** Added Material class for composition tracking<br>• **NEW:** Added PerformanceData for functionality/efficiency metrics<br>• **NEW:** Added QualityAndDurability for quality standards | **NEEDS SPECIFICATION** | • Material dictionary/nomenclature standard (ISO, UNSPSC, etc.)<br>• Composition format specification<br>• Performance metrics standardization<br>• Quality assessment standards reference<br>• Regulatory compliance tracking framework |
-| **6** | **SpecificProductInformation** | • Placeholder category with no structure<br>• No industry-specific extensions<br>• Missing sector-specific requirements<br>• No DPP metadata framework | • Basic class structure only<br>• **NEW:** Added DataAccessAndSecurity framework<br>• **NEW:** Added DataCarrier, AccessLevel, DataAccessLongevity<br>• **NEW:** Added InteroperabilityMetadata (APIs, formats, standards)<br>• **NEW:** Added ProductDocumentation for manuals/technical docs | **NEEDS SPECIFICATION** | • Data carrier format standards (QR, RFID specifications)<br>• Access level permission schemas<br>• Data retention policy standards<br>• API/format interoperability specifications<br>• Industry-specific extensions<br>• Sector-specific data models |
+| **3** | **InformationRelatedToTheImporter** | • Limited to EORI number only<br>• Missing comprehensive import/export tracking<br>• No customs documentation integration<br>• No tariff classification system<br>• Missing border crossing information | • EORI number with validated EU format (2-letter country + alphanumeric)<br>• CustomsDocumentation with MRN, declaration IDs, and document URLs<br>• ImportExportOperation with trade activity tracking and Incoterms<br>• ImporterJurisdiction with EU 3-character country codes<br>• TariffClassification with HS/CN/TARIC codes and duty rates<br>• BorderCrossing with UN/LOCODE port codes and customs offices<br>• AEOStatus for trusted trader certification<br>• ImportAuthorization for restricted goods licensing | **COMPLETED** | • Real-time customs status API integration<br>• Tariff database integration (WTO, EU TARIC)<br>• Multi-modal transport tracking<br>• Trade compliance validation engines |
+| **4** | **ProductTraceability** | • Basic event tracking only<br>• Simple supply chain visibility<br>• Focused on essential traceability needs | • Date, location, and operator identifier classes<br>• Streamlined traceability structure for core requirements<br>• Essential supply chain visibility without complexity | **COMPLETED** | • Integration with supply chain systems<br>• Enhanced location precision (GPS coordinates)<br>• UNTP chain of custody integration |
+| **5** | **ProductSpecification** | • Limited to physical dimensions only<br>• Missing basic material information | • WeightAndVolumeOfTheProductAndItsPackaging for physical attributes<br>• BasicMaterials for simple material identification<br>• Focused on essential product characteristics | **COMPLETED** | • Material dictionary integration<br>• Enhanced physical attribute standards<br>• Regulatory compliance alignment |
 
 ### Development Priorities
 
-**Next Phase Focus:** Step 2 is now completed with GS1-centric hierarchical model. Next priorities:
-- **Step 3 (Import Information)**: Expand beyond EORI to comprehensive import/export tracking
-- **Step 4-6 Specification Work**: Define standards for the NEEDS SPECIFICATION components
+**Current Status:** All 5 core Product Profile steps are now **COMPLETED** with focused, essential information:
+- **Steps 1-5**: Complete product identification, manufacturer details, import/export compliance, basic traceability, and essential specifications
+- **Integration Focus**: GS1 Registry, Open Supply Hub, customs authorities, TARIC database integration
+- **Enhancement Opportunities**: Enhanced precision, material standards, and system integrations
 
-**Specification Work Needed:** Steps with NEEDS SPECIFICATION status require:
-- **Step 4:** Actor role taxonomy, location precision standards
-- **Step 5:** Material dictionary selection (ISO 4000, UNSPSC, etc.), performance metrics standards
-- **Step 6:** Data carrier technical specifications, access level schemas, API formats
+**Focused Product Profile Scope:** The model now provides essential information to answer:
+- **"What is this product?"** (identification, classification, physical attributes)
+- **"Who made it and where?"** (manufacturer, facility, certification details)  
+- **"How did it get here?"** (import/export, customs, compliance)
+- **"Where has it been?"** (basic traceability events)
+- **"What is it made of?"** (basic materials and physical properties)
 
-**Key Dependencies:**
+**Implementation Dependencies:**
 - **GS1 Registry Integration**: GLN verification and lookup services
 - **Open Supply Hub API**: Facility verification and OSID integration  
 - **LEI Registry**: Legal Entity Identifier verification
-- UNTP framework maturation for discoverability features
-- Material classification standard selection and implementation
-- DPP access technology standards (for data carriers)
-- Quality assessment standard integration (ISO 9001, sector-specific)
+- **Customs Integration**: Real-time EORI validation and customs status
+- **TARIC Database**: Tariff classification validation and duty calculation
+- **UNTP Framework**: Product discoverability and identity resolution
+
+**Separated Concerns:**
+- **Detailed Product Specifications**: Complex material composition, performance metrics → Separate model
+- **DPP System Infrastructure**: Data carriers, access control, APIs → Separate model  
+- **Advanced Traceability**: Detailed supply chain events, ownership tracking → Separate model
+- **Commercial Information**: Pricing, costs, commercial terms → Separate model
 
 
 ---

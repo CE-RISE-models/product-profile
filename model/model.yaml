@@ -13,6 +13,7 @@ prefixes:
     xsd: http://www.w3.org/2001/XMLSchema#
     rdfs: http://www.w3.org/2000/01/rdf-schema#
     gs1: https://ref.gs1.org/voc/
+    eu_country: http://publications.europa.eu/resource/authority/country/
 
 default_prefix: prod_prof
 default_range: string
@@ -55,98 +56,18 @@ slots:
             owl.filler: prod_prof:typeValue
 
     # Actor tracking for enhanced traceability
-    actor_identifier_unique_operator_identifier_value:
-        description: "Actor identifier (Unique operator identifier) for enhanced supply chain tracking"
-        range: string
-        annotations:
-            owl.filler: prod_prof:actorIdentifierUniqueOperatorIdentifierValue
-
-    actor_name_value:
-        description: "Actor name in supply chain"
-        range: string
-        annotations:
-            owl.filler: prod_prof:actorNameValue
-
-    actor_type_and_function_value:
-        description: "Actor type and function in supply chain"
-        range: string
-        annotations:
-            owl.filler: prod_prof:actorTypeAndFunctionValue
-
-    location_of_value_adding_activity_unique_facility_identifiers_value:
-        description: "Location of value-adding activity (Unique facility identifiers)"
-        range: string
-        annotations:
-            owl.filler: prod_prof:locationOfValueaddingActivityUniqueFacilityIdentifiersValue
-
-    product_history_value:
-        description: "Comprehensive product history tracking"
-        range: string
-        annotations:
-            owl.filler: prod_prof:productHistoryValue
 
     # Material composition
-    material_type_includes_crms_value:
-        description: "Material type (includes CRMs) - needs standardized material dictionary specification"
-        range: string
-        annotations:
-            owl.filler: prod_prof:materialTypeIncludesCrmsValue
 
     materials_name_value:
-        description: "Materials name - requires reference to material nomenclature standard"
+        description: "Basic material names for product composition"
         range: string
         annotations:
             owl.filler: prod_prof:materialsNameValue
 
-    detailed_composition_value:
-        description: "Detailed composition value - needs composition format specification"
-        range: float
-        annotations:
-            owl.filler: prod_prof:detailedCompositionValue
-
     # Performance and quality
-    performance_data_on_functionality_and_efficiency_value:
-        description: "Performance data on the functionality and efficiency of the product"
-        range: string
-        annotations:
-            owl.filler: prod_prof:performanceDataOnTheFunctionalityAndEfficiencyOfTheProductValue
-
-    performance_data_on_use_value:
-        description: "Performance data on the use of the product"
-        range: string
-        annotations:
-            owl.filler: prod_prof:performanceDataOnTheUseOfTheProductValue
-
-    quality_characteristics_value:
-        description: "Quality characteristics - needs quality standard specification"
-        range: string
-        annotations:
-            owl.filler: prod_prof:qualityCharacteristicsValue
-
-    durability_and_reliability_value:
-        description: "Durability and reliability metrics"
-        range: string
-        annotations:
-            owl.filler: prod_prof:durabilityAndReliabilityValue
-
-    lifespan_of_product_value:
-        description: "Lifespan of the product"
-        range: string
-        annotations:
-            owl.filler: prod_prof:lifespanOfTheProductValue
 
     # Documentation
-    product_manual_value:
-        description: "Product manual reference or content"
-        range: string
-        annotations:
-            owl.filler: prod_prof:productManualValue
-
-    technical_documentation_value:
-        description: "Technical documentation reference or content"
-        range: string
-        annotations:
-            owl.filler: prod_prof:technicalDocumentationValue
 
     # Organization identification
     organization_gln_value:
@@ -182,11 +103,11 @@ slots:
             owl.filler: prod_prof:companyRegistrationValue
 
     country_of_incorporation_value:
-        description: "Country of incorporation - ISO 3166-1 alpha-2 code"
+        description: "Country of incorporation using EU Publications Office 3-character country codes"
         range: string
-        pattern: "^[A-Z]{2}$"
+        pattern: "^[A-Z]{3}$"
         annotations:
-            owl.filler: prod_prof:countryOfIncorporationValue
+            owl.filler: eu_country:countryOfIncorporationValue
 
     # Facility identification
     facility_gln_value:
@@ -235,10 +156,196 @@ slots:
             owl.filler: prod_prof:dateValue
 
     eori_number_value:
-        description: "EORI number value - European Union registration and identification number for import/export businesses"
+        description: "EORI number value - 2-letter country code followed by up to 15 alphanumeric characters (e.g., GB123456789000, DE987654321)"
         range: string
+        pattern: "^[A-Z]{2}[A-Z0-9]{1,15}$"
         annotations:
             owl.filler: prod_prof:eoriNumberValue
+
+    # Customs documentation fields
+    customs_document_type_value:
+        description: "Type of customs document (e.g., MRN, declaration ID, customs certificate)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:customsDocumentTypeValue
+
+    customs_document_id_value:
+        description: "Unique identifier of the customs document"
+        range: string
+        annotations:
+            owl.filler: prod_prof:customsDocumentIdValue
+
+    customs_issuing_authority_value:
+        description: "Authority that issued the customs document"
+        range: string
+        annotations:
+            owl.filler: prod_prof:customsIssuingAuthorityValue
+
+    customs_document_urls_value:
+        description: "URLs or references to digital copies of customs documents (comma-separated)"
+        range: string
+        pattern: "^https://.*\\.(pdf|doc|docx|jpg|jpeg|png|gif|bmp|webp)(,\\s*https://.*\\.(pdf|doc|docx|jpg|jpeg|png|gif|bmp|webp))*$"
+        annotations:
+            owl.filler: prod_prof:customsDocumentUrlsValue
+
+    # Operation fields
+    operation_type_value:
+        description: "Type of import/export operation (IMPORT, EXPORT, TRANSIT, RE_EXPORT)"
+        range: string
+        pattern: "^(IMPORT|EXPORT|TRANSIT|RE_EXPORT)$"
+        annotations:
+            owl.filler: prod_prof:operationTypeValue
+
+    operation_date_value:
+        description: "Date of the import/export operation (ISO 8601 format)"
+        range: string
+        pattern: "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2}))?$"
+        annotations:
+            owl.filler: prod_prof:operationDateValue
+
+    shipment_transaction_id_value:
+        description: "Unique identifier for the shipment or transaction"
+        range: string
+        annotations:
+            owl.filler: prod_prof:shipmentTransactionIdValue
+
+    operation_quantities_value:
+        description: "Quantities involved in the operation with units (e.g., 1000 kg, 500 pieces)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:operationQuantitiesValue
+
+    incoterms_value:
+        description: "International commercial terms (e.g., FOB, CIF, EXW, DDP)"
+        range: string
+        pattern: "^(EXW|FCA|FAS|FOB|CFR|CIF|CPT|CIP|DAT|DAP|DDP)$"
+        annotations:
+            owl.filler: prod_prof:incotermsValue
+
+    operation_value_amount_value:
+        description: "Monetary value of the operation with currency code (e.g., 15000.00 EUR)"
+        range: string
+        pattern: "^\\d+(\\.\\d{2})?\\s+[A-Z]{3}$"
+        annotations:
+            owl.filler: prod_prof:operationValueAmountValue
+
+    # Jurisdiction field
+    jurisdiction_country_value:
+        description: "Country of importer's legal establishment using EU Publications Office 3-character country codes"
+        range: string
+        pattern: "^[A-Z]{3}$"
+        annotations:
+            owl.filler: eu_country:jurisdictionCountryValue
+
+    # Tariff classification fields
+    hs_code_value:
+        description: "6-digit Harmonized System code for international trade classification"
+        range: string
+        pattern: "^[0-9]{6}$"
+        annotations:
+            owl.filler: prod_prof:hsCodeValue
+
+    cn_code_value:
+        description: "8-digit Combined Nomenclature code used in EU customs"
+        range: string
+        pattern: "^[0-9]{8}$"
+        annotations:
+            owl.filler: prod_prof:cnCodeValue
+
+    taric_code_value:
+        description: "10-digit TARIC (Integrated Tariff of European Communities) code"
+        range: string
+        pattern: "^[0-9]{10}$"
+        annotations:
+            owl.filler: prod_prof:taricCodeValue
+
+    tariff_description_value:
+        description: "Human-readable description of the tariff classification"
+        range: string
+        annotations:
+            owl.filler: prod_prof:tariffDescriptionValue
+
+    duty_rate_value:
+        description: "Applied customs duty rate as percentage (e.g., 12.5)"
+        range: float
+        annotations:
+            owl.filler: prod_prof:dutyRateValue
+
+    # Border crossing fields
+    entry_port_code_value:
+        description: "UN/LOCODE port/airport code where goods entered (e.g., DEHAM, NLRTM)"
+        range: string
+        pattern: "^[A-Z]{2}[A-Z0-9]{3}$"
+        annotations:
+            owl.filler: prod_prof:entryPortCodeValue
+
+    exit_port_code_value:
+        description: "UN/LOCODE port/airport code where goods exited (e.g., GBFXT, FRMRS)"
+        range: string
+        pattern: "^[A-Z]{2}[A-Z0-9]{3}$"
+        annotations:
+            owl.filler: prod_prof:exitPortCodeValue
+
+    border_crossing_date_value:
+        description: "Actual border crossing timestamp in ISO 8601 format"
+        range: string
+        pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2})$"
+        annotations:
+            owl.filler: prod_prof:borderCrossingDateValue
+
+    customs_office_code_value:
+        description: "Responsible customs office code (e.g., DE005300 for Hamburg)"
+        range: string
+        pattern: "^[A-Z]{2}[0-9]{6}$"
+        annotations:
+            owl.filler: prod_prof:customsOfficeCodeValue
+
+    # AEO status fields
+    aeo_certificate_number_value:
+        description: "Authorized Economic Operator certificate number"
+        range: string
+        annotations:
+            owl.filler: prod_prof:aeoCertificateNumberValue
+
+    aeo_type_value:
+        description: "Type of AEO certification (AEOC, AEOS, AEOF)"
+        range: string
+        pattern: "^(AEOC|AEOS|AEOF)$"
+        annotations:
+            owl.filler: prod_prof:aeoTypeValue
+
+    aeo_validity_date_value:
+        description: "AEO certificate validity end date in ISO 8601 format"
+        range: string
+        pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+        annotations:
+            owl.filler: prod_prof:aeoValidityDateValue
+
+    # Import authorization fields
+    import_license_number_value:
+        description: "Import license or permit number for restricted goods"
+        range: string
+        annotations:
+            owl.filler: prod_prof:importLicenseNumberValue
+
+    permit_type_value:
+        description: "Type of import permit or license required"
+        range: string
+        annotations:
+            owl.filler: prod_prof:permitTypeValue
+
+    permit_issuing_authority_value:
+        description: "Authority that issued the import permit or license"
+        range: string
+        annotations:
+            owl.filler: prod_prof:permitIssuingAuthorityValue
+
+    permit_validity_period_value:
+        description: "Permit validity period (start and end dates)"
+        range: string
+        pattern: "^\\d{4}-\\d{2}-\\d{2}/\\d{4}-\\d{2}-\\d{2}$"
+        annotations:
+            owl.filler: prod_prof:permitValidityPeriodValue
 
     location_unique_facility_identifiers_value:
         description: "Unique facility identifiers for locations involved in the value chain"
@@ -269,12 +376,6 @@ slots:
         range: string
         annotations:
             owl.filler: prod_prof:postalAddressValue
-
-    product_cost_and_pricing_value:
-        description: "Product cost and pricing information"
-        range: string
-        annotations:
-            owl.filler: prod_prof:productCostAndPricingValue
 
     registered_trade_name_or_trade_mark_value:
         description: "Registered trade name or trademark - officially registered business name or trademark symbol"
@@ -375,74 +476,6 @@ classes:
         annotations:
             sql_identifier: "specific_product_information"
 
-    DataAccessAndSecurity:
-        is_a: SpecificProductInformation
-        class_uri: prod_prof:dataAccessAndSecurity
-        description: "Digital Product Passport access and security metadata"
-        comments:
-            - "Framework for DPP data access, security, and interoperability"
-            - "Essential for DPP implementation and compliance"
-        annotations:
-            sql_identifier: "data_access_and_security"
-
-    DataCarrier:
-        is_a: DataAccessAndSecurity
-        class_uri: prod_prof:dataCarrier
-        description: "Data carrier information for DPP access"
-        comments:
-            - "QR codes, DataMatrix, RFID tags (NFC, RAIN RFID), BLE for DPP access"
-            - "Used on product label and online for accessing DPP information portal"
-            - "Reference: CircThread project Guidelines"
-        annotations:
-            sql_identifier: "data_carrier"
-
-    AccessLevel:
-        is_a: DataAccessAndSecurity
-        class_uri: prod_prof:accessLevel
-        description: "Access level permissions for DPP data"
-        comments:
-            - "Defines who can access what level of product information"
-            - "Critical for regulatory compliance and data privacy"
-        annotations:
-            sql_identifier: "access_level"
-
-    DataAccessLongevity:
-        is_a: DataAccessAndSecurity
-        class_uri: prod_prof:dataAccessLongevity
-        description: "Data access longevity and retention policies"
-        comments:
-            - "How long DPP data remains accessible and available"
-            - "Important for lifecycle management and compliance"
-        annotations:
-            sql_identifier: "data_access_longevity"
-
-    InteroperabilityMetadata:
-        is_a: DataAccessAndSecurity
-        class_uri: prod_prof:interoperabilityMetadata
-        description: "Interoperability metadata for DPP systems"
-        comments:
-            - "APIs, formats, and standards for DPP data exchange"
-            - "Ensures system interoperability and data portability"
-        annotations:
-            sql_identifier: "interoperability_metadata"
-
-    ProductDocumentation:
-        is_a: SpecificProductInformation
-        class_uri: prod_prof:productDocumentation
-        description: "Product manuals and technical documentation"
-        comments:
-            - "References to or content of product manuals and technical docs"
-            - "Essential for product use, maintenance, and end-of-life management"
-        attributes:
-            product_manual_value:
-                range: string
-                required: false
-            technical_documentation_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "product_documentation"
-
     # Step 2 subclasses - General product information
     LotBatchNumber:
         is_a: GeneralProductInformation
@@ -451,7 +484,7 @@ classes:
         attributes:
             lot_batch_number_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "lot_batch_number"
 
@@ -464,7 +497,7 @@ classes:
         attributes:
             gtin_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "gtin_14"
 
@@ -475,7 +508,7 @@ classes:
         attributes:
             serial_number_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "serial_number"
 
@@ -545,16 +578,16 @@ classes:
                 required: false
             legal_name_value:
                 range: string
-                required: true
+                required: false
             vat_number_value:
                 range: string
                 required: false
             company_registration_value:
                 range: string
-                required: true
+                required: false
             country_of_incorporation_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "organization_entity"
 
@@ -579,10 +612,10 @@ classes:
                 required: false
             facility_name_value:
                 range: string
-                required: true
+                required: false
             facility_type_value:
                 range: string
-                required: true
+                required: false
             coordinates_value:
                 range: string
                 required: false
@@ -601,7 +634,7 @@ classes:
         attributes:
             name_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "name"
 
@@ -616,7 +649,7 @@ classes:
         attributes:
             manufacturing_date_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "manufacturing_date"
 
@@ -632,7 +665,7 @@ classes:
         attributes:
             postal_address_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "postal_address"
 
@@ -648,7 +681,7 @@ classes:
         attributes:
             registered_trade_name_or_trade_mark_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "registered_trade_name_or_trade"
 
@@ -664,7 +697,7 @@ classes:
         attributes:
             unique_facility_identifiers_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "unique_facility_identifiers"
 
@@ -679,7 +712,7 @@ classes:
         attributes:
             unique_operator_identifier_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "unique_operator_identifier"
 
@@ -694,7 +727,7 @@ classes:
         attributes:
             website_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "website"
 
@@ -711,9 +744,181 @@ classes:
         attributes:
             eori_number_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "eori_number"
+
+    CustomsDocumentation:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:customsDocumentation
+        description: "Customs documents linked to import operations for verification and traceability"
+        comments:
+            - "Provides verifiable link between EORI and specific customs filings"
+            - "Supports audit trails and compliance verification"
+            - "Document types include MRN, declaration IDs, customs certificates"
+            - "URLs enable access to digital document copies"
+        attributes:
+            customs_document_type_value:
+                range: string
+                required: false
+            customs_document_id_value:
+                range: string
+                required: false
+            customs_issuing_authority_value:
+                range: string
+                required: false
+            customs_document_urls_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "customs_documentation"
+
+    ImportExportOperation:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:importExportOperation
+        description: "Individual import or export operation providing activity history for EORI holder"
+        comments:
+            - "Tracks specific trade operations with dates and transaction details"
+            - "Includes commercial terms (Incoterms) and monetary values"
+            - "Supports supply chain visibility and trade compliance"
+            - "Links to shipment tracking and customs processing"
+        attributes:
+            operation_type_value:
+                range: string
+                required: false
+            operation_date_value:
+                range: string
+                required: false
+            shipment_transaction_id_value:
+                range: string
+                required: false
+            operation_quantities_value:
+                range: string
+                required: false
+            incoterms_value:
+                range: string
+                required: false
+            operation_value_amount_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "import_export_operation"
+
+    ImporterJurisdiction:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:importerJurisdiction
+        description: "Legal jurisdiction of importer's establishment for EORI validation"
+        comments:
+            - "Ensures EORI validation in correct national system"
+            - "Links to EU Publications Office country authority"
+            - "Required for cross-border trade compliance"
+            - "Supports multi-jurisdictional import operations"
+        attributes:
+            jurisdiction_country_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "importer_jurisdiction"
+
+    TariffClassification:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:tariffClassification
+        description: "Customs tariff classification codes for proper duty calculation and trade statistics"
+        comments:
+            - "HS codes are internationally standardized 6-digit classification system"
+            - "CN codes extend HS with 2 additional digits for EU-specific classification"
+            - "TARIC codes add 4 more digits for detailed EU tariff measures"
+            - "Essential for customs declarations and duty calculations"
+        attributes:
+            hs_code_value:
+                range: string
+                required: false
+            cn_code_value:
+                range: string
+                required: false
+            taric_code_value:
+                range: string
+                required: false
+            tariff_description_value:
+                range: string
+                required: false
+            duty_rate_value:
+                range: float
+                required: false
+        annotations:
+            sql_identifier: "tariff_classification"
+
+    BorderCrossing:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:borderCrossing
+        description: "Border crossing and customs clearance location information"
+        comments:
+            - "UN/LOCODE standard port and airport codes for precise location tracking"
+            - "Customs office codes follow ISO format for responsible office identification"
+            - "Essential for supply chain traceability and customs audit trails"
+            - "Supports multi-modal transport tracking (sea, air, land, rail)"
+        attributes:
+            entry_port_code_value:
+                range: string
+                required: false
+            exit_port_code_value:
+                range: string
+                required: false
+            border_crossing_date_value:
+                range: string
+                required: false
+            customs_office_code_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "border_crossing"
+
+    AEOStatus:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:aeoStatus
+        description: "Authorized Economic Operator certification for trusted trader status"
+        comments:
+            - "AEOC: Customs simplifications (reduced controls, priority treatment)"
+            - "AEOS: Security and safety benefits (reduced security checks)"
+            - "AEOF: Full AEO status combining both customs and security benefits"
+            - "Provides trade facilitation and reduced compliance burden"
+        attributes:
+            aeo_certificate_number_value:
+                range: string
+                required: false
+            aeo_type_value:
+                range: string
+                required: false
+            aeo_validity_date_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "aeo_status"
+
+    ImportAuthorization:
+        is_a: InformationRelatedToTheImporter
+        class_uri: prod_prof:importAuthorization
+        description: "Import licenses and permits required for restricted or controlled goods"
+        comments:
+            - "Required for products subject to import restrictions or quotas"
+            - "Includes licenses for dual-use goods, pharmaceuticals, chemicals, etc."
+            - "Links to national and EU-level authorization systems"
+            - "Essential for compliance with trade control regulations"
+        attributes:
+            import_license_number_value:
+                range: string
+                required: false
+            permit_type_value:
+                range: string
+                required: false
+            permit_issuing_authority_value:
+                range: string
+                required: false
+            permit_validity_period_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "import_authorization"
 
     # Step 5 subclasses - Product traceability
     Date:
@@ -727,7 +932,7 @@ classes:
         attributes:
             date_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "date"
 
@@ -741,7 +946,7 @@ classes:
         attributes:
             location_unique_facility_identifiers_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "location_unique_facility_iden"
 
@@ -755,81 +960,11 @@ classes:
         attributes:
             operators_unique_operator_identifier_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "operators_unique_operator_ide"
 
-    ActorTracking:
-        is_a: ProductTraceability
-        class_uri: prod_prof:actorTracking
-        description: "Enhanced actor tracking in supply chain"
-        comments:
-            - "Comprehensive actor identification and role tracking"
-            - "Enhances supply chain visibility beyond basic operator identification"
-        attributes:
-            actor_identifier_unique_operator_identifier_value:
-                range: string
-                required: false
-            actor_name_value:
-                range: string
-                required: false
-            actor_type_and_function_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "actor_tracking"
-
-    ValueAddingActivityLocation:
-        is_a: ProductTraceability
-        class_uri: prod_prof:valueAddingActivityLocation
-        description: "Location of value-adding activities in supply chain"
-        comments:
-            - "Tracks specific locations where value is added to the product"
-            - "Enhances location precision beyond basic facility identification"
-        attributes:
-            location_of_value_adding_activity_unique_facility_identifiers_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "value_adding_activity_location"
-
-    ProductHistory:
-        is_a: ProductTraceability
-        class_uri: prod_prof:productHistory
-        description: "Comprehensive product history tracking"
-        comments:
-            - "Complete lifecycle history of the product"
-            - "Aggregated view of all product events and modifications"
-        attributes:
-            product_history_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "product_history"
-
-    OwnershipEvent:
-        is_a: ProductTraceability
-        class_uri: prod_prof:ownershipEvent
-        description: "Ownership change events throughout product lifecycle"
-        comments:
-            - "Tracks ownership transfers and periods"
-            - "Important for circular economy and product responsibility"
-        annotations:
-            sql_identifier: "ownership_event"
-
     # Step 6 subclasses - Product specifications
-    ProductCostAndPricing:
-        is_a: ProductSpecification
-        class_uri: prod_prof:productCostAndPricing
-        description: "Product cost and pricing information"
-        comments:
-            - "Relevant Document: Deliverable 1.1"
-        attributes:
-            product_cost_and_pricing_value:
-                range: string
-                required: true
-        annotations:
-            sql_identifier: "product_cost_and_pricing"
 
     WeightAndVolumeOfTheProductAndItsPackaging:
         is_a: ProductSpecification
@@ -841,64 +976,20 @@ classes:
         attributes:
             weight_and_volume_of_the_product_and_its_packaging_value:
                 range: string
-                required: true
+                required: false
         annotations:
             sql_identifier: "weight_and_volume_of_the_produ"
 
-    Material:
+    BasicMaterials:
         is_a: ProductSpecification
-        class_uri: prod_prof:material
-        description: "Material composition and characteristics"
+        class_uri: prod_prof:basicMaterials
+        description: "Basic material information for product composition"
         comments:
-            - "Material identification and composition details"
-            - "Requires standardized material dictionary or nomenclature reference"
-            - "Should integrate with material classification standards"
+            - "Simple material identification without detailed composition"
+            - "Suitable for basic product profile requirements"
         attributes:
-            material_type_includes_crms_value:
-                range: string
-                required: false
             materials_name_value:
                 range: string
                 required: false
-            detailed_composition_value:
-                range: float
-                required: false
         annotations:
-            sql_identifier: "material"
-
-    PerformanceData:
-        is_a: ProductSpecification
-        class_uri: prod_prof:performanceData
-        description: "Product performance and functionality data"
-        comments:
-            - "Comprehensive performance metrics and efficiency data"
-            - "Addresses missing performance data integration in specifications"
-        attributes:
-            performance_data_on_functionality_and_efficiency_value:
-                range: string
-                required: false
-            performance_data_on_use_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "performance_data"
-
-    QualityAndDurability:
-        is_a: ProductSpecification
-        class_uri: prod_prof:qualityAndDurability
-        description: "Quality characteristics and durability metrics"
-        comments:
-            - "Quality standards and durability/reliability measurements"
-            - "Requires reference to quality assessment standards"
-        attributes:
-            quality_characteristics_value:
-                range: string
-                required: false
-            durability_and_reliability_value:
-                range: string
-                required: false
-            lifespan_of_product_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "quality_and_durability"
+            sql_identifier: "basic_materials"
