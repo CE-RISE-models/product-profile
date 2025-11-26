@@ -149,11 +149,85 @@ slots:
         annotations:
             owl.filler: prod_prof:technicalDocumentationValue
 
-    company_id_value:
-        description: "Company ID value - Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV"
+    # Organization identification
+    organization_gln_value:
+        description: "Organization GLN (Global Location Number) - 13-digit GS1 identifier for the legal entity"
+        range: string
+        pattern: "^[0-9]{13}$"
+        annotations:
+            owl.filler: prod_prof:organizationGlnValue
+
+    lei_code_value:
+        description: "Legal Entity Identifier - 20-character ISO 17442 identifier"
+        range: string
+        pattern: "^[A-Z0-9]{18}[0-9]{2}$"
+        annotations:
+            owl.filler: prod_prof:leiCodeValue
+
+    legal_name_value:
+        description: "Legal name of the organization"
         range: string
         annotations:
-            owl.filler: prod_prof:companyIdValue
+            owl.filler: prod_prof:legalNameValue
+
+    vat_number_value:
+        description: "VAT registration number"
+        range: string
+        annotations:
+            owl.filler: prod_prof:vatNumberValue
+
+    company_registration_value:
+        description: "Local company registration number"
+        range: string
+        annotations:
+            owl.filler: prod_prof:companyRegistrationValue
+
+    country_of_incorporation_value:
+        description: "Country of incorporation - ISO 3166-1 alpha-2 code"
+        range: string
+        pattern: "^[A-Z]{2}$"
+        annotations:
+            owl.filler: prod_prof:countryOfIncorporationValue
+
+    # Facility identification
+    facility_gln_value:
+        description: "Facility GLN (Global Location Number) - 13-digit GS1 identifier for the physical facility"
+        range: string
+        pattern: "^[0-9]{13}$"
+        annotations:
+            owl.filler: prod_prof:facilityGlnValue
+
+    parent_gln_value:
+        description: "Parent organization GLN - links facility to parent organization"
+        range: string
+        pattern: "^[0-9]{13}$"
+        annotations:
+            owl.filler: prod_prof:parentGlnValue
+
+    osid_value:
+        description: "Open Supply Hub ID for facility verification"
+        range: string
+        annotations:
+            owl.filler: prod_prof:osidValue
+
+    facility_name_value:
+        description: "Name of the manufacturing facility"
+        range: string
+        annotations:
+            owl.filler: prod_prof:facilityNameValue
+
+    facility_type_value:
+        description: "Type of facility - MANUFACTURING, ASSEMBLY, PACKAGING, TESTING, etc."
+        range: string
+        annotations:
+            owl.filler: prod_prof:facilityTypeValue
+
+    coordinates_value:
+        description: "GPS coordinates of the facility (latitude,longitude)"
+        range: string
+        pattern: "^-?[0-9]{1,2}\\.[0-9]+,-?[0-9]{1,3}\\.[0-9]+$"
+        annotations:
+            owl.filler: prod_prof:coordinatesValue
 
     date_value:
         description: "Date value for traceability events"
@@ -454,21 +528,67 @@ classes:
         annotations:
             sql_identifier: "unique_product_identifier"
 
-    # Step 3 subclasses - Manufacturer information
-    CompanyId:
+    # Step 3 subclasses - Manufacturer information (GS1-centric hierarchical model)
+    OrganizationEntity:
         is_a: ManufacturersInformation
-        class_uri: prod_prof:companyId
-        description: "Company ID - Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV"
+        class_uri: prod_prof:organizationEntity
+        description: "Legal entity information with GS1 GLN as preferred identifier"
         comments:
-            - "Individual, GS1 GLN, IEC 61406, SKU ID, OAR ID, UUID, DNV. (CIRPASS)"
-            - "Mandatory: information used in initiatives"
-            - "Relevant Document: CIRPASS"
+            - "Hierarchical organization identification supporting GS1 GLN as primary standard"
+            - "Fallback support for LEI, VAT, and local registration numbers"
+            - "Addresses separation of legal entity from physical facilities"
         attributes:
-            company_id_value:
+            organization_gln_value:
+                range: string
+                required: false
+            lei_code_value:
+                range: string
+                required: false
+            legal_name_value:
+                range: string
+                required: true
+            vat_number_value:
+                range: string
+                required: false
+            company_registration_value:
+                range: string
+                required: true
+            country_of_incorporation_value:
                 range: string
                 required: true
         annotations:
-            sql_identifier: "company_id"
+            sql_identifier: "organization_entity"
+
+    ManufacturingFacility:
+        is_a: ManufacturersInformation
+        class_uri: prod_prof:manufacturingFacility
+        description: "Physical manufacturing facility with GS1 GLN and hierarchical linking"
+        comments:
+            - "Physical facility identification separate from legal entity"
+            - "GS1 GLN preferred with parent organization linking"
+            - "Integration with Open Supply Hub for facility verification"
+            - "GPS coordinates for precise location tracking"
+        attributes:
+            facility_gln_value:
+                range: string
+                required: false
+            parent_gln_value:
+                range: string
+                required: false
+            osid_value:
+                range: string
+                required: false
+            facility_name_value:
+                range: string
+                required: true
+            facility_type_value:
+                range: string
+                required: true
+            coordinates_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "manufacturing_facility"
 
     Name:
         is_a: ManufacturersInformation
