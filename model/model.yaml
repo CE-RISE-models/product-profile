@@ -44,7 +44,7 @@ slots:
     images_value:
         description: "Product images for branding/visual identification - comma-separated list of image URLs"
         range: string
-        pattern: "^https?://.*(\.(jpg|jpeg|png|gif|bmp|webp))(,\s*https?://.*(\.(jpg|jpeg|png|gif|bmp|webp)))*$"
+        pattern: "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)(,\\s*https?://.*\\.(jpg|jpeg|png|gif|bmp|webp))*$"
         annotations:
             owl.filler: prod_prof:imagesValue
 
@@ -417,7 +417,7 @@ classes:
             images_value:
                 range: string
                 required: false
-                pattern: "^https?://.*(\.(jpg|jpeg|png|gif|bmp|webp))(,\s*https?://.*(\.(jpg|jpeg|png|gif|bmp|webp)))*$"
+                pattern: "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)(,\\s*https?://.*\\.(jpg|jpeg|png|gif|bmp|webp))*$"
         annotations:
             sql_identifier: "product_images"
 
