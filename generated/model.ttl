@@ -1,0 +1,1203 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix prod_prof: <https://ce-rise-models.codeberg.page/product-profile/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://ce-rise-models.codeberg.page/product-profile/.owl.ttl> a owl:Ontology ;
+    rdfs:label "product-profile" ;
+    dcterms:license "CC BY-NC 4.0" ;
+    dcterms:title "CE-RISE Product Profile Data Model" ;
+    pav:version "0.0.1" ;
+    skos:definition """Core data model defining the mandatory Product Profile for Digital Product Passports, including product attributes, manufacturer details, and traceability information.
+""" .
+
+prod_prof:AccessLevel a owl:Class ;
+    rdfs:label "AccessLevel" ;
+    rdfs:subClassOf prod_prof:DataAccessAndSecurity ;
+    skos:definition "Access level permissions for DPP data" ;
+    skos:exactMatch prod_prof:accessLevel ;
+    skos:inScheme prod_prof: ;
+    skos:note "Critical for regulatory compliance and data privacy",
+        "Defines who can access what level of product information" ;
+    prod_prof:sql_identifier "access_level" .
+
+prod_prof:ActorTracking a owl:Class ;
+    rdfs:label "ActorTracking" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:actor_identifier_unique_operator_identifier_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:actor_type_and_function_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:actor_identifier_unique_operator_identifier_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:actor_type_and_function_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:actor_name_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:actor_name_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:actor_type_and_function_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:actor_identifier_unique_operator_identifier_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:actor_name_value ],
+        prod_prof:ProductTraceability ;
+    skos:definition "Enhanced actor tracking in supply chain" ;
+    skos:exactMatch prod_prof:actorTracking ;
+    skos:inScheme prod_prof: ;
+    skos:note "Comprehensive actor identification and role tracking",
+        "Enhances supply chain visibility beyond basic operator identification" ;
+    prod_prof:sql_identifier "actor_tracking" .
+
+prod_prof:DataAccessLongevity a owl:Class ;
+    rdfs:label "DataAccessLongevity" ;
+    rdfs:subClassOf prod_prof:DataAccessAndSecurity ;
+    skos:definition "Data access longevity and retention policies" ;
+    skos:exactMatch prod_prof:dataAccessLongevity ;
+    skos:inScheme prod_prof: ;
+    skos:note "How long DPP data remains accessible and available",
+        "Important for lifecycle management and compliance" ;
+    prod_prof:sql_identifier "data_access_longevity" .
+
+prod_prof:DataCarrier a owl:Class ;
+    rdfs:label "DataCarrier" ;
+    rdfs:subClassOf prod_prof:DataAccessAndSecurity ;
+    skos:definition "Data carrier information for DPP access" ;
+    skos:exactMatch prod_prof:dataCarrier ;
+    skos:inScheme prod_prof: ;
+    skos:note "QR codes, DataMatrix, RFID tags (NFC, RAIN RFID), BLE for DPP access",
+        "Reference: CircThread project Guidelines",
+        "Used on product label and online for accessing DPP information portal" ;
+    prod_prof:sql_identifier "data_carrier" .
+
+prod_prof:Date a owl:Class ;
+    rdfs:label "Date" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:date_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:date_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:date_value ],
+        prod_prof:ProductTraceability ;
+    skos:definition "Date information for traceability events" ;
+    skos:exactMatch prod_prof:date ;
+    skos:inScheme prod_prof: ;
+    skos:note "Mandatory: information used in initiatives",
+        "Product traceability information is defined as event data related to the history, time and location of activities on the product. E.g.: transport that operator conducting the transport, date, location. (inspired in CIRPASS)",
+        "Relevant Document: CIRPASS" ;
+    prod_prof:sql_identifier "date" .
+
+prod_prof:EoriNumber a owl:Class ;
+    rdfs:label "EoriNumber" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:eori_number_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:eori_number_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:eori_number_value ],
+        prod_prof:InformationRelatedToTheImporter ;
+    skos:definition "EORI number - European Union registration and identification number for import/export businesses" ;
+    skos:exactMatch prod_prof:eoriNumber ;
+    skos:inScheme prod_prof: ;
+    skos:note "Article Reference: Annex III g)",
+        "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation",
+        "Relevant Document: ESPR; CIRPASS",
+        "The European Union registration and identification number for businesses which undertake the import or export of goods into or out of the EU. (Wiki)" ;
+    prod_prof:sql_identifier "eori_number" .
+
+prod_prof:GTIN14 a owl:Class ;
+    rdfs:label "GTIN14" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:gtin_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:gtin_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:gtin_value ],
+        prod_prof:GeneralProductInformation ;
+    skos:definition "Global Trade Item Number, 14-digit format" ;
+    skos:exactMatch prod_prof:GTIN-14 ;
+    skos:inScheme prod_prof: ;
+    skos:note "There are 3 other GTIN formats (GTIN-8, -12, and -13). Leading zeros have to be added to be transformed into GTIN-14." ;
+    prod_prof:sql_identifier "gtin_14" .
+
+prod_prof:InteroperabilityMetadata a owl:Class ;
+    rdfs:label "InteroperabilityMetadata" ;
+    rdfs:subClassOf prod_prof:DataAccessAndSecurity ;
+    skos:definition "Interoperability metadata for DPP systems" ;
+    skos:exactMatch prod_prof:interoperabilityMetadata ;
+    skos:inScheme prod_prof: ;
+    skos:note "APIs, formats, and standards for DPP data exchange",
+        "Ensures system interoperability and data portability" ;
+    prod_prof:sql_identifier "interoperability_metadata" .
+
+prod_prof:LocationUniqueFacilityIdentifiers a owl:Class ;
+    rdfs:label "LocationUniqueFacilityIdentifiers" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:location_unique_facility_identifiers_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:location_unique_facility_identifiers_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:location_unique_facility_identifiers_value ],
+        prod_prof:ProductTraceability ;
+    skos:definition "Location unique facility identifiers for traceability" ;
+    skos:exactMatch prod_prof:locationUniqueFacilityIdentifiers ;
+    skos:inScheme prod_prof: ;
+    skos:note "Mandatory: information used in initiatives",
+        "Relevant Document: CIRPASS" ;
+    prod_prof:sql_identifier "location_unique_facility_iden" .
+
+prod_prof:LotBatchNumber a owl:Class ;
+    rdfs:label "LotBatchNumber" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:lot_batch_number_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:lot_batch_number_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:lot_batch_number_value ],
+        prod_prof:GeneralProductInformation ;
+    skos:definition "Lot / batch number" ;
+    skos:exactMatch prod_prof:lot_batch_number ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "lot_batch_number" .
+
+prod_prof:ManufacturingDate a owl:Class ;
+    rdfs:label "ManufacturingDate" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:manufacturing_date_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:manufacturing_date_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:manufacturing_date_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Manufacturing date (month and year), suggested in form of manufacturing date codes" ;
+    skos:exactMatch prod_prof:manufacturingDate ;
+    skos:inScheme prod_prof: ;
+    skos:note "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation",
+        "Manufacturing date (month and year), suggested in form of manufacturing date codes. (Battery Pass)",
+        "Relevant Document: Jensen et al.; CIRPASS; Battery Pass; Deliverable 1.1" ;
+    prod_prof:sql_identifier "manufacturing_date" .
+
+prod_prof:ManufacturingFacility a owl:Class ;
+    rdfs:label "ManufacturingFacility" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:facility_name_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:facility_type_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:facility_gln_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:parent_gln_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:coordinates_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:coordinates_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:osid_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:facility_name_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:osid_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:osid_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:facility_type_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:parent_gln_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:facility_gln_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:coordinates_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:parent_gln_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:facility_gln_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:facility_type_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:facility_name_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Physical manufacturing facility with GS1 GLN and hierarchical linking" ;
+    skos:exactMatch prod_prof:manufacturingFacility ;
+    skos:inScheme prod_prof: ;
+    skos:note "GPS coordinates for precise location tracking",
+        "GS1 GLN preferred with parent organization linking",
+        "Integration with Open Supply Hub for facility verification",
+        "Physical facility identification separate from legal entity" ;
+    prod_prof:sql_identifier "manufacturing_facility" .
+
+prod_prof:Material a owl:Class ;
+    rdfs:label "Material" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:materials_name_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:materials_name_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:detailed_composition_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:material_type_includes_crms_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty prod_prof:detailed_composition_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:materials_name_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:detailed_composition_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:material_type_includes_crms_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:material_type_includes_crms_value ],
+        prod_prof:ProductSpecification ;
+    skos:definition "Material composition and characteristics" ;
+    skos:exactMatch prod_prof:material ;
+    skos:inScheme prod_prof: ;
+    skos:note "Material identification and composition details",
+        "Requires standardized material dictionary or nomenclature reference",
+        "Should integrate with material classification standards" ;
+    prod_prof:sql_identifier "material" .
+
+prod_prof:Name a owl:Class ;
+    rdfs:label "Name" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:name_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:name_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:name_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Name of the Manufacturer" ;
+    skos:exactMatch prod_prof:name ;
+    skos:inScheme prod_prof: ;
+    skos:note "Article Reference: Art 21 6.",
+        "Mandatory: current mandatory information",
+        "Name of the Manufacturer provided as a string.",
+        "Relevant Document: ESPR; CIRPASS" ;
+    prod_prof:sql_identifier "name" .
+
+prod_prof:OperatorsUniqueOperatorIdentifier a owl:Class ;
+    rdfs:label "OperatorsUniqueOperatorIdentifier" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:operators_unique_operator_identifier_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:operators_unique_operator_identifier_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:operators_unique_operator_identifier_value ],
+        prod_prof:ProductTraceability ;
+    skos:definition "Operators unique operator identifier for traceability" ;
+    skos:exactMatch prod_prof:operatorsUniqueOperatorIdentifier ;
+    skos:inScheme prod_prof: ;
+    skos:note "Mandatory: information used in initiatives",
+        "Relevant Document: CIRPASS" ;
+    prod_prof:sql_identifier "operators_unique_operator_ide" .
+
+prod_prof:OrganizationEntity a owl:Class ;
+    rdfs:label "OrganizationEntity" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:organization_gln_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:legal_name_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:company_registration_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:legal_name_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:vat_number_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:vat_number_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:organization_gln_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:vat_number_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:legal_name_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:country_of_incorporation_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:lei_code_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:organization_gln_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:company_registration_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:country_of_incorporation_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:company_registration_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:lei_code_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:country_of_incorporation_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:lei_code_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Legal entity information with GS1 GLN as preferred identifier" ;
+    skos:exactMatch prod_prof:organizationEntity ;
+    skos:inScheme prod_prof: ;
+    skos:note "Addresses separation of legal entity from physical facilities",
+        "Fallback support for LEI, VAT, and local registration numbers",
+        "Hierarchical organization identification supporting GS1 GLN as primary standard" ;
+    prod_prof:sql_identifier "organization_entity" .
+
+prod_prof:OwnershipEvent a owl:Class ;
+    rdfs:label "OwnershipEvent" ;
+    rdfs:subClassOf prod_prof:ProductTraceability ;
+    skos:definition "Ownership change events throughout product lifecycle" ;
+    skos:exactMatch prod_prof:ownershipEvent ;
+    skos:inScheme prod_prof: ;
+    skos:note "Important for circular economy and product responsibility",
+        "Tracks ownership transfers and periods" ;
+    prod_prof:sql_identifier "ownership_event" .
+
+prod_prof:PerformanceData a owl:Class ;
+    rdfs:label "PerformanceData" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:performance_data_on_use_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:performance_data_on_use_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:performance_data_on_functionality_and_efficiency_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:performance_data_on_functionality_and_efficiency_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:performance_data_on_functionality_and_efficiency_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:performance_data_on_use_value ],
+        prod_prof:ProductSpecification ;
+    skos:definition "Product performance and functionality data" ;
+    skos:exactMatch prod_prof:performanceData ;
+    skos:inScheme prod_prof: ;
+    skos:note "Addresses missing performance data integration in specifications",
+        "Comprehensive performance metrics and efficiency data" ;
+    prod_prof:sql_identifier "performance_data" .
+
+prod_prof:PostalAddress a owl:Class ;
+    rdfs:label "PostalAddress" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:postal_address_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:postal_address_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:postal_address_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Address of the Manufacturer" ;
+    skos:exactMatch prod_prof:postalAddress ;
+    skos:inScheme prod_prof: ;
+    skos:note "Address of the Manufacturer provided as a string.",
+        "Article Reference: Art 21 6.",
+        "Mandatory: current mandatory information",
+        "Relevant Document: ESPR; CIRPASS" ;
+    prod_prof:sql_identifier "postal_address" .
+
+prod_prof:ProductCostAndPricing a owl:Class ;
+    rdfs:label "ProductCostAndPricing" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:product_cost_and_pricing_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:product_cost_and_pricing_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:product_cost_and_pricing_value ],
+        prod_prof:ProductSpecification ;
+    skos:definition "Product cost and pricing information" ;
+    skos:exactMatch prod_prof:productCostAndPricing ;
+    skos:inScheme prod_prof: ;
+    skos:note "Relevant Document: Deliverable 1.1" ;
+    prod_prof:sql_identifier "product_cost_and_pricing" .
+
+prod_prof:ProductDocumentation a owl:Class ;
+    rdfs:label "ProductDocumentation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:technical_documentation_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:product_manual_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:technical_documentation_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:technical_documentation_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:product_manual_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:product_manual_value ],
+        prod_prof:SpecificProductInformation ;
+    skos:definition "Product manuals and technical documentation" ;
+    skos:exactMatch prod_prof:productDocumentation ;
+    skos:inScheme prod_prof: ;
+    skos:note "Essential for product use, maintenance, and end-of-life management",
+        "References to or content of product manuals and technical docs" ;
+    prod_prof:sql_identifier "product_documentation" .
+
+prod_prof:ProductHistory a owl:Class ;
+    rdfs:label "ProductHistory" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:product_history_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:product_history_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:product_history_value ],
+        prod_prof:ProductTraceability ;
+    skos:definition "Comprehensive product history tracking" ;
+    skos:exactMatch prod_prof:productHistory ;
+    skos:inScheme prod_prof: ;
+    skos:note "Aggregated view of all product events and modifications",
+        "Complete lifecycle history of the product" ;
+    prod_prof:sql_identifier "product_history" .
+
+prod_prof:ProductImages a owl:Class ;
+    rdfs:label "ProductImages" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:images_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:images_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                                owl:onDatatype xsd:string ;
+                                owl:withRestrictions ( [ xsd:pattern "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)(,\\s*https?://.*\\.(jpg|jpeg|png|gif|bmp|webp))*$" ] ) ] ) ] ;
+            owl:onProperty prod_prof:images_value ],
+        prod_prof:GeneralProductInformation ;
+    skos:definition "Product images for branding and visual identification" ;
+    skos:exactMatch prod_prof:productImages ;
+    skos:inScheme prod_prof: ;
+    skos:note "Addresses product branding and visual identification requirement",
+        "Images stored as comma-separated list of image URLs (JPEG, PNG, GIF, BMP, WebP formats)" ;
+    prod_prof:sql_identifier "product_images" .
+
+prod_prof:ProductType a owl:Class ;
+    rdfs:label "ProductType" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:type_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                                owl:onDatatype xsd:string ;
+                                owl:withRestrictions ( [ xsd:pattern "^[0-9]{3}|[A-Z0-9]{2,10}$" ] ) ] ) ] ;
+            owl:onProperty prod_prof:type_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:type_value ],
+        prod_prof:GeneralProductInformation ;
+    skos:definition "Product type and classification" ;
+    skos:exactMatch prod_prof:productType ;
+    skos:inScheme prod_prof: ;
+    skos:note "3-digit numeric code from GTIN-14 company prefix (first 3 digits after country code) or alphanumeric classification code (2-10 characters)",
+        "Addresses product classification system requirement" ;
+    prod_prof:sql_identifier "product_type" .
+
+prod_prof:QualityAndDurability a owl:Class ;
+    rdfs:label "QualityAndDurability" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:durability_and_reliability_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:durability_and_reliability_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:lifespan_of_product_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:lifespan_of_product_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:durability_and_reliability_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:lifespan_of_product_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:quality_characteristics_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:quality_characteristics_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:quality_characteristics_value ],
+        prod_prof:ProductSpecification ;
+    skos:definition "Quality characteristics and durability metrics" ;
+    skos:exactMatch prod_prof:qualityAndDurability ;
+    skos:inScheme prod_prof: ;
+    skos:note "Quality standards and durability/reliability measurements",
+        "Requires reference to quality assessment standards" ;
+    prod_prof:sql_identifier "quality_and_durability" .
+
+prod_prof:RegisteredTradeNameOrTradeMark a owl:Class ;
+    rdfs:label "RegisteredTradeNameOrTradeMark" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:registered_trade_name_or_trade_mark_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:registered_trade_name_or_trade_mark_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:registered_trade_name_or_trade_mark_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Registered trade name or trademark" ;
+    skos:exactMatch prod_prof:registeredTradeNameOrTradeMark ;
+    skos:inScheme prod_prof: ;
+    skos:note "A name under which a business operates and conducts its commercial activities, officially registered with relevant government authorities.; A recognizable sign, phrase, or symbol that denotes a product or service and legally differentiates it from all others of its kind.",
+        "Article Reference: Art 21 6.",
+        "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation",
+        "Relevant Document: ESPR; CIRPASS" ;
+    prod_prof:sql_identifier "registered_trade_name_or_trade" .
+
+prod_prof:SerialNumber a owl:Class ;
+    rdfs:label "SerialNumber" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:serial_number_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:serial_number_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:serial_number_value ],
+        prod_prof:GeneralProductInformation ;
+    skos:definition "Serial number" ;
+    skos:exactMatch prod_prof:Serial_number ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "serial_number" .
+
+prod_prof:UniqueFacilityIdentifiers a owl:Class ;
+    rdfs:label "UniqueFacilityIdentifiers" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:unique_facility_identifiers_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:unique_facility_identifiers_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:unique_facility_identifiers_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Unique facility identifiers for locations or buildings in the value chain" ;
+    skos:exactMatch prod_prof:uniqueFacilityIdentifiers ;
+    skos:inScheme prod_prof: ;
+    skos:note "Article Reference: Art 11",
+        "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation",
+        "Relevant Document: ESPR; CIRPASS; King et al.",
+        "Unique string of characters for the identification of locations or buildings involved in the value chain of a product or used by actors involved in the value chain of a product (ESPR)." ;
+    prod_prof:sql_identifier "unique_facility_identifiers" .
+
+prod_prof:UniqueOperatorIdentifier a owl:Class ;
+    rdfs:label "UniqueOperatorIdentifier" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:unique_operator_identifier_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:unique_operator_identifier_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:unique_operator_identifier_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Unique operator identifier" ;
+    skos:exactMatch prod_prof:uniqueOperatorIdentifier ;
+    skos:inScheme prod_prof: ;
+    skos:note "Article Reference: Art 11",
+        "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation",
+        "Relevant Document: ESPR" ;
+    prod_prof:sql_identifier "unique_operator_identifier" .
+
+prod_prof:UniqueProductIdentifier a owl:Class ;
+    rdfs:label "UniqueProductIdentifier" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:unique_product_identifier_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:unique_product_identifier_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:unique_product_identifier_value ],
+        prod_prof:GeneralProductInformation ;
+    skos:definition "Unique product identifier enabling web link to product passport" ;
+    skos:exactMatch prod_prof:uniqueProductIdentifier ;
+    skos:inScheme prod_prof: ;
+    skos:note "Article Reference: Art 9 1.",
+        "Individual trade items can be uniquely identified using a GTIN-14 plus serial number.",
+        "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation",
+        "Parameter Representation: Global Trade Identification Number; Relevant commodity codes; Serial and product number; ISO/IEC 15459-6",
+        "Relevant Document: ESPR; CIRPASS; King et al.",
+        "Unambiguous identification of an individual product (Battery Pass). Unique string of characters for the identification of products that also enables a web link to the product passport (ESPR)." ;
+    prod_prof:sql_identifier "unique_product_identifier" .
+
+prod_prof:ValueAddingActivityLocation a owl:Class ;
+    rdfs:label "ValueAddingActivityLocation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:location_of_value_adding_activity_unique_facility_identifiers_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prod_prof:location_of_value_adding_activity_unique_facility_identifiers_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:location_of_value_adding_activity_unique_facility_identifiers_value ],
+        prod_prof:ProductTraceability ;
+    skos:definition "Location of value-adding activities in supply chain" ;
+    skos:exactMatch prod_prof:valueAddingActivityLocation ;
+    skos:inScheme prod_prof: ;
+    skos:note "Enhances location precision beyond basic facility identification",
+        "Tracks specific locations where value is added to the product" ;
+    prod_prof:sql_identifier "value_adding_activity_location" .
+
+prod_prof:Website a owl:Class ;
+    rdfs:label "Website" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:website_value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:website_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:website_value ],
+        prod_prof:ManufacturersInformation ;
+    skos:definition "Website of the manufacturer" ;
+    skos:exactMatch prod_prof:website ;
+    skos:inScheme prod_prof: ;
+    skos:note "Mandatory: upcoming mandatory information based on ESPR and EU Battery Regulation",
+        "Relevant Document: CIRPASS",
+        "Website of the manufacturer." ;
+    prod_prof:sql_identifier "website" .
+
+prod_prof:WeightAndVolumeOfTheProductAndItsPackaging a owl:Class ;
+    rdfs:label "WeightAndVolumeOfTheProductAndItsPackaging" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty prod_prof:weight_and_volume_of_the_product_and_its_packaging_value ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty prod_prof:weight_and_volume_of_the_product_and_its_packaging_value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty prod_prof:weight_and_volume_of_the_product_and_its_packaging_value ],
+        prod_prof:ProductSpecification ;
+    skos:definition "Weight and volume of the product and its packaging" ;
+    skos:exactMatch prod_prof:weightAndVolumeOfTheProductAndItsPackaging ;
+    skos:inScheme prod_prof: ;
+    skos:note "Article Reference: Annex I",
+        "Relevant Document: ESPR; Deliverable 1.1" ;
+    prod_prof:sql_identifier "weight_and_volume_of_the_produ" .
+
+prod_prof:sql_identifier a owl:DatatypeProperty ;
+    rdfs:label "sql_identifier" ;
+    rdfs:range xsd:string ;
+    skos:definition "Machine-friendly field name for databases" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:sqlIdentifier" .
+
+prod_prof:InformationRelatedToTheImporter a owl:Class ;
+    rdfs:label "InformationRelatedToTheImporter" ;
+    rdfs:subClassOf prod_prof:ProductIdentification ;
+    skos:definition "Information related to the product importer" ;
+    skos:exactMatch prod_prof:informationRelatedToTheImporter ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "information_related_to_the_importer" .
+
+prod_prof:SpecificProductInformation a owl:Class ;
+    rdfs:label "SpecificProductInformation" ;
+    rdfs:subClassOf prod_prof:ProductIdentification ;
+    skos:definition "Specific product information" ;
+    skos:exactMatch prod_prof:specificProductInformation ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "specific_product_information" .
+
+prod_prof:actor_identifier_unique_operator_identifier_value a owl:DatatypeProperty ;
+    rdfs:label "actor_identifier_unique_operator_identifier_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Actor identifier (Unique operator identifier) for enhanced supply chain tracking" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:actorIdentifierUniqueOperatorIdentifierValue" .
+
+prod_prof:actor_name_value a owl:DatatypeProperty ;
+    rdfs:label "actor_name_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Actor name in supply chain" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:actorNameValue" .
+
+prod_prof:actor_type_and_function_value a owl:DatatypeProperty ;
+    rdfs:label "actor_type_and_function_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Actor type and function in supply chain" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:actorTypeAndFunctionValue" .
+
+prod_prof:company_registration_value a owl:DatatypeProperty ;
+    rdfs:label "company_registration_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Local company registration number" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:companyRegistrationValue" .
+
+prod_prof:coordinates_value a owl:DatatypeProperty ;
+    rdfs:label "coordinates_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^-?[0-9]{1,2}\\.[0-9]+,-?[0-9]{1,3}\\.[0-9]+$" ] ) ] ) ] ;
+    skos:definition "GPS coordinates of the facility (latitude,longitude)" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:coordinatesValue" .
+
+prod_prof:country_of_incorporation_value a owl:DatatypeProperty ;
+    rdfs:label "country_of_incorporation_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[A-Z]{2}$" ] ) ] ) ] ;
+    skos:definition "Country of incorporation - ISO 3166-1 alpha-2 code" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:countryOfIncorporationValue" .
+
+prod_prof:date_value a owl:DatatypeProperty ;
+    rdfs:label "date_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Date value for traceability events" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:dateValue" .
+
+prod_prof:detailed_composition_value a owl:DatatypeProperty ;
+    rdfs:label "detailed_composition_value" ;
+    rdfs:range xsd:float ;
+    skos:definition "Detailed composition value - needs composition format specification" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:detailedCompositionValue" .
+
+prod_prof:durability_and_reliability_value a owl:DatatypeProperty ;
+    rdfs:label "durability_and_reliability_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Durability and reliability metrics" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:durabilityAndReliabilityValue" .
+
+prod_prof:eori_number_value a owl:DatatypeProperty ;
+    rdfs:label "eori_number_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "EORI number value - European Union registration and identification number for import/export businesses" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:eoriNumberValue" .
+
+prod_prof:facility_gln_value a owl:DatatypeProperty ;
+    rdfs:label "facility_gln_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[0-9]{13}$" ] ) ] ) ] ;
+    skos:definition "Facility GLN (Global Location Number) - 13-digit GS1 identifier for the physical facility" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:facilityGlnValue" .
+
+prod_prof:facility_name_value a owl:DatatypeProperty ;
+    rdfs:label "facility_name_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Name of the manufacturing facility" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:facilityNameValue" .
+
+prod_prof:facility_type_value a owl:DatatypeProperty ;
+    rdfs:label "facility_type_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Type of facility - MANUFACTURING, ASSEMBLY, PACKAGING, TESTING, etc." ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:facilityTypeValue" .
+
+prod_prof:gtin_value a owl:DatatypeProperty ;
+    rdfs:label "gtin_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Global Trade Item Number value" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "gs1:gtin" .
+
+prod_prof:images_value a owl:DatatypeProperty ;
+    rdfs:label "images_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)(,\\s*https?://.*\\.(jpg|jpeg|png|gif|bmp|webp))*$" ] ) ] ) ] ;
+    skos:definition "Product images for branding/visual identification - comma-separated list of image URLs" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:imagesValue" .
+
+prod_prof:legal_name_value a owl:DatatypeProperty ;
+    rdfs:label "legal_name_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Legal name of the organization" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:legalNameValue" .
+
+prod_prof:lei_code_value a owl:DatatypeProperty ;
+    rdfs:label "lei_code_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[A-Z0-9]{18}[0-9]{2}$" ] ) ] ) ] ;
+    skos:definition "Legal Entity Identifier - 20-character ISO 17442 identifier" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:leiCodeValue" .
+
+prod_prof:lifespan_of_product_value a owl:DatatypeProperty ;
+    rdfs:label "lifespan_of_product_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Lifespan of the product" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:lifespanOfTheProductValue" .
+
+prod_prof:location_of_value_adding_activity_unique_facility_identifiers_value a owl:DatatypeProperty ;
+    rdfs:label "location_of_value_adding_activity_unique_facility_identifiers_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Location of value-adding activity (Unique facility identifiers)" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:locationOfValueaddingActivityUniqueFacilityIdentifiersValue" .
+
+prod_prof:location_unique_facility_identifiers_value a owl:DatatypeProperty ;
+    rdfs:label "location_unique_facility_identifiers_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Unique facility identifiers for locations involved in the value chain" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:locationUniqueFacilityIdentifiersValue" .
+
+prod_prof:lot_batch_number_value a owl:DatatypeProperty ;
+    rdfs:label "lot_batch_number_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Lot / batch number value" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:lot_batch_number_value" .
+
+prod_prof:manufacturing_date_value a owl:DatatypeProperty ;
+    rdfs:label "manufacturing_date_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Manufacturing date (month and year), suggested in form of manufacturing date codes" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:manufacturingDateValue" .
+
+prod_prof:material_type_includes_crms_value a owl:DatatypeProperty ;
+    rdfs:label "material_type_includes_crms_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Material type (includes CRMs) - needs standardized material dictionary specification" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:materialTypeIncludesCrmsValue" .
+
+prod_prof:materials_name_value a owl:DatatypeProperty ;
+    rdfs:label "materials_name_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Materials name - requires reference to material nomenclature standard" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:materialsNameValue" .
+
+prod_prof:name_value a owl:DatatypeProperty ;
+    rdfs:label "name_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Name of the Manufacturer provided as a string" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:nameValue" .
+
+prod_prof:operators_unique_operator_identifier_value a owl:DatatypeProperty ;
+    rdfs:label "operators_unique_operator_identifier_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Operators unique operator identifier for traceability" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:operatorsUniqueOperatorIdentifierValue" .
+
+prod_prof:organization_gln_value a owl:DatatypeProperty ;
+    rdfs:label "organization_gln_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[0-9]{13}$" ] ) ] ) ] ;
+    skos:definition "Organization GLN (Global Location Number) - 13-digit GS1 identifier for the legal entity" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:organizationGlnValue" .
+
+prod_prof:osid_value a owl:DatatypeProperty ;
+    rdfs:label "osid_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Open Supply Hub ID for facility verification" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:osidValue" .
+
+prod_prof:parent_gln_value a owl:DatatypeProperty ;
+    rdfs:label "parent_gln_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[0-9]{13}$" ] ) ] ) ] ;
+    skos:definition "Parent organization GLN - links facility to parent organization" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:parentGlnValue" .
+
+prod_prof:performance_data_on_functionality_and_efficiency_value a owl:DatatypeProperty ;
+    rdfs:label "performance_data_on_functionality_and_efficiency_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Performance data on the functionality and efficiency of the product" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:performanceDataOnTheFunctionalityAndEfficiencyOfTheProductValue" .
+
+prod_prof:performance_data_on_use_value a owl:DatatypeProperty ;
+    rdfs:label "performance_data_on_use_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Performance data on the use of the product" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:performanceDataOnTheUseOfTheProductValue" .
+
+prod_prof:postal_address_value a owl:DatatypeProperty ;
+    rdfs:label "postal_address_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Address of the Manufacturer provided as a string" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:postalAddressValue" .
+
+prod_prof:product_cost_and_pricing_value a owl:DatatypeProperty ;
+    rdfs:label "product_cost_and_pricing_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Product cost and pricing information" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:productCostAndPricingValue" .
+
+prod_prof:product_history_value a owl:DatatypeProperty ;
+    rdfs:label "product_history_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Comprehensive product history tracking" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:productHistoryValue" .
+
+prod_prof:product_manual_value a owl:DatatypeProperty ;
+    rdfs:label "product_manual_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Product manual reference or content" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:productManualValue" .
+
+prod_prof:quality_characteristics_value a owl:DatatypeProperty ;
+    rdfs:label "quality_characteristics_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Quality characteristics - needs quality standard specification" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:qualityCharacteristicsValue" .
+
+prod_prof:registered_trade_name_or_trade_mark_value a owl:DatatypeProperty ;
+    rdfs:label "registered_trade_name_or_trade_mark_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Registered trade name or trademark - officially registered business name or trademark symbol" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:registeredTradeNameOrTradeMarkValue" .
+
+prod_prof:serial_number_value a owl:DatatypeProperty ;
+    rdfs:label "serial_number_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Serial number value" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:serial_number_value" .
+
+prod_prof:technical_documentation_value a owl:DatatypeProperty ;
+    rdfs:label "technical_documentation_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Technical documentation reference or content" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:technicalDocumentationValue" .
+
+prod_prof:type_value a owl:DatatypeProperty ;
+    rdfs:label "type_value" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:string ;
+                        owl:withRestrictions ( [ xsd:pattern "^[0-9]{3}|[A-Z0-9]{2,10}$" ] ) ] ) ] ;
+    skos:definition "Product type/classification - 3-digit numeric code from GTIN-14 company prefix or alphanumeric classification code" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:typeValue" .
+
+prod_prof:unique_facility_identifiers_value a owl:DatatypeProperty ;
+    rdfs:label "unique_facility_identifiers_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Unique facility identifiers for locations or buildings in the value chain" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:uniqueFacilityIdentifiersValue" .
+
+prod_prof:unique_operator_identifier_value a owl:DatatypeProperty ;
+    rdfs:label "unique_operator_identifier_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Unique operator identifier for value chain actors" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:uniqueOperatorIdentifierValue" .
+
+prod_prof:unique_product_identifier_value a owl:DatatypeProperty ;
+    rdfs:label "unique_product_identifier_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Unique product identifier - unambiguous identification enabling web link to product passport" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:uniqueProductIdentifierValue" .
+
+prod_prof:vat_number_value a owl:DatatypeProperty ;
+    rdfs:label "vat_number_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "VAT registration number" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:vatNumberValue" .
+
+prod_prof:website_value a owl:DatatypeProperty ;
+    rdfs:label "website_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Website of the manufacturer" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:websiteValue" .
+
+prod_prof:weight_and_volume_of_the_product_and_its_packaging_value a owl:DatatypeProperty ;
+    rdfs:label "weight_and_volume_of_the_product_and_its_packaging_value" ;
+    rdfs:range xsd:string ;
+    skos:definition "Weight and volume of the product and its packaging" ;
+    skos:inScheme prod_prof: ;
+    prod_prof:owl.filler "prod_prof:weightAndVolumeOfTheProductAndItsPackagingValue" .
+
+prod_prof:DataAccessAndSecurity a owl:Class ;
+    rdfs:label "DataAccessAndSecurity" ;
+    rdfs:subClassOf prod_prof:SpecificProductInformation ;
+    skos:definition "Digital Product Passport access and security metadata" ;
+    skos:exactMatch prod_prof:dataAccessAndSecurity ;
+    skos:inScheme prod_prof: ;
+    skos:note "Essential for DPP implementation and compliance",
+        "Framework for DPP data access, security, and interoperability" ;
+    prod_prof:sql_identifier "data_access_and_security" .
+
+prod_prof:ProductSpecification a owl:Class ;
+    rdfs:label "ProductSpecification" ;
+    rdfs:subClassOf prod_prof:ProductIdentification ;
+    skos:definition "Product specification details" ;
+    skos:exactMatch prod_prof:productSpecification ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "product_specification" .
+
+prod_prof:GeneralProductInformation a owl:Class ;
+    rdfs:label "GeneralProductInformation" ;
+    rdfs:subClassOf prod_prof:ProductIdentification ;
+    skos:definition "General product information" ;
+    skos:exactMatch prod_prof:generalProductInformation ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "general_product_information" .
+
+prod_prof:ProductIdentification a owl:Class ;
+    rdfs:label "ProductIdentification" ;
+    skos:definition "Root class for product identification information" ;
+    skos:exactMatch prod_prof:productIdentification ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "product_identification" .
+
+prod_prof:ProductTraceability a owl:Class ;
+    rdfs:label "ProductTraceability" ;
+    rdfs:subClassOf prod_prof:ProductIdentification ;
+    skos:definition "Product traceability information including event data related to history, time and location of activities" ;
+    skos:exactMatch prod_prof:productTraceability ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "product_traceability" .
+
+prod_prof:ManufacturersInformation a owl:Class ;
+    rdfs:label "ManufacturersInformation" ;
+    rdfs:subClassOf prod_prof:ProductIdentification ;
+    skos:definition "Information about the product manufacturer" ;
+    skos:exactMatch prod_prof:manufacturersInformation ;
+    skos:inScheme prod_prof: ;
+    prod_prof:sql_identifier "manufacturer_s_information" .
+
+

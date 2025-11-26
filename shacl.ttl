@@ -1,0 +1,506 @@
+@prefix prod_prof: <https://ce-rise-models.codeberg.page/product-profile/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+prod_prof:GTIN-14 a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Global Trade Item Number, 14-digit format" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:gtin_value ] ;
+    sh:targetClass prod_prof:GTIN-14 .
+
+prod_prof:Serial_number a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Serial number" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:serial_number_value ] ;
+    sh:targetClass prod_prof:Serial_number .
+
+prod_prof:accessLevel a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Access level permissions for DPP data" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prod_prof:accessLevel .
+
+prod_prof:actorTracking a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Enhanced actor tracking in supply chain" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path prod_prof:actor_type_and_function_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:actor_identifier_unique_operator_identifier_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path prod_prof:actor_name_value ] ;
+    sh:targetClass prod_prof:actorTracking .
+
+prod_prof:dataAccessAndSecurity a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Digital Product Passport access and security metadata" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prod_prof:dataAccessAndSecurity .
+
+prod_prof:dataAccessLongevity a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Data access longevity and retention policies" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prod_prof:dataAccessLongevity .
+
+prod_prof:dataCarrier a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Data carrier information for DPP access" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prod_prof:dataCarrier .
+
+prod_prof:date a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Date information for traceability events" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:date_value ] ;
+    sh:targetClass prod_prof:date .
+
+prod_prof:eoriNumber a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "EORI number - European Union registration and identification number for import/export businesses" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:eori_number_value ] ;
+    sh:targetClass prod_prof:eoriNumber .
+
+prod_prof:generalProductInformation a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "General product information" ;
+    sh:ignoredProperties ( prod_prof:serial_number_value prod_prof:gtin_value prod_prof:images_value prod_prof:type_value rdf:type prod_prof:unique_product_identifier_value prod_prof:lot_batch_number_value ) ;
+    sh:targetClass prod_prof:generalProductInformation .
+
+prod_prof:informationRelatedToTheImporter a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Information related to the product importer" ;
+    sh:ignoredProperties ( prod_prof:eori_number_value rdf:type ) ;
+    sh:targetClass prod_prof:informationRelatedToTheImporter .
+
+prod_prof:interoperabilityMetadata a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Interoperability metadata for DPP systems" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prod_prof:interoperabilityMetadata .
+
+prod_prof:locationUniqueFacilityIdentifiers a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Location unique facility identifiers for traceability" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:location_unique_facility_identifiers_value ] ;
+    sh:targetClass prod_prof:locationUniqueFacilityIdentifiers .
+
+prod_prof:lot_batch_number a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Lot / batch number" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:lot_batch_number_value ] ;
+    sh:targetClass prod_prof:lot_batch_number .
+
+prod_prof:manufacturersInformation a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Information about the product manufacturer" ;
+    sh:ignoredProperties ( prod_prof:osid_value prod_prof:unique_operator_identifier_value prod_prof:facility_type_value prod_prof:parent_gln_value prod_prof:vat_number_value prod_prof:registered_trade_name_or_trade_mark_value prod_prof:legal_name_value prod_prof:facility_gln_value prod_prof:country_of_incorporation_value prod_prof:unique_facility_identifiers_value prod_prof:coordinates_value prod_prof:name_value prod_prof:facility_name_value prod_prof:manufacturing_date_value prod_prof:postal_address_value prod_prof:lei_code_value prod_prof:company_registration_value prod_prof:website_value rdf:type prod_prof:organization_gln_value ) ;
+    sh:targetClass prod_prof:manufacturersInformation .
+
+prod_prof:manufacturingDate a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Manufacturing date (month and year), suggested in form of manufacturing date codes" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:manufacturing_date_value ] ;
+    sh:targetClass prod_prof:manufacturingDate .
+
+prod_prof:manufacturingFacility a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Physical manufacturing facility with GS1 GLN and hierarchical linking" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:facility_gln_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path prod_prof:osid_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path prod_prof:facility_name_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path prod_prof:parent_gln_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path prod_prof:facility_type_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path prod_prof:coordinates_value ] ;
+    sh:targetClass prod_prof:manufacturingFacility .
+
+prod_prof:material a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Material composition and characteristics" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:material_type_includes_crms_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path prod_prof:materials_name_value ],
+        [ sh:datatype xsd:float ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path prod_prof:detailed_composition_value ] ;
+    sh:targetClass prod_prof:material .
+
+prod_prof:name a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Name of the Manufacturer" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:name_value ] ;
+    sh:targetClass prod_prof:name .
+
+prod_prof:operatorsUniqueOperatorIdentifier a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Operators unique operator identifier for traceability" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:operators_unique_operator_identifier_value ] ;
+    sh:targetClass prod_prof:operatorsUniqueOperatorIdentifier .
+
+prod_prof:organizationEntity a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Legal entity information with GS1 GLN as preferred identifier" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path prod_prof:company_registration_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path prod_prof:vat_number_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path prod_prof:lei_code_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path prod_prof:country_of_incorporation_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path prod_prof:legal_name_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:organization_gln_value ] ;
+    sh:targetClass prod_prof:organizationEntity .
+
+prod_prof:ownershipEvent a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Ownership change events throughout product lifecycle" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prod_prof:ownershipEvent .
+
+prod_prof:performanceData a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Product performance and functionality data" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path prod_prof:performance_data_on_use_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:performance_data_on_functionality_and_efficiency_value ] ;
+    sh:targetClass prod_prof:performanceData .
+
+prod_prof:postalAddress a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Address of the Manufacturer" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:postal_address_value ] ;
+    sh:targetClass prod_prof:postalAddress .
+
+prod_prof:productCostAndPricing a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Product cost and pricing information" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:product_cost_and_pricing_value ] ;
+    sh:targetClass prod_prof:productCostAndPricing .
+
+prod_prof:productDocumentation a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Product manuals and technical documentation" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path prod_prof:technical_documentation_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:product_manual_value ] ;
+    sh:targetClass prod_prof:productDocumentation .
+
+prod_prof:productHistory a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Comprehensive product history tracking" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:product_history_value ] ;
+    sh:targetClass prod_prof:productHistory .
+
+prod_prof:productIdentification a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Root class for product identification information" ;
+    sh:ignoredProperties ( prod_prof:actor_type_and_function_value prod_prof:unique_operator_identifier_value prod_prof:actor_identifier_unique_operator_identifier_value prod_prof:technical_documentation_value prod_prof:location_unique_facility_identifiers_value prod_prof:lot_batch_number_value prod_prof:vat_number_value prod_prof:legal_name_value prod_prof:facility_gln_value prod_prof:materials_name_value prod_prof:operators_unique_operator_identifier_value prod_prof:material_type_includes_crms_value prod_prof:unique_facility_identifiers_value prod_prof:product_cost_and_pricing_value prod_prof:unique_product_identifier_value prod_prof:name_value prod_prof:manufacturing_date_value prod_prof:postal_address_value prod_prof:company_registration_value prod_prof:website_value rdf:type prod_prof:product_history_value prod_prof:osid_value prod_prof:gtin_value prod_prof:images_value prod_prof:facility_type_value prod_prof:detailed_composition_value prod_prof:durability_and_reliability_value prod_prof:weight_and_volume_of_the_product_and_its_packaging_value prod_prof:parent_gln_value prod_prof:registered_trade_name_or_trade_mark_value prod_prof:product_manual_value prod_prof:lifespan_of_product_value prod_prof:country_of_incorporation_value prod_prof:performance_data_on_functionality_and_efficiency_value prod_prof:serial_number_value prod_prof:actor_name_value prod_prof:coordinates_value prod_prof:quality_characteristics_value prod_prof:facility_name_value prod_prof:eori_number_value prod_prof:lei_code_value prod_prof:type_value prod_prof:performance_data_on_use_value prod_prof:organization_gln_value prod_prof:location_of_value_adding_activity_unique_facility_identifiers_value prod_prof:date_value ) ;
+    sh:targetClass prod_prof:productIdentification .
+
+prod_prof:productImages a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Product images for branding and visual identification" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:images_value ;
+            sh:pattern "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)(,\\s*https?://.*\\.(jpg|jpeg|png|gif|bmp|webp))*$" ] ;
+    sh:targetClass prod_prof:productImages .
+
+prod_prof:productSpecification a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Product specification details" ;
+    sh:ignoredProperties ( prod_prof:product_cost_and_pricing_value prod_prof:detailed_composition_value prod_prof:quality_characteristics_value prod_prof:durability_and_reliability_value prod_prof:weight_and_volume_of_the_product_and_its_packaging_value prod_prof:performance_data_on_use_value prod_prof:lifespan_of_product_value rdf:type prod_prof:materials_name_value prod_prof:material_type_includes_crms_value prod_prof:performance_data_on_functionality_and_efficiency_value ) ;
+    sh:targetClass prod_prof:productSpecification .
+
+prod_prof:productTraceability a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Product traceability information including event data related to history, time and location of activities" ;
+    sh:ignoredProperties ( prod_prof:actor_type_and_function_value prod_prof:actor_name_value prod_prof:actor_identifier_unique_operator_identifier_value prod_prof:location_unique_facility_identifiers_value prod_prof:product_history_value rdf:type prod_prof:operators_unique_operator_identifier_value prod_prof:location_of_value_adding_activity_unique_facility_identifiers_value prod_prof:date_value ) ;
+    sh:targetClass prod_prof:productTraceability .
+
+prod_prof:productType a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Product type and classification" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:type_value ;
+            sh:pattern "^[0-9]{3}|[A-Z0-9]{2,10}$" ] ;
+    sh:targetClass prod_prof:productType .
+
+prod_prof:qualityAndDurability a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Quality characteristics and durability metrics" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path prod_prof:durability_and_reliability_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:quality_characteristics_value ],
+        [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path prod_prof:lifespan_of_product_value ] ;
+    sh:targetClass prod_prof:qualityAndDurability .
+
+prod_prof:registeredTradeNameOrTradeMark a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Registered trade name or trademark" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:registered_trade_name_or_trade_mark_value ] ;
+    sh:targetClass prod_prof:registeredTradeNameOrTradeMark .
+
+prod_prof:specificProductInformation a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Specific product information" ;
+    sh:ignoredProperties ( rdf:type prod_prof:product_manual_value prod_prof:technical_documentation_value ) ;
+    sh:targetClass prod_prof:specificProductInformation .
+
+prod_prof:uniqueFacilityIdentifiers a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Unique facility identifiers for locations or buildings in the value chain" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:unique_facility_identifiers_value ] ;
+    sh:targetClass prod_prof:uniqueFacilityIdentifiers .
+
+prod_prof:uniqueOperatorIdentifier a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Unique operator identifier" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:unique_operator_identifier_value ] ;
+    sh:targetClass prod_prof:uniqueOperatorIdentifier .
+
+prod_prof:uniqueProductIdentifier a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Unique product identifier enabling web link to product passport" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:unique_product_identifier_value ] ;
+    sh:targetClass prod_prof:uniqueProductIdentifier .
+
+prod_prof:valueAddingActivityLocation a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Location of value-adding activities in supply chain" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:location_of_value_adding_activity_unique_facility_identifiers_value ] ;
+    sh:targetClass prod_prof:valueAddingActivityLocation .
+
+prod_prof:website a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Website of the manufacturer" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:website_value ] ;
+    sh:targetClass prod_prof:website .
+
+prod_prof:weightAndVolumeOfTheProductAndItsPackaging a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Weight and volume of the product and its packaging" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path prod_prof:weight_and_volume_of_the_product_and_its_packaging_value ] ;
+    sh:targetClass prod_prof:weightAndVolumeOfTheProductAndItsPackaging .
+
+

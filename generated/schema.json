@@ -1,0 +1,586 @@
+{
+    "$defs": {
+        "AccessLevel": {
+            "additionalProperties": false,
+            "description": "Access level permissions for DPP data",
+            "title": "AccessLevel",
+            "type": "object"
+        },
+        "ActorTracking": {
+            "additionalProperties": false,
+            "description": "Enhanced actor tracking in supply chain",
+            "properties": {
+                "actor_identifier_unique_operator_identifier_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "actor_name_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "actor_type_and_function_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "ActorTracking",
+            "type": "object"
+        },
+        "DataAccessAndSecurity": {
+            "additionalProperties": false,
+            "description": "Digital Product Passport access and security metadata",
+            "title": "DataAccessAndSecurity",
+            "type": "object"
+        },
+        "DataAccessLongevity": {
+            "additionalProperties": false,
+            "description": "Data access longevity and retention policies",
+            "title": "DataAccessLongevity",
+            "type": "object"
+        },
+        "DataCarrier": {
+            "additionalProperties": false,
+            "description": "Data carrier information for DPP access",
+            "title": "DataCarrier",
+            "type": "object"
+        },
+        "Date": {
+            "additionalProperties": false,
+            "description": "Date information for traceability events",
+            "properties": {
+                "date_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "date_value"
+            ],
+            "title": "Date",
+            "type": "object"
+        },
+        "EoriNumber": {
+            "additionalProperties": false,
+            "description": "EORI number - European Union registration and identification number for import/export businesses",
+            "properties": {
+                "eori_number_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "eori_number_value"
+            ],
+            "title": "EoriNumber",
+            "type": "object"
+        },
+        "GTIN14": {
+            "additionalProperties": false,
+            "description": "Global Trade Item Number, 14-digit format",
+            "properties": {
+                "gtin_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "gtin_value"
+            ],
+            "title": "GTIN14",
+            "type": "object"
+        },
+        "GeneralProductInformation": {
+            "additionalProperties": false,
+            "description": "General product information",
+            "title": "GeneralProductInformation",
+            "type": "object"
+        },
+        "InformationRelatedToTheImporter": {
+            "additionalProperties": false,
+            "description": "Information related to the product importer",
+            "title": "InformationRelatedToTheImporter",
+            "type": "object"
+        },
+        "InteroperabilityMetadata": {
+            "additionalProperties": false,
+            "description": "Interoperability metadata for DPP systems",
+            "title": "InteroperabilityMetadata",
+            "type": "object"
+        },
+        "LocationUniqueFacilityIdentifiers": {
+            "additionalProperties": false,
+            "description": "Location unique facility identifiers for traceability",
+            "properties": {
+                "location_unique_facility_identifiers_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "location_unique_facility_identifiers_value"
+            ],
+            "title": "LocationUniqueFacilityIdentifiers",
+            "type": "object"
+        },
+        "LotBatchNumber": {
+            "additionalProperties": false,
+            "description": "Lot / batch number",
+            "properties": {
+                "lot_batch_number_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "lot_batch_number_value"
+            ],
+            "title": "LotBatchNumber",
+            "type": "object"
+        },
+        "ManufacturersInformation": {
+            "additionalProperties": false,
+            "description": "Information about the product manufacturer",
+            "title": "ManufacturersInformation",
+            "type": "object"
+        },
+        "ManufacturingDate": {
+            "additionalProperties": false,
+            "description": "Manufacturing date (month and year), suggested in form of manufacturing date codes",
+            "properties": {
+                "manufacturing_date_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "manufacturing_date_value"
+            ],
+            "title": "ManufacturingDate",
+            "type": "object"
+        },
+        "ManufacturingFacility": {
+            "additionalProperties": false,
+            "description": "Physical manufacturing facility with GS1 GLN and hierarchical linking",
+            "properties": {
+                "coordinates_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "facility_gln_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "facility_name_value": {
+                    "type": "string"
+                },
+                "facility_type_value": {
+                    "type": "string"
+                },
+                "osid_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "parent_gln_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "facility_name_value",
+                "facility_type_value"
+            ],
+            "title": "ManufacturingFacility",
+            "type": "object"
+        },
+        "Material": {
+            "additionalProperties": false,
+            "description": "Material composition and characteristics",
+            "properties": {
+                "detailed_composition_value": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "material_type_includes_crms_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "materials_name_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "Material",
+            "type": "object"
+        },
+        "Name": {
+            "additionalProperties": false,
+            "description": "Name of the Manufacturer",
+            "properties": {
+                "name_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name_value"
+            ],
+            "title": "Name",
+            "type": "object"
+        },
+        "OperatorsUniqueOperatorIdentifier": {
+            "additionalProperties": false,
+            "description": "Operators unique operator identifier for traceability",
+            "properties": {
+                "operators_unique_operator_identifier_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "operators_unique_operator_identifier_value"
+            ],
+            "title": "OperatorsUniqueOperatorIdentifier",
+            "type": "object"
+        },
+        "OrganizationEntity": {
+            "additionalProperties": false,
+            "description": "Legal entity information with GS1 GLN as preferred identifier",
+            "properties": {
+                "company_registration_value": {
+                    "type": "string"
+                },
+                "country_of_incorporation_value": {
+                    "type": "string"
+                },
+                "legal_name_value": {
+                    "type": "string"
+                },
+                "lei_code_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "organization_gln_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "vat_number_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "legal_name_value",
+                "company_registration_value",
+                "country_of_incorporation_value"
+            ],
+            "title": "OrganizationEntity",
+            "type": "object"
+        },
+        "OwnershipEvent": {
+            "additionalProperties": false,
+            "description": "Ownership change events throughout product lifecycle",
+            "title": "OwnershipEvent",
+            "type": "object"
+        },
+        "PerformanceData": {
+            "additionalProperties": false,
+            "description": "Product performance and functionality data",
+            "properties": {
+                "performance_data_on_functionality_and_efficiency_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "performance_data_on_use_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "PerformanceData",
+            "type": "object"
+        },
+        "PostalAddress": {
+            "additionalProperties": false,
+            "description": "Address of the Manufacturer",
+            "properties": {
+                "postal_address_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "postal_address_value"
+            ],
+            "title": "PostalAddress",
+            "type": "object"
+        },
+        "ProductCostAndPricing": {
+            "additionalProperties": false,
+            "description": "Product cost and pricing information",
+            "properties": {
+                "product_cost_and_pricing_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "product_cost_and_pricing_value"
+            ],
+            "title": "ProductCostAndPricing",
+            "type": "object"
+        },
+        "ProductDocumentation": {
+            "additionalProperties": false,
+            "description": "Product manuals and technical documentation",
+            "properties": {
+                "product_manual_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "technical_documentation_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "ProductDocumentation",
+            "type": "object"
+        },
+        "ProductHistory": {
+            "additionalProperties": false,
+            "description": "Comprehensive product history tracking",
+            "properties": {
+                "product_history_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "ProductHistory",
+            "type": "object"
+        },
+        "ProductIdentification": {
+            "additionalProperties": false,
+            "description": "Root class for product identification information",
+            "title": "ProductIdentification",
+            "type": "object"
+        },
+        "ProductImages": {
+            "additionalProperties": false,
+            "description": "Product images for branding and visual identification",
+            "properties": {
+                "images_value": {
+                    "pattern": "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)(,\\s*https?://.*\\.(jpg|jpeg|png|gif|bmp|webp))*$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "ProductImages",
+            "type": "object"
+        },
+        "ProductSpecification": {
+            "additionalProperties": false,
+            "description": "Product specification details",
+            "title": "ProductSpecification",
+            "type": "object"
+        },
+        "ProductTraceability": {
+            "additionalProperties": false,
+            "description": "Product traceability information including event data related to history, time and location of activities",
+            "title": "ProductTraceability",
+            "type": "object"
+        },
+        "ProductType": {
+            "additionalProperties": false,
+            "description": "Product type and classification",
+            "properties": {
+                "type_value": {
+                    "pattern": "^[0-9]{3}|[A-Z0-9]{2,10}$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "ProductType",
+            "type": "object"
+        },
+        "QualityAndDurability": {
+            "additionalProperties": false,
+            "description": "Quality characteristics and durability metrics",
+            "properties": {
+                "durability_and_reliability_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "lifespan_of_product_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "quality_characteristics_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "QualityAndDurability",
+            "type": "object"
+        },
+        "RegisteredTradeNameOrTradeMark": {
+            "additionalProperties": false,
+            "description": "Registered trade name or trademark",
+            "properties": {
+                "registered_trade_name_or_trade_mark_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "registered_trade_name_or_trade_mark_value"
+            ],
+            "title": "RegisteredTradeNameOrTradeMark",
+            "type": "object"
+        },
+        "SerialNumber": {
+            "additionalProperties": false,
+            "description": "Serial number",
+            "properties": {
+                "serial_number_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "serial_number_value"
+            ],
+            "title": "SerialNumber",
+            "type": "object"
+        },
+        "SpecificProductInformation": {
+            "additionalProperties": false,
+            "description": "Specific product information",
+            "title": "SpecificProductInformation",
+            "type": "object"
+        },
+        "UniqueFacilityIdentifiers": {
+            "additionalProperties": false,
+            "description": "Unique facility identifiers for locations or buildings in the value chain",
+            "properties": {
+                "unique_facility_identifiers_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "unique_facility_identifiers_value"
+            ],
+            "title": "UniqueFacilityIdentifiers",
+            "type": "object"
+        },
+        "UniqueOperatorIdentifier": {
+            "additionalProperties": false,
+            "description": "Unique operator identifier",
+            "properties": {
+                "unique_operator_identifier_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "unique_operator_identifier_value"
+            ],
+            "title": "UniqueOperatorIdentifier",
+            "type": "object"
+        },
+        "UniqueProductIdentifier": {
+            "additionalProperties": false,
+            "description": "Unique product identifier enabling web link to product passport",
+            "properties": {
+                "unique_product_identifier_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "unique_product_identifier_value"
+            ],
+            "title": "UniqueProductIdentifier",
+            "type": "object"
+        },
+        "ValueAddingActivityLocation": {
+            "additionalProperties": false,
+            "description": "Location of value-adding activities in supply chain",
+            "properties": {
+                "location_of_value_adding_activity_unique_facility_identifiers_value": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "ValueAddingActivityLocation",
+            "type": "object"
+        },
+        "Website": {
+            "additionalProperties": false,
+            "description": "Website of the manufacturer",
+            "properties": {
+                "website_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "website_value"
+            ],
+            "title": "Website",
+            "type": "object"
+        },
+        "WeightAndVolumeOfTheProductAndItsPackaging": {
+            "additionalProperties": false,
+            "description": "Weight and volume of the product and its packaging",
+            "properties": {
+                "weight_and_volume_of_the_product_and_its_packaging_value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "weight_and_volume_of_the_product_and_its_packaging_value"
+            ],
+            "title": "WeightAndVolumeOfTheProductAndItsPackaging",
+            "type": "object"
+        }
+    },
+    "$id": "https://ce-rise-models.codeberg.page/product-profile/",
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "additionalProperties": true,
+    "metamodel_version": "1.7.0",
+    "title": "product-profile",
+    "type": "object",
+    "version": "0.0.1"
+}
+
