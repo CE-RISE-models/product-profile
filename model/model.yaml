@@ -149,12 +149,6 @@ slots:
         annotations:
             owl.filler: prod_prof:coordinatesValue
 
-    date_value:
-        description: "Date value for traceability events"
-        range: string
-        annotations:
-            owl.filler: prod_prof:dateValue
-
     eori_number_value:
         description: "EORI number value - 2-letter country code followed by up to 15 alphanumeric characters (e.g., GB123456789000, DE987654321)"
         range: string
@@ -347,12 +341,6 @@ slots:
         annotations:
             owl.filler: prod_prof:permitValidityPeriodValue
 
-    location_unique_facility_identifiers_value:
-        description: "Unique facility identifiers for locations involved in the value chain"
-        range: string
-        annotations:
-            owl.filler: prod_prof:locationUniqueFacilityIdentifiersValue
-
     manufacturing_date_value:
         description: "Manufacturing date (month and year), suggested in form of manufacturing date codes"
         range: string
@@ -364,12 +352,6 @@ slots:
         range: string
         annotations:
             owl.filler: prod_prof:nameValue
-
-    operators_unique_operator_identifier_value:
-        description: "Operators unique operator identifier for traceability"
-        range: string
-        annotations:
-            owl.filler: prod_prof:operatorsUniqueOperatorIdentifierValue
 
     postal_address_value:
         description: "Address of the Manufacturer provided as a string"
@@ -453,12 +435,6 @@ classes:
             sql_identifier: "information_related_to_the_importer"
 
     # Step 5: Traceability through supply chain
-    ProductTraceability:
-        is_a: ProductIdentification
-        class_uri: prod_prof:productTraceability
-        description: "Product traceability information including event data related to history, time and location of activities"
-        annotations:
-            sql_identifier: "product_traceability"
 
     # Step 6: Technical specifications
     ProductSpecification:
@@ -920,51 +896,7 @@ classes:
         annotations:
             sql_identifier: "import_authorization"
 
-    # Step 5 subclasses - Product traceability
-    Date:
-        is_a: ProductTraceability
-        class_uri: prod_prof:date
-        description: "Date information for traceability events"
-        comments:
-            - "Mandatory: information used in initiatives"
-            - "Product traceability information is defined as event data related to the history, time and location of activities on the product. E.g.: transport that operator conducting the transport, date, location. (inspired in CIRPASS)"
-            - "Relevant Document: CIRPASS"
-        attributes:
-            date_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "date"
-
-    LocationUniqueFacilityIdentifiers:
-        is_a: ProductTraceability
-        class_uri: prod_prof:locationUniqueFacilityIdentifiers
-        description: "Location unique facility identifiers for traceability"
-        comments:
-            - "Mandatory: information used in initiatives"
-            - "Relevant Document: CIRPASS"
-        attributes:
-            location_unique_facility_identifiers_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "location_unique_facility_iden"
-
-    OperatorsUniqueOperatorIdentifier:
-        is_a: ProductTraceability
-        class_uri: prod_prof:operatorsUniqueOperatorIdentifier
-        description: "Operators unique operator identifier for traceability"
-        comments:
-            - "Mandatory: information used in initiatives"
-            - "Relevant Document: CIRPASS"
-        attributes:
-            operators_unique_operator_identifier_value:
-                range: string
-                required: false
-        annotations:
-            sql_identifier: "operators_unique_operator_ide"
-
-    # Step 6 subclasses - Product specifications
+    # Step 4 subclasses - Product specifications
 
     WeightAndVolumeOfTheProductAndItsPackaging:
         is_a: ProductSpecification
