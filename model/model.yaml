@@ -42,14 +42,16 @@ slots:
             owl.filler: gs1:gtin
 
     images_value:
-        description: "Product images for branding/visual identification - could be array of URLs or single URL"
+        description: "Product images for branding/visual identification - comma-separated list of image URLs"
         range: string
+        pattern: "^https?://.*(\.(jpg|jpeg|png|gif|bmp|webp))(,\s*https?://.*(\.(jpg|jpeg|png|gif|bmp|webp)))*$"
         annotations:
             owl.filler: prod_prof:imagesValue
 
     type_value:
-        description: "Product type/classification - alphanumeric identifier, potentially derived from GTIN-14 product type prefix"
+        description: "Product type/classification - 3-digit numeric code from GTIN-14 company prefix or alphanumeric classification code"
         range: string
+        pattern: "^[0-9]{3}|[A-Z0-9]{2,10}$"
         annotations:
             owl.filler: prod_prof:typeValue
 
@@ -409,12 +411,13 @@ classes:
         class_uri: prod_prof:productImages
         description: "Product images for branding and visual identification"
         comments:
-            - "Images could be stored as array of URLs or single URL reference"
-            - "Addresses missing product branding and visual identification capability"
+            - "Images stored as comma-separated list of image URLs (JPEG, PNG, GIF, BMP, WebP formats)"
+            - "Addresses product branding and visual identification requirement"
         attributes:
             images_value:
                 range: string
                 required: false
+                pattern: "^https?://.*(\.(jpg|jpeg|png|gif|bmp|webp))(,\s*https?://.*(\.(jpg|jpeg|png|gif|bmp|webp)))*$"
         annotations:
             sql_identifier: "product_images"
 
@@ -423,13 +426,13 @@ classes:
         class_uri: prod_prof:productType
         description: "Product type and classification"
         comments:
-            - "Alphanumeric identifier for product classification"
-            - "Could be derived from GTIN-14 product type prefix"
-            - "Addresses missing product classification system"
+            - "3-digit numeric code from GTIN-14 company prefix (first 3 digits after country code) or alphanumeric classification code (2-10 characters)"
+            - "Addresses product classification system requirement"
         attributes:
             type_value:
                 range: string
                 required: false
+                pattern: "^[0-9]{3}|[A-Z0-9]{2,10}$"
         annotations:
             sql_identifier: "product_type"
 
