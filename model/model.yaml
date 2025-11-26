@@ -55,19 +55,62 @@ slots:
         annotations:
             owl.filler: prod_prof:typeValue
 
-    # Actor tracking for enhanced traceability
+    # Basic product characteristics for any product type
 
-    # Material composition
+    # Physical dimensions and weight
+    weight_value:
+        description: "Product weight with unit (e.g., 2.5 kg, 150 g, 2.3 tons)"
+        range: string
+        pattern: "^\\d+(\\.\\d+)?\\s+(kg|g|mg|t|lb|oz)$"
+        annotations:
+            owl.filler: prod_prof:weightValue
 
-    materials_name_value:
-        description: "Basic material names for product composition"
+    volume_value:
+        description: "Product volume with unit (e.g., 500 ml, 2.5 L, 0.8 m³)"
+        range: string
+        pattern: "^\\d+(\\.\\d+)?\\s+(ml|L|m³|cm³|ft³|in³)$"
+        annotations:
+            owl.filler: prod_prof:volumeValue
+
+    dimensions_value:
+        description: "Product dimensions with units (e.g., 30x20x10 cm, 2.5x1.2x0.8 m)"
+        range: string
+        pattern: "^\\d+(\\.\\d+)?x\\d+(\\.\\d+)?x\\d+(\\.\\d+)?\\s+(mm|cm|m|in|ft)$"
+        annotations:
+            owl.filler: prod_prof:dimensionsValue
+
+    # Material identification using standard nomenclature
+    primary_material_value:
+        description: "Primary material using standard nomenclature (e.g., Cotton, Steel, Polyethylene, Wood)"
         range: string
         annotations:
-            owl.filler: prod_prof:materialsNameValue
+            owl.filler: prod_prof:primaryMaterialValue
 
-    # Performance and quality
+    material_composition_value:
+        description: "Basic material composition with percentages (e.g., 80% Cotton, 20% Polyester)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:materialCompositionValue
 
-    # Documentation
+    # Regulatory categories at product entry
+    product_category_value:
+        description: "Regulatory product category (e.g., Food, Electronics, Textiles, Machinery, Chemical)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:productCategoryValue
+
+    safety_classification_value:
+        description: "Basic safety classification at entry (e.g., Non-hazardous, Hazardous, Food-grade, Medical device)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:safetyClassificationValue
+
+    # Material sourcing information
+    origin_materials_value:
+        description: "Geographic origin of primary materials (e.g., Turkish Cotton, German Steel, Brazilian Wood)"
+        range: string
+        annotations:
+            owl.filler: prod_prof:originMaterialsValue
 
     # Organization identification
     organization_gln_value:
@@ -388,12 +431,6 @@ slots:
         range: string
         annotations:
             owl.filler: prod_prof:websiteValue
-
-    weight_and_volume_of_the_product_and_its_packaging_value:
-        description: "Weight and volume of the product and its packaging"
-        range: string
-        annotations:
-            owl.filler: prod_prof:weightAndVolumeOfTheProductAndItsPackagingValue
 
     # Metadata slots
     sql_identifier:
@@ -898,30 +935,62 @@ classes:
 
     # Step 4 subclasses - Product specifications
 
-    WeightAndVolumeOfTheProductAndItsPackaging:
+    PhysicalAttributes:
         is_a: ProductSpecification
-        class_uri: prod_prof:weightAndVolumeOfTheProductAndItsPackaging
-        description: "Weight and volume of the product and its packaging"
+        class_uri: prod_prof:physicalAttributes
+        description: "Core physical characteristics of the product at system entry"
         comments:
-            - "Article Reference: Annex I"
-            - "Relevant Document: ESPR; Deliverable 1.1"
+            - "Universal physical attributes applicable to any product type"
+            - "Fixed dimensions, weight, and volume that define the product"
+            - "Applicable from airplanes to t-shirts to sandwiches"
         attributes:
-            weight_and_volume_of_the_product_and_its_packaging_value:
+            weight_value:
+                range: string
+                required: false
+            volume_value:
+                range: string
+                required: false
+            dimensions_value:
                 range: string
                 required: false
         annotations:
-            sql_identifier: "weight_and_volume_of_the_produ"
+            sql_identifier: "physical_attributes"
 
-    BasicMaterials:
+    MaterialIdentification:
         is_a: ProductSpecification
-        class_uri: prod_prof:basicMaterials
-        description: "Basic material information for product composition"
+        class_uri: prod_prof:materialIdentification
+        description: "Basic material identification using standard nomenclature"
         comments:
-            - "Simple material identification without detailed composition"
-            - "Suitable for basic product profile requirements"
+            - "Essential material composition that defines the product at entry"
+            - "Uses standardized material nomenclature for universal applicability"
+            - "Captures material sourcing information relevant at product definition"
         attributes:
-            materials_name_value:
+            primary_material_value:
+                range: string
+                required: false
+            material_composition_value:
+                range: string
+                required: false
+            origin_materials_value:
                 range: string
                 required: false
         annotations:
-            sql_identifier: "basic_materials"
+            sql_identifier: "material_identification"
+
+    RegulatoryClassification:
+        is_a: ProductSpecification
+        class_uri: prod_prof:regulatoryClassification
+        description: "Regulatory categories and classifications at product entry"
+        comments:
+            - "Basic regulatory framework applicable when product enters system"
+            - "Safety and category classifications that define product handling"
+            - "Excludes detailed certification artifacts and extensive compliance documentation"
+        attributes:
+            product_category_value:
+                range: string
+                required: false
+            safety_classification_value:
+                range: string
+                required: false
+        annotations:
+            sql_identifier: "regulatory_classification"

@@ -66,8 +66,9 @@ ProductIdentification (root)
 │   ├── AEOStatus (Authorized Economic Operator certification)
 │   └── ImportAuthorization (licenses and permits for restricted goods)
 └── 4. ProductSpecification
-    ├── WeightAndVolumeOfTheProductAndItsPackaging
-    └── BasicMaterials (simple material names)
+    ├── PhysicalAttributes (weight, volume, dimensions)
+    ├── MaterialIdentification (primary materials, composition, origin)
+    └── RegulatoryClassification (product category, safety classification)
 ```
 
 ### Workflow Sequence
@@ -106,9 +107,10 @@ Comprehensive import/export tracking and compliance with EU customs regulations:
 - **ImportAuthorization**: Import licenses and permits for restricted goods with validity periods and issuing authorities
 
 #### **Step 4: ProductSpecification**
-Essential physical and material information:
-- **WeightAndVolumeOfTheProductAndItsPackaging**: Physical dimensions and packaging details
-- **BasicMaterials**: Simple material names for basic composition identification
+Universal basic characteristics that define any product at system entry (applicable to airplanes, t-shirts, sandwiches, etc.):
+- **PhysicalAttributes**: Core physical characteristics - weight with units (kg, g, lb), volume with units (L, ml, m³), fixed dimensions with units (cm, m, in)
+- **MaterialIdentification**: Basic material composition using standard nomenclature - primary material (Cotton, Steel, Wood), composition percentages, geographic origin of materials
+- **RegulatoryClassification**: Essential regulatory categories at entry - product category (Food, Electronics, Textiles), basic safety classification (Non-hazardous, Food-grade, Medical device)
 
 ### Data Properties
 
@@ -124,7 +126,7 @@ Each class has a corresponding value property (e.g., `name_value`, `company_id_v
 | **1** | **GeneralProductInformation** | • Unique product identifier lacks precision and standards<br>• No reference integration with discoverability/registries<br>• Missing serial number and lot number storage<br>• No connection to standard product nomenclature<br>• No product description and branding<br>• No classification for grouping products | • Added GS1 prefix and ontology integration<br>• Implemented GTIN-14 + serial number approach<br>• Added Schema.org prefix<br>• Created GTIN-14, Serial number, Lot/batch number subclasses<br>• Added ProductImages (comma-separated image URLs with format validation)<br>• Added ProductType (3-digit GTIN prefix or alphanumeric classification)<br>• Referenced UNTP framework for discoverability | **COMPLETED** | • UNTP Identity Resolver integration |
 | **2** | **ManufacturersInformation** | • Incomplete description and separation of manufacturer facility and organization<br>• Lack of codification of facility and organization | • Implemented GS1-centric hierarchical model<br>• Added OrganizationEntity with GLN, LEI, VAT identification<br>• Added ManufacturingFacility with facility GLN and OSID<br>• Added GPS coordinates for precise facility location<br>• Renamed 'Company ID' to 'Organization identifier'<br>• Renamed 'Unique facility identifiers' to 'Facility identifier'<br>• Renamed 'Unique operator identifier' to 'Operator identifier' | **COMPLETED** | • GS1 GLN Registry integration<br>• Open Supply Hub API integration<br>• LEI code verification integration |
 | **3** | **InformationRelatedToTheImporter** | • Limited to EORI number only<br>• Missing comprehensive import/export tracking<br>• No customs documentation integration<br>• No tariff classification system<br>• Missing border crossing information | • EORI number with validated EU format (2-letter country + alphanumeric)<br>• CustomsDocumentation with MRN, declaration IDs, and document URLs<br>• ImportExportOperation with trade activity tracking and Incoterms<br>• ImporterJurisdiction with EU 3-character country codes<br>• TariffClassification with HS/CN/TARIC codes and duty rates<br>• BorderCrossing with UN/LOCODE port codes and customs offices<br>• AEOStatus for trusted trader certification<br>• ImportAuthorization for restricted goods licensing | **COMPLETED** | • Real-time customs status API integration<br>• Tariff database integration (WTO, EU TARIC)<br>• Multi-modal transport tracking<br>• Trade compliance validation engines |
-| **4** | **ProductSpecification** | • Limited to physical dimensions only<br>• Missing basic material information | • WeightAndVolumeOfTheProductAndItsPackaging for physical attributes<br>• BasicMaterials for simple material identification<br>• Focused on essential product characteristics | **NEEDS SPECIFICATION** | • Material dictionary/nomenclature standard (ISO, UNSPSC, etc.)<br>• Physical attribute measurement standards<br>• Enhanced dimensional specifications<br>• Regulatory compliance alignment |
+| **4** | **ProductSpecification** | • Limited to physical dimensions only<br>• Missing basic material information<br>• Lack of universal applicability across product types<br>• No regulatory classification framework | • PhysicalAttributes with standardized units (weight, volume, dimensions)<br>• MaterialIdentification with nomenclature standards and origin tracking<br>• RegulatoryClassification for product categories and safety classifications<br>• Universal design applicable to any product type (airplanes to sandwiches) | **NEEDS SPECIFICATION** | • Standard material nomenclature selection (ISO, UNSPSC, etc.)<br>• Physical attribute measurement unit standards<br>• Regulatory category taxonomies<br>• Safety classification frameworks |
 
 ### Development Priorities
 
@@ -135,14 +137,15 @@ Each class has a corresponding value property (e.g., `name_value`, `company_id_v
 - **Enhancement Opportunities**: Enhanced precision, material standards, and system integrations
 
 **Next Phase Focus:** Complete specification work for Step 4:
-- **Step 4**: Establish material dictionary and physical attribute measurement standards
+- **Step 4**: Establish standard material nomenclature, physical attribute units, and regulatory classification frameworks for universal product applicability
 
 **Focused Product Profile Scope:** The model provides essential information to answer:
 - **"What is this product?"** (identification, classification, physical attributes)
 - **"Who made it and where?"** (manufacturer, facility, certification details)  
 - **"How did it get here?"** (import/export, customs, compliance)
 
-- **"What is it made of?"** (basic materials and physical properties)
+- **"What is it made of?"** (basic materials, composition, and physical properties)
+- **"How is it classified?"** (regulatory categories and safety classifications)
 
 **Implementation Dependencies:**
 - **GS1 Registry Integration**: GLN verification and lookup services
