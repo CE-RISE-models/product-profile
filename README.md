@@ -9,20 +9,6 @@ This repository provides the core data model defining the mandatory Product Prof
 
 ---
 
-## Repository structure
-
-```
-/
-├─ model/          # LinkML source files (.yaml): required
-├─ mappings/       # SSSOM and JSON-LD mappings: optional
-├─ generated/      # locally generated JSON Schema, SHACL, OWL: optional - CI/CD deploys on pages
-├─ samples/        # example data instances: optional
-├─ tests/          # validation tests: optional
-└─ README.md       # required
-```
-
----
-
 ## Data Model Structure
 
 The Product Profile data model is structured as a hierarchical taxonomy defining **static foundational information** for Digital Product Passports. The model captures product identity and origin data that remains constant throughout the product lifecycle. Built using [LinkML](https://linkml.io/), it generates multiple schema formats (JSON Schema, SHACL, OWL).
