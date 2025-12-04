@@ -24,7 +24,7 @@ Dynamic supply chain events, lifecycle tracking, and real-time traceability are 
 ### Core Hierarchy
 
 ```
-ProductIdentification (root)
+ProductProfile (root)
 ├── 1. GeneralProductInformation
 │   ├── LotBatchNumber
 │   ├── GTIN14
