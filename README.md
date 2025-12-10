@@ -1,6 +1,6 @@
 # CE-RISE Product Profile
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17723238.svg)](https://doi.org/10.5281/zenodo.17723238) [![Schemas](https://img.shields.io/badge/Generated%20Schema%20Files-JSON%2C%20SHACL%2C%20OWL-32CD32)](https://ce-rise-models.codeberg.page/product-profile/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17723238.svg)](https://doi.org/10.5281/zenodo.17723238) [![Schemas](https://img.shields.io/badge/Schema%20Files-LinkML%2C%20JSON%2C%20SHACL%2C%20OWL-32CD32)](https://ce-rise-models.codeberg.page/product-profile/)
 
 
 This repository provides the core data model defining the mandatory Product Profile for any Digital Product Passport, including product attributes, identity, origin, and compliance information that defines "what the product is when introduced" rather than "what happens to it over time."
