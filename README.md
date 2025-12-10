@@ -164,11 +164,11 @@ https://codeberg.org/CE-RISE-models/product-profile/src/tag/pages-v1.2.0/generat
 
 Files available in that directory typically include:
 
+- schema.yaml
 - schema.json
 - shacl.ttl
 - model.ttl
 - index.html
-
 
 
 ---
