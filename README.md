@@ -1,25 +1,11 @@
 # CE-RISE Product Profile
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17723238.svg)](https://doi.org/10.5281/zenodo.17723238) [![Schemas](https://img.shields.io/badge/Generated%20Schema%20Files-JSON%2C%20SHACL%2C%20OWL-32CD32)](https://ce-rise-models.codeberg.page/product-profile/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17723238.svg)](https://doi.org/10.5281/zenodo.17723238) [![Schemas](https://img.shields.io/badge/Schema%20Files-LinkML%2C%20JSON%2C%20SHACL%2C%20OWL-32CD32)](https://ce-rise-models.codeberg.page/product-profile/)
 
 
 This repository provides the core data model defining the mandatory Product Profile for any Digital Product Passport, including product attributes, identity, origin, and compliance information that defines "what the product is when introduced" rather than "what happens to it over time."
 
 **Static Information Focus**: This Product Profile model contains time-invariant information about product identification, manufacturing origin, import/export compliance, and basic physical characteristics. Dynamic lifecycle events (supply chain movements, ownership changes, real-time tracking) are handled by separate data models.
-
----
-
-## Repository structure
-
-```
-/
-├─ model/          # LinkML source files (.yaml): required
-├─ mappings/       # SSSOM and JSON-LD mappings: optional
-├─ generated/      # locally generated JSON Schema, SHACL, OWL: optional - CI/CD deploys on pages
-├─ samples/        # example data instances: optional
-├─ tests/          # validation tests: optional
-└─ README.md       # required
-```
 
 ---
 
@@ -38,7 +24,7 @@ Dynamic supply chain events, lifecycle tracking, and real-time traceability are 
 ### Core Hierarchy
 
 ```
-ProductIdentification (root)
+ProductProfile (root)
 ├── 1. GeneralProductInformation
 │   ├── LotBatchNumber
 │   ├── GTIN14
@@ -178,11 +164,11 @@ https://codeberg.org/CE-RISE-models/product-profile/src/tag/pages-v1.2.0/generat
 
 Files available in that directory typically include:
 
+- schema.yaml
 - schema.json
 - shacl.ttl
 - model.ttl
 - index.html
-
 
 
 ---
