@@ -34,12 +34,14 @@ slots:
         range: string
         annotations:
             owl.filler: prod_prof:serial_number_value
+            references: "Jensen et al.; CIRPASS; Battery Pass; CE-RISE Deliverable 1.1"
 
     gtin_value:
         description: "Global Trade Item Number value"
         range: string
         annotations:
             owl.filler: gs1:gtin
+            references: "ESPR; CIRPASS; King et al."
 
     images_value:
         description: "Product images for branding/visual identification - comma-separated list of image URLs"
@@ -47,6 +49,7 @@ slots:
         pattern: "^https?://.*\\.(jpg|jpeg|png|gif|bmp|webp)(,\\s*https?://.*\\.(jpg|jpeg|png|gif|bmp|webp))*$"
         annotations:
             owl.filler: prod_prof:imagesValue
+            references: "CIRPASS"
 
     type_value:
         description: "Product type/classification - 3-digit numeric code from GTIN-14 company prefix or alphanumeric classification code"
@@ -64,6 +67,7 @@ slots:
         pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
         annotations:
             owl.filler: prod_prof:weightValue
+            references: "ESPR; CE-RISE Deliverable 1.1"
 
     volume_solid_value:
         description: "Volume for solid products in cubic millimeters (supports scientific notation, e.g., 1000, 2.5e6)"
@@ -71,6 +75,7 @@ slots:
         pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
         annotations:
             owl.filler: prod_prof:volumeSolidValue
+            references: "King et al."
 
     volume_liquid_value:
         description: "Volume for liquid products in milliliters (supports scientific notation, e.g., 500, 1.2e3)"
@@ -78,6 +83,7 @@ slots:
         pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
         annotations:
             owl.filler: prod_prof:volumeLiquidValue
+            references: "King et al."
 
     dimensions_value:
         description: "Product dimensions in millimeters as LxWxH (supports scientific notation, e.g., 300x200x100, 2.5e3x1.8e3x5e2)"
@@ -145,6 +151,7 @@ slots:
         range: string
         annotations:
             owl.filler: prod_prof:ceMarkingCategoryValue
+            references: "CIRPASS"
 
     # Organization identification
     organization_gln_value:
@@ -166,6 +173,7 @@ slots:
         range: string
         annotations:
             owl.filler: prod_prof:legalNameValue
+            references: "ESPR; CIRPASS"
 
     vat_number_value:
         description: "VAT registration number"
@@ -193,6 +201,7 @@ slots:
         pattern: "^[0-9]{13}$"
         annotations:
             owl.filler: prod_prof:facilityGlnValue
+            references: "ESPR; CIRPASS; King et al."
 
     parent_gln_value:
         description: "Parent organization GLN - links facility to parent organization"
@@ -232,6 +241,7 @@ slots:
         pattern: "^[A-Z]{2}[A-Z0-9]{1,15}$"
         annotations:
             owl.filler: prod_prof:eoriNumberValue
+            references: "ESPR; CIRPASS; Article Reference: Annex III g)"
 
     # Customs documentation fields
     customs_document_type_value:
@@ -273,6 +283,7 @@ slots:
         pattern: "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2}))?$"
         annotations:
             owl.filler: prod_prof:operationDateValue
+            references: "CIRPASS"
 
     shipment_transaction_id_value:
         description: "Unique identifier for the shipment or transaction"
@@ -363,6 +374,7 @@ slots:
         pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2})$"
         annotations:
             owl.filler: prod_prof:borderCrossingDateValue
+            references: "CIRPASS"
 
     customs_office_code_value:
         description: "Responsible customs office code (e.g., DE005300 for Hamburg)"
@@ -419,52 +431,60 @@ slots:
             owl.filler: prod_prof:permitValidityPeriodValue
 
     manufacturing_date_value:
-        description: "Manufacturing date (month and year), suggested in form of manufacturing date codes"
+        description: "Manufacturing date (month and year)"
         range: string
         annotations:
             owl.filler: prod_prof:manufacturingDateValue
+            references: "Jensen et al.; CIRPASS; Battery Pass; CE-RISE Deliverable 1.1"
 
     name_value:
         description: "Name of the manufacturer provided as a string"
         range: string
         annotations:
             owl.filler: prod_prof:nameValue
+            references: "ESPR; CIRPASS; Article Reference: Art 21 6."
 
     postal_address_value:
         description: "Address of the manufacturer provided as a string"
         range: string
         annotations:
             owl.filler: prod_prof:postalAddressValue
+            references: "ESPR; CIRPASS; Article Reference: Art 21 6."
 
     registered_trade_name_or_trade_mark_value:
         description: "Registered trade name or trademark - officially registered business name or trademark symbol"
         range: string
         annotations:
             owl.filler: prod_prof:registeredTradeNameOrTradeMarkValue
+            references: "ESPR; CIRPASS; Article Reference: Art 21 6."
 
     unique_facility_identifiers_value:
         description: "Unique facility identifiers for locations or buildings in the value chain"
         range: string
         annotations:
             owl.filler: prod_prof:uniqueFacilityIdentifiersValue
+            references: "ESPR; CIRPASS; King et al.; Article Reference: Art 11"
 
     unique_operator_identifier_value:
         description: "Unique operator identifier for value chain actors"
         range: string
         annotations:
             owl.filler: prod_prof:uniqueOperatorIdentifierValue
+            references: "ESPR; Article Reference: Art 11"
 
     unique_product_identifier_value:
         description: "Unique product identifier - unambiguous identification enabling web link to product passport"
         range: string
         annotations:
             owl.filler: prod_prof:uniqueProductIdentifierValue
+            references: "ESPR; CIRPASS; King et al.; Article Reference: Art 9 1."
 
     website_value:
         description: "Website of the manufacturer"
         range: string
         annotations:
             owl.filler: prod_prof:websiteValue
+            references: "CIRPASS"
 
     # Metadata slots
     sql_identifier:
