@@ -2,6 +2,10 @@
 
 All notable changes to the CE-RISE Product Profile Data Model will be documented in this file.
 
+## [0.0.3] - 2025-12-16
+
+### Added
+- References from the Beta version of the data model
 
 ## [0.0.2] - 26 Nov 2025
 
