@@ -98,6 +98,8 @@ Universal basic characteristics that define any product at system entry (applica
 - **MaterialIdentification**: Structured material composition as JSON array - each material object contains name, percentage, and ISO 3166-1 alpha-2 country code. Example: `[{"material":"Cotton","percentage":80,"country":"TR"},{"material":"Polyester","percentage":20,"country":"CN"}]`
 - **RegulatoryClassification**: Essential regulatory categories at entry - product category (Food, Electronics, Textiles, Machinery, Chemical), basic safety classification (Non-hazardous, Food-grade, Medical device, Hazardous) with optional GPC codes, GHS hazard classification, and CE marking categories
 
+Product specifications may optionally embed CE-RISE utility model records for uncertainty statements, metrological traceability statements, and data quality assessments. These fields are optional and do not change the minimum information needed to describe a product profile.
+
 ### Data Properties
 
 Each class has a corresponding value property (e.g., `name_value`, `company_id_value`) that holds the actual data. All value properties are string type except where specified otherwise.

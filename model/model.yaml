@@ -5,7 +5,7 @@ description: >
     Core data model defining the mandatory Product Profile for Digital Product Passports,
     including product attributes, manufacturer details, and traceability information.
 license: CC BY-NC 4.0
-version: 0.0.2
+version: 0.1.0
 
 prefixes:
     linkml: https://w3id.org/linkml/
@@ -14,12 +14,18 @@ prefixes:
     rdfs: http://www.w3.org/2000/01/rdf-schema#
     gs1: https://ref.gs1.org/voc/
     eu_country: http://publications.europa.eu/resource/authority/country/
+    uq: https://ce-rise-models.codeberg.page/uncertainty-quantification/
+    mt: https://ce-rise-models.codeberg.page/metrological-traceability/
+    dqf: https://ce-rise-models.codeberg.page/data-quality-framework/
 
 default_prefix: prod_prof
 default_range: string
 
 imports:
     - linkml:types
+    - https://codeberg.org/CE-RISE-models/uncertainty-quantification/raw/tag/pages-v0.0.3/generated/schema
+    - https://codeberg.org/CE-RISE-models/metrological-traceability/raw/tag/pages-v0.0.3/generated/schema
+    - https://codeberg.org/CE-RISE-models/data-quality-framework/raw/tag/pages-v0.0.3/generated/schema
 
 slots:
     # Core identification slots with domain relationships
@@ -532,6 +538,37 @@ classes:
         is_a: ProductIdentification
         class_uri: prod_prof:productSpecification
         description: "Product specification details"
+        attributes:
+            uncertainty_statements:
+                description: "Optional uncertainty statements for measured, calculated, or reported product specification values"
+                range: UncertaintyStatement
+                multivalued: true
+                inlined: true
+                inlined_as_list: true
+                required: false
+                annotations:
+                    owl.filler: uq:uncertaintyStatement
+                    sql_identifier: "pro_spec_info_uncertainty_statements"
+            traceability_statements:
+                description: "Optional metrological traceability statements for product specification values, measurements, methods, standards, calibrations, reference materials, or boundary definitions"
+                range: TraceabilityStatement
+                multivalued: true
+                inlined: true
+                inlined_as_list: true
+                required: false
+                annotations:
+                    owl.filler: mt:traceabilityStatement
+                    sql_identifier: "pro_spec_info_traceability_statements"
+            data_quality_assessments:
+                description: "Optional data quality assessments for product specification values, evidence, provenance, representativeness, completeness, or pedigree"
+                range: DataQualityAssessment
+                multivalued: true
+                inlined: true
+                inlined_as_list: true
+                required: false
+                annotations:
+                    owl.filler: dqf:dataQualityAssessment
+                    sql_identifier: "pro_spec_info_data_quality_assessments"
         annotations:
             sql_identifier: "pro_prod_prof_spec_info"
 
