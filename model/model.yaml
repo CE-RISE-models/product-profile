@@ -17,6 +17,7 @@ prefixes:
     uq: https://ce-rise-models.codeberg.page/uncertainty-quantification/
     mt: https://ce-rise-models.codeberg.page/metrological-traceability/
     dqf: https://ce-rise-models.codeberg.page/data-quality-framework/
+    om: http://www.ontology-of-units-of-measure.org/resource/om-2/
 
 default_prefix: prod_prof
 default_range: string
@@ -92,9 +93,10 @@ slots:
             references: "King et al."
 
     dimensions_value:
-        description: "Product dimensions in millimeters as LxWxH (supports scientific notation, e.g., 300x200x100, 2.5e3x1.8e3x5e2)"
+        description: "Deprecated legacy compact product dimensions in millimeters as LxWxH. Use physical_dimensions for new data."
         range: string
         pattern: "^\\d+(\\.\\d+)?(e[+-]?\\d+)?x\\d+(\\.\\d+)?(e[+-]?\\d+)?x\\d+(\\.\\d+)?(e[+-]?\\d+)?$"
+        deprecated: "Use physical_dimensions for new data."
         annotations:
             owl.filler: prod_prof:dimensionsValue
 
@@ -1032,7 +1034,7 @@ classes:
         description: "Core physical characteristics of the product at system entry"
         comments:
             - "Universal physical attributes applicable to any product type"
-            - "Standardized units: weight in grams, dimensions in millimeters"
+            - "Standardized units: weight in grams; legacy compact dimensions in millimeters"
             - "Separate volume measures for solids (mm³) and liquids (ml)"
             - "Scientific notation supported for very large/small values"
         attributes:
@@ -1048,8 +1050,84 @@ classes:
             dimensions_value:
                 range: string
                 required: false
+            physical_dimensions:
+                description: "Optional structured physical dimensions with an explicit unit for each reported measure"
+                range: PhysicalDimensions
+                required: false
+                annotations:
+                    owl.filler: prod_prof:physicalDimensions
+                    sql_identifier: "pro_spec_info_physical_dimensions"
         annotations:
             sql_identifier: "pro_spec_info_physical"
+
+    PhysicalDimensions:
+        class_uri: prod_prof:physicalDimensions
+        description: "Structured linear dimensions of a product"
+        comments:
+            - "Each reported dimension is a length measurement with a numerical value and OM 2 unit reference"
+            - "SI units are preferred but other units can be represented through their OM 2 URI"
+        attributes:
+            length:
+                description: "Overall product length"
+                range: LengthMeasurement
+                required: false
+                annotations:
+                    sql_identifier: "pro_physical_dimensions_length"
+            width:
+                description: "Overall product width"
+                range: LengthMeasurement
+                required: false
+                annotations:
+                    sql_identifier: "pro_physical_dimensions_width"
+            height:
+                description: "Overall product height"
+                range: LengthMeasurement
+                required: false
+                annotations:
+                    sql_identifier: "pro_physical_dimensions_height"
+            depth:
+                description: "Overall product depth"
+                range: LengthMeasurement
+                required: false
+                annotations:
+                    sql_identifier: "pro_physical_dimensions_depth"
+            diameter:
+                description: "Overall product diameter"
+                range: LengthMeasurement
+                required: false
+                annotations:
+                    sql_identifier: "pro_physical_dimensions_diameter"
+            thickness:
+                description: "Overall product thickness"
+                range: LengthMeasurement
+                required: false
+                annotations:
+                    sql_identifier: "pro_physical_dimensions_thickness"
+        annotations:
+            references: "ISO 80000-1; BIPM SI Brochure; OM 2"
+            sql_identifier: "pro_physical_dimensions"
+
+    LengthMeasurement:
+        class_uri: om:Measure
+        description: "A linear measurement with a numerical value and unit reference"
+        attributes:
+            numerical_value:
+                description: "Numerical value of the length measurement"
+                range: float
+                required: true
+                annotations:
+                    owl.filler: om:hasNumericalValue
+                    sql_identifier: "pro_length_measurement_numerical_value"
+            unit_reference:
+                description: "OM 2 URI identifying the unit of the length measurement"
+                range: uri
+                required: true
+                annotations:
+                    owl.filler: om:hasUnit
+                    sql_identifier: "pro_length_measurement_unit_reference"
+        annotations:
+            references: "ISO 80000-1; BIPM SI Brochure; OM 2"
+            sql_identifier: "pro_length_measurement"
 
     MaterialIdentification:
         is_a: ProductSpecification
