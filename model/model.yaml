@@ -182,7 +182,7 @@ slots:
             references: "ESPR; CIRPASS"
 
     vat_number_value:
-        description: "VAT registration number"
+        description: "VAT registration number of the manufacturer legal entity represented by this OrganizationEntity"
         range: string
         annotations:
             owl.filler: prod_prof:vatNumberValue
