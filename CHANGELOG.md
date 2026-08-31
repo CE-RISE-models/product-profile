@@ -2,6 +2,16 @@
 
 All notable changes to the CE-RISE Product Profile Data Model will be documented in this file.
 
+## [0.2.0] - 2026-08-31
+
+### Added
+- Optional structured physical dimensions with OM 2 unit references.
+- Optional GS1 GPC and multi-valued UNSPSC product classifications.
+
+### Changed
+- **Breaking:** `unspsc_code_value` is now multi-valued.
+- Clarified GHS, safety, and regulatory classification fields, and deprecated legacy generic classification fields in favour of established controlled vocabularies and the compliance-and-standards model.
+
 ## [0.1.0] - 2026-05-12
 
 ### Added
