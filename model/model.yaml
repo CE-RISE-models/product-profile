@@ -132,8 +132,9 @@ slots:
 
     # Regulatory categories at product entry
     product_category_value:
-        description: "Regulatory product category (e.g., Food, Electronics, Textiles, Machinery, Chemical)"
+        description: "Deprecated generic product category. Use unspsc_code_value or gpc_code_value for standardized product classification."
         range: string
+        deprecated: "Use unspsc_code_value or gpc_code_value for standardized product classification."
         annotations:
             owl.filler: prod_prof:productCategoryValue
 
@@ -146,23 +147,26 @@ slots:
             references: "GS1 Global Product Classification (GPC)"
 
     safety_classification_value:
-        description: "Basic safety classification (e.g., Non-hazardous, Food-grade, Medical device, Hazardous)"
+        description: "Optional safety classification when no applicable domain-specific classification is available"
         range: string
         annotations:
             owl.filler: prod_prof:safetyClassificationValue
 
     ghs_classification_value:
-        description: "Optional GHS (Globally Harmonized System) hazard classification for chemical products"
+        description: "Optional UN GHS hazard class and category for chemical products"
         range: string
+        multivalued: true
         annotations:
             owl.filler: prod_prof:ghsClassificationValue
+            references: "UN GHS; Regulation (EC) No 1272/2008 (CLP)"
 
     ce_marking_category_value:
-        description: "Optional CE marking category for EU regulated products (e.g., Machinery, Medical Devices, Toys)"
+        description: "Deprecated. Represent applicable EU harmonisation legislation, conformity statements, and supporting evidence in the compliance-and-standards model."
         range: string
+        deprecated: "Use the compliance-and-standards model for CE marking compliance information."
         annotations:
             owl.filler: prod_prof:ceMarkingCategoryValue
-            references: "CIRPASS"
+            references: "EU harmonisation legislation"
 
     # Organization identification
     organization_gln_value:
@@ -1166,10 +1170,9 @@ classes:
         description: "Regulatory categories and classifications at product entry"
         comments:
             - "Basic regulatory framework applicable when product enters system"
-            - "Safety and category classifications that define product handling"
-            - "Excludes detailed certification artifacts and extensive compliance documentation"
+            - "Supports external GPC and GHS classifications"
+            - "CE marking compliance is represented in the compliance-and-standards model"
             - "Avoids duplication with Step 1 ProductType (general product classification)"
-            - "Optional classification standards: GPC codes, GHS hazard classification, CE marking categories"
         attributes:
             product_category_value:
                 range: string
@@ -1182,6 +1185,7 @@ classes:
                 required: false
             ghs_classification_value:
                 range: string
+                multivalued: true
                 required: false
             ce_marking_category_value:
                 range: string
