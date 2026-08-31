@@ -109,11 +109,13 @@ slots:
             owl.filler: prod_prof:materialsCompositionValue
 
     unspsc_code_value:
-        description: "Optional UNSPSC (United Nations Standard Products and Services Code) 8-digit classification code"
+        description: "Optional product-level UNSPSC (United Nations Standard Products and Services Code) 8-digit classification code, separate from material composition"
         range: string
         pattern: "^\\d{8}$"
+        multivalued: true
         annotations:
             owl.filler: prod_prof:unspscCodeValue
+            references: "UNSPSC"
 
     cas_registry_number_value:
         description: "Optional CAS Registry Number for chemical substances (format: XXXXX-XX-X)"
@@ -136,11 +138,12 @@ slots:
             owl.filler: prod_prof:productCategoryValue
 
     gpc_code_value:
-        description: "Optional GPC (Global Product Classification) brick code for retail/commercial products"
+        description: "Optional GS1 Global Product Classification (GPC) Brick code for product classification"
         range: string
         pattern: "^\\d{8}$"
         annotations:
             owl.filler: prod_prof:gpcCodeValue
+            references: "GS1 Global Product Classification (GPC)"
 
     safety_classification_value:
         description: "Basic safety classification (e.g., Non-hazardous, Food-grade, Medical device, Hazardous)"
@@ -1146,6 +1149,7 @@ classes:
                 required: false
             unspsc_code_value:
                 range: string
+                multivalued: true
                 required: false
             cas_registry_number_value:
                 range: string
